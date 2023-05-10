@@ -1,0 +1,16 @@
+{
+  "name": "projectstep3",
+  "version": "1.0.0",
+  "description": "Initializes HTML with templating engine for Project Step 3",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "blanform",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "forever": "^4.0.3",
+    "mysql": "^2.18.1"
+  }
+}

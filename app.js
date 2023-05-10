@@ -4,30 +4,40 @@ PORT = 1991;
 
 var db = require("./database/db-connector");
 
-app.get("/", function (req, res) {
-  query1 = "DROP TABLE IF EXISTS diagnostic;";
-  query2 =
-    "CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);";
-  query3 = 'INSERT INTO diagnostic (text) VALUES ("MySQL is working!")';
-  query4 = "SELECT * FROM diagnostic;";
+const { engine } = require('express-handlebars');
+var exphbs = require('express-handlebars');
+app.engine('.hbs', engine({extname: ".hbs"}));
+app.set('view engine', '.hbs');
 
-  ////////// execute asynchronously //////////
-  // DROP TABLE
-  db.pool.query(query1, function (err, results, fields) {
-    // CREATE TABLE
-    db.pool.query(query2, function (err, results, fields) {
-      // INSERT INTO
-      db.pool.query(query3, function (err, results, fields) {
-        // SELECT *
-        db.pool.query(query4, function (err, results, fields) {
-          // send results to browser
-          let base = "<h1>MySQL Results:</h1>";
-          res.send(base + JSON.stringify(results));
-        });
-      });
+app.get('/', function(req, res)
+    {
+        res.render('index');
     });
-  });
-});
+
+// app.get("/", function (req, res) {
+//   query1 = "DROP TABLE IF EXISTS diagnostic;";
+//   query2 =
+//     "CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);";
+//   query3 = 'INSERT INTO diagnostic (text) VALUES ("MySQL is working!")';
+//   query4 = "SELECT * FROM diagnostic;";
+
+//   ////////// execute asynchronously //////////
+//   // DROP TABLE
+//   db.pool.query(query1, function (err, results, fields) {
+//     // CREATE TABLE
+//     db.pool.query(query2, function (err, results, fields) {
+//       // INSERT INTO
+//       db.pool.query(query3, function (err, results, fields) {
+//         // SELECT *
+//         db.pool.query(query4, function (err, results, fields) {
+//           // send results to browser
+//           let base = "<h1>MySQL Results:</h1>";
+//           res.send(base + JSON.stringify(results));
+//         });
+//       });
+//     });
+//   });
+// });
 
 app.listen(PORT, function () {
   console.log(

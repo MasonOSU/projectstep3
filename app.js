@@ -1,48 +1,32 @@
-var express = require("express");
+var express = require('express');
 var app = express();
 PORT = 1991;
 
-var db = require("./database/db-connector");
+// Database
+var db = require('./database/db-connector');
 
+// Handlebars
 const { engine } = require('express-handlebars');
-var exphbs = require('express-handlebars');
-app.engine('.hbs', engine({extname: ".hbs"}));
-app.set('view engine', '.hbs');
+var exphbs = require('express-handlebars');     // Import express-handlebars
+app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
+app.set('view engine', '.hbs');     
 
+/*
+    ROUTES
+*/
 app.get('/', function(req, res)
-    {
-        res.render('index');
-    });
+    {  
+        let query1 = "SELECT * FROM bsg_people;";               // Define our query
 
-// app.get("/", function (req, res) {
-//   query1 = "DROP TABLE IF EXISTS diagnostic;";
-//   query2 =
-//     "CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);";
-//   query3 = 'INSERT INTO diagnostic (text) VALUES ("MySQL is working!")';
-//   query4 = "SELECT * FROM diagnostic;";
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
-//   ////////// execute asynchronously //////////
-//   // DROP TABLE
-//   db.pool.query(query1, function (err, results, fields) {
-//     // CREATE TABLE
-//     db.pool.query(query2, function (err, results, fields) {
-//       // INSERT INTO
-//       db.pool.query(query3, function (err, results, fields) {
-//         // SELECT *
-//         db.pool.query(query4, function (err, results, fields) {
-//           // send results to browser
-//           let base = "<h1>MySQL Results:</h1>";
-//           res.send(base + JSON.stringify(results));
-//         });
-//       });
-//     });
-//   });
-// });
+            res.render('index', {data: rows});                  // Render the index.hbs file, and also send the renderer
+        })                                                      // an object where 'data' is equal to the 'rows' we
+    });  
 
-app.listen(PORT, function () {
-  console.log(
-    "Express started on http://localhost:" +
-      PORT +
-      "; press Ctrl-C to terminate."
-  );
+/*
+    LISTENER
+*/
+app.listen(PORT, function(){
+    console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
 });

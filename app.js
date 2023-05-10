@@ -2,31 +2,52 @@ var express = require('express');
 var app = express();
 PORT = 1991;
 
-// Database
 var db = require('./database/db-connector');
 
-// Handlebars
 const { engine } = require('express-handlebars');
-var exphbs = require('express-handlebars');     // Import express-handlebars
-app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
-app.set('view engine', '.hbs');     
+var exphbs = require('express-handlebars');
+app.engine('.hbs', engine({extname: ".hbs"}));
+app.set('view engine', '.hbs');
 
-/*
-    ROUTES
-*/
-app.get('/', function(req, res)
-    {  
-        let query1 = "SELECT * FROM bsg_people;";               // Define our query
+app.get('/', function(req, res){
+    res.render('index');
+});
 
-        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+app.get('/research_papers', function(req, res){
+    let query1 = "SELECT * FROM Research_Papers;";
+    db.pool.query(query1, function(error, rows, fields){
+        res.render('research_papers', {data: rows});
+        });
+});
 
-            res.render('index', {data: rows});                  // Render the index.hbs file, and also send the renderer
-        })                                                      // an object where 'data' is equal to the 'rows' we
-    });  
+app.get('/citations', function(req, res){
+    let query = "SELECT * FROM Citations;";
+    db.pool.query(query, function(error, rows, fields){
+        res.render('citations', {data: rows});
+        });
+});
 
-/*
-    LISTENER
-*/
+app.get('/authors', function(req, res){
+    let query = "SELECT * FROM Authors;";
+    db.pool.query(query, function(error, rows, fields){
+        res.render('authors', {data: rows});
+        });
+});
+
+app.get('/institutions', function(req, res){
+    let query = "SELECT * FROM Institutions;";
+    db.pool.query(query, function(error, rows, fields){
+        res.render('institutions', {data: rows});
+        });
+});
+
+app.get('/disciplines', function(req, res){
+    let query = "SELECT * FROM Disciplines;";
+    db.pool.query(query, function(error, rows, fields){
+        res.render('disciplines', {data: rows});
+        });
+});
+
 app.listen(PORT, function(){
     console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
 });

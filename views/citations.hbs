@@ -1,0 +1,30 @@
+<h1>Index</h1>
+<nav>
+    <a href="/">Index</a>
+    <a href="/research_papers">Research_Papers</a>
+    <a href="/citations">Citations</a>
+    <a href="/authors">Authors</a>
+    <a href="/institutions">Institutions</a>
+    <a href="/disciplines">Disciplines</a>
+</nav>
+
+<table>
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{this.citation_id}}</td>
+            <td>{{this.citing_paper_id}}</td>
+            <td>{{this.cited_paper_id}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

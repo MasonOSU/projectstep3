@@ -34,6 +34,13 @@ app.get('/authors', function(req, res){
         });
 });
 
+app.get('/research_papers_authors', function(req, res){
+    let query = "SELECT * FROM Research_Papers_has_Authors;";
+    db.pool.query(query, function(error, rows, fields){
+        res.render('research_papers_authors', {data: rows});
+        });
+});
+
 app.get('/institutions', function(req, res){
     let query = "SELECT * FROM Institutions;";
     db.pool.query(query, function(error, rows, fields){

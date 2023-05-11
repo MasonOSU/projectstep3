@@ -10,7 +10,7 @@
 </nav>
 
 <form>
-    <label>Citing Paper </label><select>
+    <label>Research Paper </label><select>
         <option disabled selected value>Select</option>
         <option>Anglo-Saxon Class Dynamics and Migration</option>
         <option>An Overview of Antipsychotic Drug Kinetics</option>
@@ -18,13 +18,13 @@
         <option>Grapefruit Juice Interactions with Antipsychotic Medicine</option>
         <option>Schizophrenia Treatment Models</option>
         </select>
-    <label>Referenced </label><select>
+    <label>Author </label><select>
         <option disabled selected value>Select</option>
-        <option>Anglo-Saxon Class Dynamics and Migration</option>
-        <option>An Overview of Antipsychotic Drug Kinetics</option>
-        <option>Celtic Tradition in Beowulf</option>
-        <option>Grapefruit Juice Interactions with Antipsychotic Medicine</option>
-        <option>Schizophrenia Treatment Models</option>
+        <option>Robert Ball</option>
+        <option>Nina Faulkner</option>
+        <option>John Smith</option>
+        <option>Sandra Smith</option>
+        <option>Maria Thompson</option>
     </select>
     <input type="submit">
 </form>
@@ -42,9 +42,9 @@
     <tbody>
         {{#each data}}
         <tr>
-            <td>{{this.citation_id}}</td>
-            <td>{{this.citing_paper_id}}</td>
-            <td>{{this.cited_paper_id}}</td>
+            <td>{{this.research_paper_author_id}}</td>
+            <td>{{this.research_paper_id}}</td>
+            <td>{{this.author_id}}</td>
             <td><button>Edit</button></td>
             <td><button>Delete</button></td>
         </tr>

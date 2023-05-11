@@ -1,12 +1,33 @@
 <h1>Research Papers</h1>
 <nav>
     <a href="/">Index</a>
-    <a href="/research_papers">Research_Papers</a>
+    <a href="/research_papers">Research Papers</a>
     <a href="/citations">Citations</a>
     <a href="/authors">Authors</a>
+    <a href="/research_papers_authors">Research Papers to Authors</a>
     <a href="/institutions">Institutions</a>
     <a href="/disciplines">Disciplines</a>
 </nav>
+
+<form>
+    <label>Title </label><input type="text">
+    <label>Date Published </label><input type="date">
+    <label>DOI </label><input type="text">
+    <label>Institution </label><select>
+        <option disabled selected value>Select</option>
+        <option>Samoa University</option>
+        <option>Smith and Harper College</option>
+        <option>Weston Biological Institute</option>
+        </select>
+    <label>Discipline </label><select>
+        <option disabled selected value>Select</option>
+        <option>Biology</option>
+        <option>History</option>
+        <option>Literature</option>
+        <option>Psychology</option>
+    </select>
+    <input type="submit">
+</form>
 
 <table>
     <thead>
@@ -27,6 +48,8 @@
             <td>{{this.doi}}</td>
             <td>{{this.institution_id}}</td>
             <td>{{this.discipline_id}}</td>
+            <td><button>Edit</button></td>
+            <td><button>Delete</button></td>
         </tr>
         {{/each}}
     </tbody>

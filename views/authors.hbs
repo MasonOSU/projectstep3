@@ -1,12 +1,19 @@
 <h1>Index</h1>
 <nav>
     <a href="/">Index</a>
-    <a href="/research_papers">Research_Papers</a>
+    <a href="/research_papers">Research Papers</a>
     <a href="/citations">Citations</a>
     <a href="/authors">Authors</a>
+    <a href="/research_papers_authors">Research Papers to Authors</a>
     <a href="/institutions">Institutions</a>
     <a href="/disciplines">Disciplines</a>
 </nav>
+
+<form>Name
+    <label>First </label><input type="text" />
+    <label>Last </label><input type="text" />
+    <input type="submit" />
+</form>
 
 <table>
     <thead>
@@ -24,6 +31,8 @@
             <td>{{this.author_id}}</td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
+            <td><button>Edit</button></td>
+            <td><button>Delete</button></td>
         </tr>
         {{/each}}
     </tbody>

@@ -1,32 +1,50 @@
 <h1>Research Papers</h1>
 <nav>
-    <a href="/">Index</a>
-    <a href="/research_papers">Research_Papers</a>
-    <a href="/citations">Citations</a>
-    <a href="/authors">Authors</a>
-    <a href="/institutions">Institutions</a>
-    <a href="/disciplines">Disciplines</a>
+  <a href="/">Index</a>
+  <a href="/research_papers">Research Papers</a>
+  <a href="/citations">Citations</a>
+  <a href="/authors">Authors</a>
+  <a href="/research_papers_authors">Research Papers to Authors</a>
+  <a href="/institutions">Institutions</a>
+  <a href="/disciplines">Disciplines</a>
 </nav>
 
+<form>
+  <label>Name </label><input type="text" />
+  <label>Address </label><input type="text" />
+  <label>City </label><input type="text" />
+  <label>Country </label><input type="text" />
+
+  <style>
+    input::-webkit-inner-spin-button {display: none;}
+  </style>
+  <label>Phone </label><input type="number" />
+
+  <label>Website </label><input type="url" />
+  <input type="submit" />
+</form>
+
 <table>
-    <thead>
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-    <tbody>
-        {{#each data}}
-        <tr>
-            <td>{{this.institution_id}}</td>
-            <td>{{this.name}}</td>
-            <td>{{this.address}}</td>
-            <td>{{this.country}}</td>
-            <td>{{this.website}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <thead>
+    <tr>
+      {{#each data.[0]}}
+        <th>
+          {{@key}}
+        </th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+      <tr>
+        <td>{{this.institution_id}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.address}}</td>
+        <td>{{this.country}}</td>
+        <td>{{this.website}}</td>
+        <td><button>Edit</button></td>
+        <td><button>Delete</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>

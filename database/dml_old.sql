@@ -4,17 +4,17 @@
 
 ----- Create research paper -----
 -- Create title
-[SQL QUERY]
+SELECT 'title' AS :title;
 -- Read (Select), add date
-[SQL QUERY]
+SELECT 'date' AS :date;
 -- Read (Select) institution from dropdown
-[SQL QUERY]
+SELECT institution_id, name from Institutions;
 -- Read (Select) discipline from dropdown
-[SQL QUERY]
+SELECT discipline_id, field from Disciplines;
 -- Create DOI
-[SQL QUERY]
+SELECT 'doi' AS :doi;
 -- Submit on click
-[SQL QUERY]
+INSERT INTO Research_Papers (title, date, doi, institution_id, discipline_id)
 
 ----- Update research paper -----
 [SQL QUERY]

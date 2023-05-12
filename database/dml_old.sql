@@ -2,7 +2,7 @@
 ----- Research_Papers Operations -----
 --------------------------------------
 ----- Select all research papers in db -----
-SELECT * FROM Research_Papers ORDER BY `research_paper_id` ASC;
+SELECT research_paper_id AS rpid, title FROM Research_Papers ORDER BY ASC;
 
 ----- Create a research paper -----
 INSERT INTO Research_Papers (title, date_published, doi, institution, discipline)
@@ -38,7 +38,7 @@ DELETE FROM `Citations` WHERE `citation_id` = :citationId_selected_with_delete_b
 ----- Authors Operations -----
 ------------------------------
 ----- Show all authors in db -----
-SELECT * FROM `Authors` ORDER BY `author_id` ASC;
+SELECT author_id FROM `Authors` AS aid, first_name, last_name  ORDER BY `author_id` ASC;
 
 ----- Create an author -----
 INSERT into `Authors` (first_name, last_name)
@@ -56,10 +56,13 @@ DELETE FROM `Authors` WHERE `author_id` = :authorId_selected_with_delete_button;
 ----- Research_Papers_has_Authors Operations -----
 --------------------------------------------------
 ----- Show all Research_Papers_has_Authors in db -----
-SELECT * FROM `Research_Papers_has_Authors` ORDER BY `research_paper_author_id` ASC;
+SELECT aid, rpid, CONCAT(first_name, ' ', last_name) AS name, title AS research_paper FROM Authors
+INNER JOIN Research_Papers_has_Authors ON authors.author_id = Research_Paper_has_Authors.aid 
+INNER JOIN Research_Papers on Research_Papers.research_paper_id = Research_Paper_has_Authors.rpid
+ORDER BY name, research_paper;
 
 ----- Create multiple authors to research paper -----
-INSERT into `Research_Papers_has_Authors` (title, author_name)
+INSERT into `Research_Papers_has_Authors` (aid, rpid)
 VALUES (:title_from_dropdown_Input, :author_name_from_dropdown_Input);
 
 ----- Update association -----

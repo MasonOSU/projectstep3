@@ -1,114 +1,106 @@
 --------------------------------------
 ----- Research_Papers Operations -----
 --------------------------------------
+----- Select all research papers in db -----
+SELECT * FROM Research_Papers ORDER BY `research_paper_id` ASC;
 
------ Create research paper -----
--- Create title
-SELECT 'title' AS :title;
--- Read (Select), add date
-SELECT 'date' AS :date;
--- Read (Select) institution from dropdown
-SELECT institution_id, name from Institutions;
--- Read (Select) discipline from dropdown
-SELECT discipline_id, field from Disciplines;
--- Create DOI
-SELECT 'doi' AS :doi;
--- Submit on click
-INSERT INTO Research_Papers (title, date, doi, institution_id, discipline_id)
+----- Create a research paper -----
+INSERT INTO Research_Papers (title, date_published, doi, institution, discipline)
+VALUES (:titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown_Input :discipline_from_dropdown_Input);
 
------ Update research paper -----
-[SQL QUERY]
+----- Update a research paper -----
+UPDATE `Research_Papers` SET :titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown_Input, discipline_from_dropdown_Input
+WHERE `research_paper_id` = :researchPaperId_from_the_update_form;
 
------ Delete research paper -----
-[SQL QUERY]
+----- Delete a research paper -----
+DELETE FROM `Research_Papers` WHERE `research_paper_id` = :researchPaperId_selected_with_delete_button;
+
 
 --------------------------------
 ----- Citations Operations -----
 --------------------------------
+----- Show all citations in db -----
+SELECT * FROM `Citations` ORDER BY `citation_id` ASC;
 
------ Create citation -----
--- Read (Select) citing paper from dropdown
-[SQL QUERY]
--- Read (Select) referenced paper from dropdown
-[SQL QUERY]
--- Submit on click
-[SQL QUERY]
+----- Create a citation -----
+INSERT into `Citations` (citing_paper, referenced)
+VALUES (:citing_paper_from_dropdown_Input, :referenced_from_dropdown_Input);
 
 ----- Update citation -----
-[SQL QUERY]
+UPDATE `Citations` SET :citing_paper_from_dropdown_Input, referenced_from_dropdown_Input
+WHERE `citation_id` = :citationId_from_the_update_form;
 
 ----- Delete citation -----
-[SQL QUERY]
+DELETE FROM `Citations` WHERE `citation_id` = :citationId_selected_with_delete_button;
+
 
 ------------------------------
 ----- Authors Operations -----
 ------------------------------
+----- Show all authors in db -----
+SELECT * FROM `Authors` ORDER BY `author_id` ASC;
 
------ Create author -----
--- Create first name
-[SQL QUERY]
--- Create surname
-[SQL QUERY]
--- Submit on click
-[SQL QUERY]
+----- Create an author -----
+INSERT into `Authors` (first_name, last_name)
+VALUES (:first_nameInput, :last_nameInput);
 
 ----- Update author -----
-[SQL QUERY]
+UPDATE `Authors` SET :first_nameInput, last_nameInput
+WHERE `author_id` = :authorId_from_the_update_form;
 
 ----- Delete author -----
-[SQL QUERY]
+DELETE FROM `Authors` WHERE `author_id` = :authorId_selected_with_delete_button;
+
 
 --------------------------------------------------
 ----- Research_Papers_has_Authors Operations -----
 --------------------------------------------------
+----- Show all Research_Papers_has_Authors in db -----
+SELECT * FROM `Research_Papers_has_Authors` ORDER BY `research_paper_author_id` ASC;
 
 ----- Create multiple authors to research paper -----
--- Read (Select) author from dropdown
-[SQL QUERY]
--- Read (Select) research paper from dropdown
-[SQL QUERY]
--- Submit on click
-[SQL QUERY]
+INSERT into `Research_Papers_has_Authors` (title, author_name)
+VALUES (:title_from_dropdown_Input, :author_name_from_dropdown_Input);
 
 ----- Update association -----
-[SQL QUERY]
+UPDATE `Research_Papers_has_Authors` SET :research_paper_idInput, :author_idInput
+WHERE `research_paper_author_id` = :research_paper_authorId_from_the_update_form;
 
 ----- Delete association -----
-[SQL QUERY]
+DELETE FROM `Research_Papers_has_Authors` WHERE `research_paper_author_id` = :research_paper_authorId_selected_with_delete_button;
+
 
 ----------------------------------
 ----- Institutions Operations -----
 ----------------------------------
+----- Show all institutions in db -----
+SELECT * FROM `Institutions` ORDER BY `institution_id` ASC;
 
 ----- Create institution -----
--- Create name
-[SQL QUERY]
--- Create address
-[SQL QUERY]
--- Create city
-[SQL QUERY]
--- Create country
-[SQL QUERY]
--- Create phone
-[SQL QUERY]
--- Create website
+INSERT into `Institutions` (name, address, city, country, phone, website)
+VALUES (:nameInput, :addressInput, :cityInput, :countryInput, :phoneInput, :websiteInput);
 
 ----- Update institution -----
-[SQL QUERY]
+UPDATE `Institutions` SET :nameInput, :addressInput, :cityInput, :countryInput, :phoneInput, :websiteInput
+WHERE `institution_id` = :institutionId_from_the_update_form;
 
 ----- Delete institution -----
-[SQL QUERY]
+DELETE FROM `Institutions` WHERE `institution_id` = :institutionId_selected_with_delete_button;
+
 
 ----------------------------------
 ----- Disciplines Operations -----
 ----------------------------------
+----- Show all disciplines in db -----
+SELECT * FROM `Disciplines` ORDER BY `discipline_id` ASC;
 
------ Create discipline -----
--- Create field
-[SQL QUERY]
+----- Create a discipline -----
+INSERT into `Disciplines` (field)
+VALUES (:fieldInput);
 
 ----- Update discipline -----
-[SQL QUERY]
+UPDATE `Disciplines` SET :fieldInput
+WHERE `discipline_id` = :disciplineId_from_the_update_form;
 
 ----- Delete discipline -----
-[SQL QUERY]
+DELETE FROM `Disciplines` WHERE `discipline_id` = :disciplineId_selected_with_delete_button;

@@ -2,25 +2,20 @@
 ----- Research_Papers Operations -----
 --------------------------------------
 
------ Create research paper -----
--- Create title
-[SQL QUERY]
--- Read (Select), add date
-[SQL QUERY]
--- Read (Select) institution from dropdown
-[SQL QUERY]
--- Read (Select) discipline from dropdown
-[SQL QUERY]
--- Create DOI
-[SQL QUERY]
--- Submit on click
-[SQL QUERY]
+----- Select all research papers in db -----
+SELECT * FROM Research_Papers;
 
------ Update research paper -----
-[SQL QUERY]
+----- Create a research paper -----
+INSERT INTO Research_Papers (title, date_published, doi, institution, discipline)
+VALUES (:titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown_Input :discipline_from_dropdown_Input);
 
------ Delete research paper -----
-[SQL QUERY]
+----- Update a research paper -----
+UPDATE `Research_Papers` SET :titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown_Input, discipline_from_dropdown_Input
+WHERE `researchPaperId` = :researchPaperId_from_the_update_form;
+
+
+----- Delete a research paper -----
+DELETE FROM `Research_Papers` WHERE `researchPaperId` = :researchPaperId_selected_with_delete_button;
 
 --------------------------------
 ----- Citations Operations -----

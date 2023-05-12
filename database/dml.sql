@@ -59,8 +59,8 @@ DELETE FROM `Authors` WHERE `author_id` = :authorId_selected_with_delete_button;
 SELECT * FROM `Research_Papers_has_Authors` ORDER BY `research_paper_author_id` ASC;
 
 ----- Create multiple authors to research paper -----
-INSERT into `Research_Papers_has_Authors` (research_paper_id, author_id)
-VALUES (:research_paper_idInput, :author_idInput);
+INSERT into `Research_Papers_has_Authors` (title, author_name)
+VALUES (:title_from_dropdown_Input, :author_name_from_dropdown_Input);
 
 ----- Update association -----
 UPDATE `Research_Papers_has_Authors` SET :research_paper_idInput, :author_idInput

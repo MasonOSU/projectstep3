@@ -12,9 +12,9 @@ VALUES (:titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown
 UPDATE `Research_Papers` SET :titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown_Input, discipline_from_dropdown_Input
 WHERE `research_paper_id` = :researchPaperId_from_the_update_form;
 
-
 ----- Delete a research paper -----
 DELETE FROM `Research_Papers` WHERE `research_paper_id` = :researchPaperId_selected_with_delete_button;
+
 
 --------------------------------
 ----- Citations Operations -----

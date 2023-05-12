@@ -16,7 +16,9 @@ CREATE TABLE IF NOT EXISTS `Citations` (
   `citation_id` INT NOT NULL AUTO_INCREMENT,
   `citing_paper_id` INT NOT NULL,
   `cited_paper_id` INT NOT NULL,
-  PRIMARY KEY (`citation_id`)
+  PRIMARY KEY (`citation_id`),
+  CONSTRAINT `fk_citing_paper_id` FOREIGN KEY (`citing_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cited_paper_id` FOREIGN KEY (`cited_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS `Authors` (
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `Institutions` (
   `institution_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `address` VARCHAR(50) NOT NULL,
+  `city` VARCHAR(25) NOT NULL,
   `country` VARCHAR(100) NOT NULL,
   `website` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`institution_id`)

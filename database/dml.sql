@@ -3,7 +3,7 @@
 --------------------------------------
 
 ----- Select all research papers in db -----
-SELECT * FROM Research_Papers;
+SELECT * FROM Research_Papers ORDER BY `research_paper_id` ASC;
 
 ----- Create a research paper -----
 INSERT INTO Research_Papers (title, date_published, doi, institution, discipline)
@@ -11,29 +11,30 @@ VALUES (:titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown
 
 ----- Update a research paper -----
 UPDATE `Research_Papers` SET :titleInput, :date_publishedInput, :doiInput, :institution_from_dropdown_Input, discipline_from_dropdown_Input
-WHERE `researchPaperId` = :researchPaperId_from_the_update_form;
+WHERE `research_paper_id` = :researchPaperId_from_the_update_form;
 
 
 ----- Delete a research paper -----
-DELETE FROM `Research_Papers` WHERE `researchPaperId` = :researchPaperId_selected_with_delete_button;
+DELETE FROM `Research_Papers` WHERE `research_paper_id` = :researchPaperId_selected_with_delete_button;
 
 --------------------------------
 ----- Citations Operations -----
 --------------------------------
 
------ Create citation -----
--- Read (Select) citing paper from dropdown
-[SQL QUERY]
--- Read (Select) referenced paper from dropdown
-[SQL QUERY]
--- Submit on click
-[SQL QUERY]
+----- Show all citations in db -----
+SELECT * FROM `Citations` ORDER BY `citation_id` ASC;
+
+----- Create a citation -----
+INSERT into `Citations` (citing_paper, referenced)
+VALUES (:citing_paper_from_dropdown_Input, :referenced_from_dropdown_Input);
 
 ----- Update citation -----
-[SQL QUERY]
+UPDATE `Citations` SET :citing_paper_from_dropdown_Input, referenced_from_dropdown_Input
+WHERE `citation_id` = :citationId_from_the_update_form;
 
 ----- Delete citation -----
-[SQL QUERY]
+DELETE FROM `Citations` WHERE `citation_id` = :citation_id_selected_with_delete_button;
+
 
 ------------------------------
 ----- Authors Operations -----

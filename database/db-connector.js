@@ -8,4 +8,6 @@ var pool = mysql.createPool({
     database        : 'cs340_blanform'
 })
 
+connection.query('SELECT discipline_id AS Discipline ID FROM Disciplines');
+
 module.exports.pool = pool;

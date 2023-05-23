@@ -31,6 +31,13 @@ app.use(express.static("public"));
 
 /* ROUTES */
 // get routes
+app.get("/research_papers", function (req, res) {
+  let query1 = "SELECT * FROM Research_Papers;";
+  db.pool.query(query1, function (error, rows, fields) {
+    res.render("research_papers", { data: rows });
+  });
+});
+
 app.get("/authors", function (req, res) {
   let query1 = "SELECT * FROM Authors;";
   db.pool.query(query1, function (error, rows, fields) {
@@ -38,21 +45,7 @@ app.get("/authors", function (req, res) {
   });
 });
 
-// app.get("/authors", function (req, res) {
-//   let query = "SELECT * FROM Authors;";
-//   db.pool.query(query, function (error, rows, fields) {
-//     res.render("authors", { data: rows });
-//   });
-// });
-
 /////////////////////////////////////////////////////////////////////
-// app.get("/research_papers", function (req, res) {
-//   let query1 = "SELECT * FROM Research_Papers;";
-//   db.pool.query(query1, function (error, rows, fields) {
-//     res.render("research_papers", { data: rows });
-//   });
-// });
-
 // app.get("/citations", function (req, res) {
 //   let query = "SELECT * FROM Citations;";
 //   db.pool.query(query, function (error, rows, fields) {

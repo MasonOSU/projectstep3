@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `Institutions` (
   `institution_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `address` VARCHAR(50) NOT NULL,
+  `city` VARCHAR(25) NOT NULL,
   `country` VARCHAR(100) NOT NULL,
   `website` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`institution_id`)
@@ -72,24 +73,24 @@ VALUES
   ('Maria', 'Thompson');
 
 INSERT INTO
-  `Institutions` (`name`, `address`, `country`, `website`)
+  `Institutions` (`name`, `country`, `address`, `website`)
 VALUES
   (
     'Samoa University',
-    '2370 Clover Drive, Colorado Springs, Colorado',
     'United States',
+    '2370 Clover Drive, Colorado Springs, Colorado',
     'samoa.edu'
   ),
   (
     'Weston Biological Institute',
-    '1671 Johnstown Road, Winnetka, New York',
     'United States',
+    '1671 Johnstown Road, Winnetka, New York',
     'westonbio.edu'
   ),
   (
     'Smith and Harper College',
-    '4628 Hazelwood Avenue, London',
     'United Kingdom',
+    '4628 Hazelwood Avenue, London',
     'shcollege.edu'
   );
 

@@ -1,13 +1,14 @@
-var mysql = require('mysql')
+// get mysql instance to use
+var mysql = require("mysql");
 
+// init connection pool with credentials
 var pool = mysql.createPool({
-    connectionLimit : 10,
-    host            : 'classmysql.engr.oregonstate.edu',
-    user            : 'cs340_blanform',
-    password        : 'apple',
-    database        : 'cs340_blanform'
-})
+  connectionLimit: 10,
+  host: "classmysql.engr.oregonstate.edu",
+  user: "cs340_blanform",
+  password: "apple",
+  database: "cs340_blanform",
+});
 
-connection.query('SELECT discipline_id AS Discipline ID FROM Disciplines');
-
+// export for app use
 module.exports.pool = pool;

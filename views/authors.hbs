@@ -1,40 +1,62 @@
-<h1>Index</h1>
+<h1>Authors</h1>
 <nav>
-    <a href="/">Index</a>
-    <a href="/research_papers">Research Papers</a>
-    <a href="/citations">Citations</a>
-    <a href="/authors">Authors</a>
-    <a href="/research_papers_authors">Research Papers to Authors</a>
-    <a href="/institutions">Institutions</a>
-    <a href="/disciplines">Disciplines</a>
+  <a href="/">Index</a>
+  <a href="/research_papers">Research Papers</a>
+  <a href="/citations">Citations</a>
+  <a href="/authors">Authors</a>
+  <a href="/research_papers_authors">Research Papers to Authors</a>
+  <a href="/institutions">Institutions</a>
+  <a href="/disciplines">Disciplines</a>
 </nav>
 
-<form>
-    <legend>Add author</legend>
-    <label>First Name </label><input type="text" />
-    <label>Last Name </label><input type="text" />
-    <input type="submit" />
-</form>
+<p>Add, update, or delete authors.</p>
 
-<table>
-    <thead>
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-    <tbody>
-        {{#each data}}
-        <tr>
-            <td>{{this.author_id}}</td>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-            <td><button>Edit</button></td>
-            <td><button>Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
+<table id="authors-table">
+  <thead>
+
+    {{! first row: print each row object key as header cell,
+        to depict each column clearly as page renders }}
+    <tr>
+      {{#each data.[0]}}
+        <th>
+          {{@key}}
+        </th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+    {{! print the id, first_name, then last_name each row }}
+    {{#each data}}
+      <tr>
+        <td>{{this.author_id}}</td>
+        <td>{{this.first_name}}</td>
+        <td>{{this.last_name}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
+
+{{!-- {{! add record to table with AJAX }}
+<form id="add-author-form-ajax">
+  <label for="input-first_name">First Name: </label>
+  <input type="text" name="input-first_name" id="input-first_name" />
+
+  <label for="input-last_name">Last Name: </label>
+  <input type="text" name="input-last_name" id="input-last_name" />
+
+  <input type="submit" />
+</form> --}}
+
+{{! embed JavaScript for DOM manipulation, AJAX request }}
+{{!-- <script src="./js/add_author.js"></script> --}}
+
+{{!-- add table record with standard HTML --}}
+<form id="add-author-form" method="POST" action="/add-author-form">
+    <label for="input-first_name">First Name: </label>
+    <input type="text" name="input-first_name" id="input-first_name">
+    
+    <label for="input-last_name">Last Name: </label>
+    <input type="text" name="input-last_name" id="input-last_name">
+
+    <input type="submit">
+</form>

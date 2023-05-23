@@ -1,3 +1,2 @@
-/node_modules
-.vscode/
-/database/db-connector.js
+node_modules/
+database/db-connector.js

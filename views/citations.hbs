@@ -1,4 +1,4 @@
-{{!-- <h1>Index</h1>
+<h1>Index</h1>
 <nav>
     <a href="/">Index</a>
     <a href="/research_papers">Research Papers</a>
@@ -8,27 +8,6 @@
     <a href="/institutions">Institutions</a>
     <a href="/disciplines">Disciplines</a>
 </nav>
-
-<form>
-    <legend>Add citation</legend>
-    <label>Citing Paper </label><select>
-        <option disabled selected value>Select</option>
-        <option>Anglo-Saxon Class Dynamics and Migration</option>
-        <option>An Overview of Antipsychotic Drug Kinetics</option>
-        <option>Celtic Tradition in Beowulf</option>
-        <option>Grapefruit Juice Interactions with Antipsychotic Medicine</option>
-        <option>Schizophrenia Treatment Models</option>
-        </select>
-    <label>Referenced </label><select>
-        <option disabled selected value>Select</option>
-        <option>Anglo-Saxon Class Dynamics and Migration</option>
-        <option>An Overview of Antipsychotic Drug Kinetics</option>
-        <option>Celtic Tradition in Beowulf</option>
-        <option>Grapefruit Juice Interactions with Antipsychotic Medicine</option>
-        <option>Schizophrenia Treatment Models</option>
-    </select>
-    <input type="submit">
-</form>
 
 <table>
     <thead>
@@ -46,9 +25,31 @@
             <td>{{this.citation_id}}</td>
             <td>{{this.citing_paper_id}}</td>
             <td>{{this.cited_paper_id}}</td>
-            <td><button>Edit</button></td>
-            <td><button>Delete</button></td>
+            {{!-- <td><button>Edit</button></td>
+            <td><button>Delete</button></td> --}}
         </tr>
         {{/each}}
     </tbody>
-</table> --}}
+</table>
+
+<h2>Add a citation</h2>
+<p>To add a new citation, please enter its information below and click 'Submit'!</p>
+<form>
+    <legend>Add citation</legend>
+    <label for="input-citing-paper">Citing Paper</label>
+    <select name="input-citing-paper" id="input-citing-paper">
+        <option value="">Select a citing paper</option>
+        {{#each citing_papers}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-referenced">Referenced</label>
+    <select name="input-referenced" id="input-referenced">
+        <option value="">Select a referenced paper</option>
+        {{#each referenced_papers}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>

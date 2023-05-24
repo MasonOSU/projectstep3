@@ -9,8 +9,6 @@
   <a href="/disciplines">Disciplines</a>
 </nav>
 
-<p>Add, update, or delete authors.</p>
-
 <table id="authors-table">
   <thead>
 
@@ -22,21 +20,26 @@
           {{@key}}
         </th>
       {{/each}}
+      <th>delete</th>
     </tr>
   </thead>
   <tbody>
-    {{! print the id, first_name, then last_name each row }}
+    {{! show the id, first_name, and last_name each row }}
     {{#each data}}
-      <tr>
+      <tr data-value="{{this.id}}">
         <td>{{this.author_id}}</td>
         <td>{{this.first_name}}</td>
         <td>{{this.last_name}}</td>
+        <td><button onclick="deleteAuthor({{this.author_id}})">Delete</button></td>
       </tr>
     {{/each}}
   </tbody>
 </table>
+<script src="./js/delete_author.js"></script>
 
-{{!-- {{! add record to table with AJAX }}
+{{! add record to table with AJAX }}
+<h2>Add an Author</h2>
+<p>To add a new author, please enter their information below and click 'Submit'!</p>
 <form id="add-author-form-ajax">
   <label for="input-first_name">First Name: </label>
   <input type="text" name="input-first_name" id="input-first_name" />
@@ -44,14 +47,14 @@
   <label for="input-last_name">Last Name: </label>
   <input type="text" name="input-last_name" id="input-last_name" />
 
-  <input type="submit" />
-</form> --}}
+  <input type="submit">
+</form>
 
 {{! embed JavaScript for DOM manipulation, AJAX request }}
-{{!-- <script src="./js/add_author.js"></script> --}}
+<script src="./js/add_author.js"></script>
 
 {{!-- add table record with standard HTML --}}
-<form id="add-author-form" method="POST" action="/add-author-form">
+{{!-- <form id="add-author-form" method="POST" action="/add-author-form">
     <label for="input-first_name">First Name: </label>
     <input type="text" name="input-first_name" id="input-first_name">
     
@@ -59,4 +62,4 @@
     <input type="text" name="input-last_name" id="input-last_name">
 
     <input type="submit">
-</form>
+</form> --}}

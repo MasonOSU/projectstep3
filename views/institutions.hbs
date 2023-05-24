@@ -1,4 +1,4 @@
-{{!-- <h1>Research Papers</h1>
+<h1>Research Papers</h1>
 <nav>
   <a href="/">Index</a>
   <a href="/research_papers">Research Papers</a>
@@ -8,16 +8,6 @@
   <a href="/institutions">Institutions</a>
   <a href="/disciplines">Disciplines</a>
 </nav>
-
-<form>
-  <legend>Add institution</legend>
-  <label>Name </label><input type="text" />
-  <label>Address </label><input type="text" />
-  <label>City </label><input type="text" />
-  <label>Country </label><input type="text" />
-  <label>Website </label><input type="url" />
-  <input type="submit" />
-</form>
 
 <table>
   <thead>
@@ -37,9 +27,21 @@
         <td>{{this.address}}</td>
         <td>{{this.country}}</td>
         <td>{{this.website}}</td>
-        <td><button>Edit</button></td>
-        <td><button>Delete</button></td>
+        {{!-- <td><button>Edit</button></td>
+        <td><button>Delete</button></td> --}}
       </tr>
     {{/each}}
   </tbody>
-</table> --}}
+</table>
+
+<h2>Add an Institution</h2>
+<p>To add a new institution please enter the information below and click 'Submit'!</p>
+<form>
+  <legend>Add institution</legend>
+  <label>Name </label><input type="text" />
+  <label>Address </label><input type="text" />
+  <label>City </label><input type="text" />
+  <label>Country </label><input type="text" />
+  <label>Website </label><input type="url" />
+  <input type="submit" />
+</form>

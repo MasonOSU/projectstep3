@@ -1,4 +1,4 @@
-{{!-- <h1>Index</h1>
+<h1>Index</h1>
 <nav>
     <a href="/">Index</a>
     <a href="/research_papers">Research Papers</a>
@@ -8,27 +8,6 @@
     <a href="/institutions">Institutions</a>
     <a href="/disciplines">Disciplines</a>
 </nav>
-
-<form>
-    <legend>Add research paper and author relationship</legend>
-    <label>Research Paper </label><select>
-        <option disabled selected value>Select</option>
-        <option>Anglo-Saxon Class Dynamics and Migration</option>
-        <option>An Overview of Antipsychotic Drug Kinetics</option>
-        <option>Celtic Tradition in Beowulf</option>
-        <option>Grapefruit Juice Interactions with Antipsychotic Medicine</option>
-        <option>Schizophrenia Treatment Models</option>
-        </select>
-    <label>Author </label><select>
-        <option disabled selected value>Select</option>
-        <option>Robert Ball</option>
-        <option>Nina Faulkner</option>
-        <option>John Smith</option>
-        <option>Sandra Smith</option>
-        <option>Maria Thompson</option>
-    </select>
-    <input type="submit">
-</form>
 
 <table>
     <thead>
@@ -46,9 +25,32 @@
             <td>{{this.research_paper_author_id}}</td>
             <td>{{this.research_paper_id}}</td>
             <td>{{this.author_id}}</td>
-            <td><button>Edit</button></td>
-            <td><button>Delete</button></td>
+            {{!-- <td><button>Edit</button></td>
+            <td><button>Delete</button></td> --}}
         </tr>
         {{/each}}
     </tbody>
-</table> --}}
+</table>
+
+
+<h2>Add a new research paper with an author</h2>
+<p>To add a new research paper with an author, please enter information below and click 'Submit'!</p>
+<form>
+    <legend>Add research paper and author relationship</legend>
+    <label for="input-research_paper">Research Paper </label>
+    <select name="input-research_paper" id="input-research_paper">
+        <option value="">Select a research paper</option>
+        {{#each research_papers}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-author">Author </label>
+    <select name="input-author" id="input-author">
+        <option value="">Select a research paper</option>
+        {{#each authors}}
+        <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>

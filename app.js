@@ -12,11 +12,6 @@ PORT = 1993;
 var db = require("./database/db-connector");
 
 // handlebars
-// var exphbs = require("express-handlebars");
-// const { query } = require("express");
-// app.engine(".hbs", exphbs({ extname: ".hbs" }));
-// app.set("view engine", ".hbs");
-
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');
 app.engine('.hbs', engine({extname: ".hbs"}));
@@ -33,8 +28,17 @@ app.use(express.static("public"));
 // get routes
 app.get("/research_papers", function (req, res) {
   let query1 = "SELECT * FROM Research_Papers;";
+  let query2 = "SELECT * FROM Institutions;";
+  let query3 = "SELECT * FROM Disciplines;";
   db.pool.query(query1, function (error, rows, fields) {
-    res.render("research_papers", { data: rows });
+    let research_papers = rows;
+    db.pool.query(query2, (error, rows, fields) => {
+      let institutions = rows;
+      db.pool.query(query2, (error, rows, fields) => {
+        let disciplines = rows;
+        res.render("research_papers", { data: research_papers, institutions: institutions, disciplines: disciplines });
+      })
+    })
   });
 });
 
@@ -101,7 +105,7 @@ app.get("/authors", function (req, res) {
 //     if (error) {
 //       // log error, send 400
 //       console.log(error);
-//       res.sendStnatus(400);
+//       res.sendStatus(400);
 //     }
 
 //     // if no error: redirect to root, run and show SELECT * FROM Authors
@@ -111,6 +115,7 @@ app.get("/authors", function (req, res) {
 //   });
 // });
 
+// ADDING NEW AUTHOR WITH AJAX
 app.post("/add-author-ajax", function (req, res) {
   // parse incoming data back to JavaScript object
   let data = req.body;

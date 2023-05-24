@@ -9,26 +9,6 @@
     <a href="/disciplines">Disciplines</a>
 </nav>
 
-<form>
-    <legend>Add citation</legend>
-    <label for="input-citing-paper">Citing Paper</label>
-    <select name="input-citing-paper" id="input-citing-paper">
-        <option value="">Select a citing paper</option>
-        {{#each citingPapers}}
-        <option value="{{this.id}}">{{this.title}}</option>
-        {{/each}}
-    </select>
-
-    <label for="input-referenced">Referenced</label>
-    <select name="input-referenced" id="input-referenced">
-        <option value="">Select a referenced paper</option>
-        {{#each referencedPapers}}
-        <option value="{{this.id}}">{{this.title}}</option>
-        {{/each}}
-    </select>
-    <input type="submit">
-</form>
-
 <table>
     <thead>
         <tr>
@@ -51,3 +31,25 @@
         {{/each}}
     </tbody>
 </table>
+
+<h2>Add a citation</h2>
+<p>To add a new citation, please enter its information below and click 'Submit'!</p>
+<form>
+    <legend>Add citation</legend>
+    <label for="input-citing-paper">Citing Paper</label>
+    <select name="input-citing-paper" id="input-citing-paper">
+        <option value="">Select a citing paper</option>
+        {{#each citingPapers}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-referenced">Referenced</label>
+    <select name="input-referenced" id="input-referenced">
+        <option value="">Select a referenced paper</option>
+        {{#each referencedPapers}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>

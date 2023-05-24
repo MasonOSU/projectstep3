@@ -168,6 +168,26 @@ app.post("/add-author-ajax", function (req, res) {
   });
 });
 
+// DELETE ROUTES 
+app.delete('/delete-author-ajax/', function(req,res,next){
+  let data = req.body;
+  let authorID = parseInt(data.id);
+  let deleteAuthorQuery = `DELETE FROM Authors WHERE author_id = ?`;
+
+        // Run the 1st query
+        db.pool.query(deleteAuthorQuery, [authorID], function(error, rows, fields){
+            if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+            else
+            {
+              res.sendStatus(204);
+                  }
+                })
+});
+
 /* LISTENER */
 app.listen(PORT, function () {
   console.log(

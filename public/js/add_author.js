@@ -63,17 +63,26 @@ addRowToTable = (data) => {
   let firstNameCell = document.createElement("TD");
   let lastNameCell = document.createElement("TD");
 
+  let deleteCell = document.createElement("TD");
+
   // write correct data to cells
-  // change below to 
   idCell.innerText = newRow.author_id;
-  //idCell.innerText = newRow.id;
   firstNameCell.innerText = newRow.first_name;
   lastNameCell.innerText = newRow.last_name;
-
+  deleteCell = document.createElement("button");
+  deleteCell.innerHTML = "Delete";
+  deleteCell.onclick = function(){
+      deleteAuthor(newRow.author_id);
+  };
+  
   // add cells to row
   row.appendChild(idCell);
   row.appendChild(firstNameCell);
   row.appendChild(lastNameCell);
+  row.appendChild(deleteCell);
+
+  // Add a row attribute so the deleteRow function can find a newly added row
+  row.setAttribute('data-value', newRow.author_id);
 
   // add row to table
   currentTable.appendChild(row);

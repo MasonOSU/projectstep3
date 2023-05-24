@@ -1,4 +1,4 @@
-{{!-- <h1>Index</h1>
+<h1>Index</h1>
 <nav>
     <a href="/">Index</a>
     <a href="/research_papers">Research Papers</a>
@@ -11,21 +11,20 @@
 
 <form>
     <legend>Add citation</legend>
-    <label>Citing Paper </label><select>
-        <option disabled selected value>Select</option>
-        <option>Anglo-Saxon Class Dynamics and Migration</option>
-        <option>An Overview of Antipsychotic Drug Kinetics</option>
-        <option>Celtic Tradition in Beowulf</option>
-        <option>Grapefruit Juice Interactions with Antipsychotic Medicine</option>
-        <option>Schizophrenia Treatment Models</option>
-        </select>
-    <label>Referenced </label><select>
-        <option disabled selected value>Select</option>
-        <option>Anglo-Saxon Class Dynamics and Migration</option>
-        <option>An Overview of Antipsychotic Drug Kinetics</option>
-        <option>Celtic Tradition in Beowulf</option>
-        <option>Grapefruit Juice Interactions with Antipsychotic Medicine</option>
-        <option>Schizophrenia Treatment Models</option>
+    <label for="input-citing-paper">Citing Paper</label>
+    <select name="input-citing-paper" id="input-citing-paper">
+        <option value="">Select a citing paper</option>
+        {{#each citingPapers}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-referenced">Referenced</label>
+    <select name="input-referenced" id="input-referenced">
+        <option value="">Select a referenced paper</option>
+        {{#each referencedPapers}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
     </select>
     <input type="submit">
 </form>
@@ -51,4 +50,4 @@
         </tr>
         {{/each}}
     </tbody>
-</table> --}}
+</table>

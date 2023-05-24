@@ -34,8 +34,9 @@ app.get("/research_papers", function (req, res) {
     let research_papers = rows;
     db.pool.query(query2, (error, rows, fields) => {
       let institutions = rows;
-      db.pool.query(query2, (error, rows, fields) => {
+      db.pool.query(query3, (error, rows, fields) => {
         let disciplines = rows;
+        // console.log("disciplines: ", disciplines)
         res.render("research_papers", { data: research_papers, institutions: institutions, disciplines: disciplines });
       })
     })
@@ -57,18 +58,28 @@ app.get("/citations", function (req, res) {
     let papers = rows;
 
     db.pool.query(query2, (error, rows, fields) => {
-      let citingPapers = rows;
-      //console.log("citing papers: ", citingPapers[0]['title']);
-      let referencedPapers = rows;
-      res.render("citations", { data: papers, citingPapers: citingPapers, referencedPapers: referencedPapers });
+      let citing_papers = rows;
+      //console.log("citing papers: ", citing_papers[0]['title']);
+      let referenced_papers = rows;
+      res.render("citations", { data: papers, citing_papers: citing_papers, referenced_papers: referenced_papers });
     })
   });
 });
 
 app.get("/research_papers_authors", function (req, res) {
-  let query = "SELECT * FROM Research_Papers_has_Authors;";
-  db.pool.query(query, function (error, rows, fields) {
-    res.render("research_papers_authors", { data: rows });
+  let query1 = "SELECT * FROM Research_Papers_has_Authors;";
+  let query2 = "SELECT * FROM Research_Papers;";
+  // let query3 = "SELECT CONCAT(first_name, ' ', last_name) AS name FROM Authors;";
+  let query3 = "SELECT * FROM Authors;";
+  db.pool.query(query1, function (error, rows, fields) {
+    let research_papers_authors = rows;
+    db.pool.query(query2, (error, rows, fields) => {
+      let research_papers = rows;
+      db.pool.query(query3, (error, rows, fields) => {
+        let authors = rows;
+        res.render("research_papers_authors", { data: rows, research_papers_authors: research_papers_authors, research_papers: research_papers, authors: authors });
+      })
+    })
   });
 });
 

@@ -11,6 +11,8 @@ updateAuthorForm.addEventListener("submit", function (e) {
     let inputFullName = document.getElementById("authorSelect");
     let inputFirstName = document.getElementById("input-first_name-update");
     let inputLastName = document.getElementById("input-last_name-update");
+    console.log("inputFullName: ", inputFullName);
+    console.log("inputFirstName inputLastName", inputFirstName, inputLastName);
 
     console.log(inputFullName);
 
@@ -18,9 +20,11 @@ updateAuthorForm.addEventListener("submit", function (e) {
     let fullNameValue = inputFullName.value;
     let firstNameValue = inputFirstName.value;
     let lastNameValue = inputLastName.value;
+    console.log("fullNameValue: ", fullNameValue);
+    console.log("I am in update_author.js ", firstNameValue, lastNameValue);
     
-    // currently the database table for bsg_people does not allow updating values to NULL
-    // so we must abort if being bassed NULL for 
+    // currently the database table for Authors does not allow updating values to NULL
+    // so we must abort if NULL for first or last name
 
     if (isNaN(firstNameValue))
     {
@@ -41,7 +45,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/put-person-ajax", true);
+    xhttp.open("PUT", "/put-author-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -72,7 +76,7 @@ function updateRow(data, authorID){
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == authorID) {
 
-            // Get the location of the row where we found the matching person ID
+            // Get the location of the row where we found the matching author ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             // Get td of value

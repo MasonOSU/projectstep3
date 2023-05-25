@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-PORT = 1991;
+PORT = 1993;
 
 // database
 var db = require("./database/db-connector");
@@ -146,12 +146,13 @@ app.post("/add-author-ajax", function (req, res) {
 
 ///////////////////////////////* UPDATE ROUTES, AJAX METHOD *///////////////////////////////
 
-app.put('/put-person-ajax', function(req,res,next){
+app.put('/put-author-ajax', function(req,res,next){
   let data = req.body;
 
   let author = parseInt(data.fullname);
   let firstname = parseInt(data.first_name);
   let lastname = parseInt(data.last_name);
+  console.log("in app.js, author, firstname, lastname, ", author, firstname, lastname);
 
   let queryUpdateName = `UPDATE Authors SET fullname = ? WHERE Authors.author_id = ?`;
   let selectAuthor = `SELECT * FROM Authors WHERE author_id = ?`
@@ -165,7 +166,7 @@ app.put('/put-person-ajax', function(req,res,next){
             res.sendStatus(400);
             }
 
-            // If there was no error, we run our second query and return that data so we can use it to update the people's
+            // If there was no error, we run our second query and return that data so we can use it to update the author's
             // table on the front-end
             else
             {

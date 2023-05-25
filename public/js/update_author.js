@@ -20,19 +20,6 @@ updateAuthorForm.addEventListener("submit", function (e) {
     let lastNameValue = inputLastName.value;
     console.log("authorID: ", authorID);
     console.log("I am in update_author.js ", firstNameValue, lastNameValue);
-    
-    // // currently the database table for Authors does not allow updating values to NULL
-    // // so we must abort if NULL for first or last name
-
-    // if (isNaN(firstNameValue)) 
-    // {
-    //     return;
-    // }
-
-    // if (isNaN(lastNameValue)) 
-    // {
-    //     return;
-    // }
 
 
     // Put our data we want to send in a javascript object
@@ -41,7 +28,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
         first_name: firstNameValue,
         last_name: lastNameValue,
     }
-    console.log("data: ", data);
+    // console.log("data: ", data);
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -51,7 +38,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            
+
             // Add the new data to the table
             updateRow(xhttp.response, authorID);
 
@@ -80,10 +67,10 @@ function updateRow(data, authorID){
             // Get the location of the row where we found the matching author ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of homeworld value
+            // Get td of values
             let td = updateRowIndex.getElementsByTagName("td")[3];
 
-            // Reassign homeworld to our value we updated to
+            // Reassign to value we updated to
             td.innerHTML = parsedData[0].name; 
        }
     }

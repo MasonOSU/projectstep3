@@ -8,39 +8,40 @@ updateAuthorForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputFullName = document.getElementById("authorSelect");
+    let inputAuthor = document.getElementById("authorSelect");
     let inputFirstName = document.getElementById("input-first_name-update");
     let inputLastName = document.getElementById("input-last_name-update");
-    console.log("inputFullName: ", inputFullName);
+    console.log("inputAuthor: ", inputAuthor);
     console.log("inputFirstName inputLastName", inputFirstName, inputLastName);
 
     // Get the values from the form fields
-    let fullNameValue = inputFullName.value;
+    let authorID = inputAuthor.value;
     let firstNameValue = inputFirstName.value;
     let lastNameValue = inputLastName.value;
-    console.log("fullNameValue: ", fullNameValue);
+    console.log("authorID: ", authorID);
     console.log("I am in update_author.js ", firstNameValue, lastNameValue);
     
-    // currently the database table for Authors does not allow updating values to NULL
-    // so we must abort if NULL for first or last name
+    // // currently the database table for Authors does not allow updating values to NULL
+    // // so we must abort if NULL for first or last name
 
-    if (isNaN(firstNameValue)) 
-    {
-        return;
-    }
+    // if (isNaN(firstNameValue)) 
+    // {
+    //     return;
+    // }
 
-    if (isNaN(lastNameValue)) 
-    {
-        return;
-    }
+    // if (isNaN(lastNameValue)) 
+    // {
+    //     return;
+    // }
 
 
     // Put our data we want to send in a javascript object
     let data = {
-        fullname: fullNameValue,
-        firstname: firstNameValue,
-        lastname: lastNameValue,
+        author_id: authorID,
+        first_name: firstNameValue,
+        last_name: lastNameValue,
     }
+    console.log("data: ", data);
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -50,9 +51,9 @@ updateAuthorForm.addEventListener("submit", function (e) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-
+            console.log("I got a status of 200 in update_author.js");
             // Add the new data to the table
-            updateRow(xhttp.response, fullNameValue);
+            updateRow(xhttp.response, authorID);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {

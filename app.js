@@ -149,37 +149,24 @@ app.post("/add-author-ajax", function (req, res) {
 app.put('/put-author-ajax', function(req,res,next){
   let data = req.body;
 
-  let author = parseInt(data.fullname);
-  let firstname = parseInt(data.first_name);
-  let lastname = parseInt(data.last_name);
-  console.log("in app.js, author, firstname, lastname, ", author, firstname, lastname);
+  let author = parseInt(data.author_id);
+  let firstName = data.first_name;
+  let lastName = data.last_name;
+  // console.log("in app.js, author, firstname, lastname, ", author, firstName, lastName);
 
-  let queryUpdateName = `UPDATE Authors SET fullname = ? WHERE Authors.author_id = ?`;
-  let selectAuthor = `SELECT * FROM Authors WHERE author_id = ?`
+  let queryUpdateAuthor = `UPDATE Authors SET first_name = ?, last_name = ? WHERE Authors.author_id = ?`;
 
         // Run the 1st query
-        db.pool.query(queryUpdateName, [author], function(error, rows, fields){
+        db.pool.query(queryUpdateAuthor, [firstName, lastName, author], function(error, rows, fields){
             if (error) {
 
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
             }
-
-            // If there was no error, we run our second query and return that data so we can use it to update the author's
-            // table on the front-end
             else
             {
-                // Run the second query
-                db.pool.query(selectAuthor, [author], function(error, rows, fields) {
-
-                    if (error) {
-                        console.log(error);
-                        res.sendStatus(400);
-                    } else {
-                        res.send(rows);
-                    }
-                })
+              res.send(rows);
             }
 })});
 

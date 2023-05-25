@@ -1,8 +1,6 @@
 // get objects to alter
 let addAuthorForm = document.getElementById("add-author-form-ajax");
 
-console.log(addAuthorForm);
-
 // alter needed objects
 addAuthorForm.addEventListener("submit", function (e) {
   // don't submit form

@@ -1,6 +1,8 @@
 // get objects to alter
 let addAuthorForm = document.getElementById("add-author-form-ajax");
 
+console.log(addAuthorForm);
+
 // alter needed objects
 addAuthorForm.addEventListener("submit", function (e) {
   // don't submit form
@@ -33,10 +35,9 @@ addAuthorForm.addEventListener("submit", function (e) {
       addRowToTable(xhttp.response);
 
       // clear inputs for new transaction
-      inputFirstName.value = '';
-      inputLastName.value = '';
-    } 
-    else if (xhttp.readyState == 4 && xhttp.status != 200) {
+      inputFirstName.value = "";
+      inputLastName.value = "";
+    } else if (xhttp.readyState == 4 && xhttp.status != 200) {
       console.log("There was an error with the input.");
     }
   };
@@ -69,12 +70,13 @@ addRowToTable = (data) => {
   idCell.innerText = newRow.author_id;
   firstNameCell.innerText = newRow.first_name;
   lastNameCell.innerText = newRow.last_name;
+
   deleteCell = document.createElement("button");
   deleteCell.innerHTML = "Delete";
-  deleteCell.onclick = function(){
-      deleteAuthor(newRow.author_id);
+  deleteCell.onclick = function () {
+    deleteAuthor(newRow.author_id);
   };
-  
+
   // add cells to row
   row.appendChild(idCell);
   row.appendChild(firstNameCell);
@@ -82,8 +84,19 @@ addRowToTable = (data) => {
   row.appendChild(deleteCell);
 
   // Add a row attribute so the deleteRow function can find a newly added row
-  row.setAttribute('data-value', newRow.author_id);
+  row.setAttribute("data-value", newRow.author_id);
 
   // add row to table
   currentTable.appendChild(row);
+
+  // Start of new Step 8 code for adding new data to the dropdown menu for updating people
+  
+  // Find drop down menu, create a new option, fill data in the option (full name, id),
+  // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
+  let selectMenu = document.getElementById("authorSelect");
+  let option = document.createElement("option");
+  option.text = newRow.first_name + ' ' +  newRow.last_name;
+  option.value = newRow.author_id;
+  selectMenu.add(option);
+  // End of new step 8 code.
 };

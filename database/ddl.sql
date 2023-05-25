@@ -1,4 +1,38 @@
-CREATE TABLE IF NOT EXISTS `Research_Papers` (
+DROP TABLE IF EXISTS `Research_Papers`;
+
+DROP TABLE IF EXISTS `Citations`;
+
+DROP TABLE IF EXISTS `Authors`;
+
+DROP TABLE IF EXISTS `Research_Papers_has_Authors`;
+
+DROP TABLE IF EXISTS `Institutions`;
+
+DROP TABLE IF EXISTS `Disciplines`;
+
+CREATE TABLE IF NOT EXISTS `Authors` (
+  `author_id` INT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(20) NOT NULL,
+  `last_name` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`author_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `Institutions` (
+  `institution_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `address` VARCHAR(50) NOT NULL,
+  `country` VARCHAR(100) NOT NULL,
+  `website` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`institution_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `Disciplines` (
+  `discipline_id` INT NOT NULL AUTO_INCREMENT,
+  `field` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`discipline_id`)
+);
+
+CREATE TABLE `Research_Papers` (
   `research_paper_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
   `date_published` DATE NOT NULL,
@@ -12,36 +46,13 @@ CREATE TABLE IF NOT EXISTS `Research_Papers` (
   CONSTRAINT `institution_id` FOREIGN KEY (`institution_id`) REFERENCES `Institutions` (`institution_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS `Citations` (
+CREATE TABLE `Citations` (
   `citation_id` INT NOT NULL AUTO_INCREMENT,
   `citing_paper_id` INT NOT NULL,
   `cited_paper_id` INT NOT NULL,
   PRIMARY KEY (`citation_id`),
   CONSTRAINT `fk_citing_paper_id` FOREIGN KEY (`citing_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_cited_paper_id` FOREIGN KEY (`cited_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-);
-
-CREATE TABLE IF NOT EXISTS `Authors` (
-  `author_id` INT NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(20) NOT NULL,
-  `last_name` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`author_id`)
-);
-
-CREATE TABLE IF NOT EXISTS `Institutions` (
-  `institution_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
-  `address` VARCHAR(50) NOT NULL,
-  `city` VARCHAR(25) NOT NULL,
-  `country` VARCHAR(100) NOT NULL,
-  `website` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`institution_id`)
-);
-
-CREATE TABLE IF NOT EXISTS `Disciplines` (
-  `discipline_id` INT NOT NULL AUTO_INCREMENT,
-  `field` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`discipline_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `Research_Papers_has_Authors` (
@@ -54,14 +65,6 @@ CREATE TABLE IF NOT EXISTS `Research_Papers_has_Authors` (
   CONSTRAINT `fk_Research_Papers_has_Authors_Research_Papers1` FOREIGN KEY (`research_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Research_Papers_has_Authors_Authors1` FOREIGN KEY (`author_id`) REFERENCES `Authors` (`author_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
-
-INSERT INTO
-  `Disciplines` (`field`)
-VALUES
-  ('Biology'),
-  ('Literature'),
-  ('History'),
-  ('Psychology');
 
 INSERT INTO
   `Authors` (`first_name`, `last_name`)
@@ -93,6 +96,14 @@ VALUES
     '4628 Hazelwood Avenue, London',
     'shcollege.edu'
   );
+
+INSERT INTO
+  `Disciplines` (`field`)
+VALUES
+  ('Biology'),
+  ('Literature'),
+  ('History'),
+  ('Psychology');
 
 INSERT INTO
   `Research_Papers` (

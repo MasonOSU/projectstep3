@@ -14,6 +14,8 @@ updateAuthorForm.addEventListener("submit", function (e) {
     console.log("inputFullName: ", inputFullName);
     console.log("inputFirstName inputLastName", inputFirstName, inputLastName);
 
+    console.log(inputFullName);
+
     // Get the values from the form fields
     let fullNameValue = inputFullName.value;
     let firstNameValue = inputFirstName.value;
@@ -24,7 +26,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
     // currently the database table for Authors does not allow updating values to NULL
     // so we must abort if NULL for first or last name
 
-    if (isNaN(firstNameValue)) 
+    if (isNaN(firstNameValue))
     {
         return;
     }
@@ -33,7 +35,6 @@ updateAuthorForm.addEventListener("submit", function (e) {
     {
         return;
     }
-
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -65,7 +66,6 @@ updateAuthorForm.addEventListener("submit", function (e) {
 
 })
 
-
 function updateRow(data, authorID){
     let parsedData = JSON.parse(data);
     
@@ -79,10 +79,10 @@ function updateRow(data, authorID){
             // Get the location of the row where we found the matching author ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of homeworld value
+            // Get td of value
             let td = updateRowIndex.getElementsByTagName("td")[3];
 
-            // Reassign homeworld to our value we updated to
+            // Reassign to our value we updated to
             td.innerHTML = parsedData[0].name; 
        }
     }

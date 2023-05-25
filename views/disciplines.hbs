@@ -9,6 +9,8 @@
     <a href="/disciplines">Disciplines</a>
 </nav>
 
+<h2>Add a new discipline:</h2>
+<p>To add a new discipline, please enter the field below and click 'Submit'!</p>
 <form>
   <legend>Add discipline</legend>
   <label>Field </label><input type="text" />
@@ -30,8 +32,8 @@
         <tr>
             <td>{{this.discipline_id}}</td>
             <td>{{this.field}}</td>
-            <td><button>Edit</button></td>
-            <td><button>Delete</button></td>
+            {{!-- <td><button>Edit</button></td>
+            <td><button>Delete</button></td> --}}
         </tr>
         {{/each}}
     </tbody>

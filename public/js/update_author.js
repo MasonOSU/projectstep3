@@ -14,8 +14,6 @@ updateAuthorForm.addEventListener("submit", function (e) {
     console.log("inputAuthor: ", inputAuthor);
     console.log("inputFirstName inputLastName", inputFirstName, inputLastName);
 
-    console.log(inputFullName);
-
     // Get the values from the form fields
     let authorID = inputAuthor.value;
     let firstNameValue = inputFirstName.value;
@@ -26,22 +24,16 @@ updateAuthorForm.addEventListener("submit", function (e) {
     // // currently the database table for Authors does not allow updating values to NULL
     // // so we must abort if NULL for first or last name
 
-<<<<<<< HEAD
     // if (isNaN(firstNameValue)) 
     // {
     //     return;
     // }
-=======
-    if (isNaN(firstNameValue))
-    {
-        return;
-    }
->>>>>>> 41cfb0fb9372ac6d9b40b3f442a7e9178ce763a3
 
     // if (isNaN(lastNameValue)) 
     // {
     //     return;
     // }
+
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -59,7 +51,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            console.log("I got a status of 200 in update_author.js");
+            
             // Add the new data to the table
             updateRow(xhttp.response, authorID);
 
@@ -74,6 +66,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
 
 })
 
+
 function updateRow(data, authorID){
     let parsedData = JSON.parse(data);
     
@@ -87,10 +80,10 @@ function updateRow(data, authorID){
             // Get the location of the row where we found the matching author ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of value
+            // Get td of homeworld value
             let td = updateRowIndex.getElementsByTagName("td")[3];
 
-            // Reassign to our value we updated to
+            // Reassign homeworld to our value we updated to
             td.innerHTML = parsedData[0].name; 
        }
     }

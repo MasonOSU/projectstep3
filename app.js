@@ -209,7 +209,6 @@ app.delete("/delete-author-ajax/", function (req, res, next) {
               res.sendStatus(400);
             } else {
               res.sendStatus(204);
-              res.redirect("/authors");
             }
           }
         );

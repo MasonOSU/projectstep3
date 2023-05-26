@@ -1,5 +1,3 @@
-///////////////////////////////* SETUP *///////////////////////////////
-// express
 var express = require("express");
 var app = express();
 app.use(express.json());
@@ -8,20 +6,14 @@ app.use(express.static("public"));
 
 PORT = 1991;
 
-// database
 var db = require("./database/db-connector");
-
-// handlebars
 const { engine } = require("express-handlebars");
 var exphbs = require("express-handlebars");
 app.engine(".hbs", engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
-// static files
 app.use(express.static("public"));
 
-///////////////////////////////* ROUTES *///////////////////////////////
-// get routes
 app.get("/", function (req, res) {
   res.render("index");
 });
@@ -36,7 +28,6 @@ app.get("/research_papers", function (req, res) {
       let institutions = rows;
       db.pool.query(query3, (error, rows, fields) => {
         let disciplines = rows;
-        // console.log("disciplines: ", disciplines)
         res.render("research_papers", {
           data: research_papers,
           institutions: institutions,
@@ -49,12 +40,12 @@ app.get("/research_papers", function (req, res) {
 
 app.get("/authors", function (req, res) {
   let query1 = "SELECT * FROM Authors;";
-  //let query1 = "SELECT author_id AS 'Author ID', first_name AS 'First Name', last_name AS 'Last Name' FROM Authors;";
   db.pool.query(query1, function (error, rows, fields) {
     res.render("authors", { data: rows });
   });
 });
 
+///////////////////////////////////////////////////////////////////////////////////////////
 app.get("/citations", function (req, res) {
   let query1 = "SELECT * FROM Citations;";
   let query2 = "SELECT * FROM Research_Papers;";
@@ -63,7 +54,6 @@ app.get("/citations", function (req, res) {
 
     db.pool.query(query2, (error, rows, fields) => {
       let citing_papers = rows;
-      //console.log("citing papers: ", citing_papers[0]['title']);
       let referenced_papers = rows;
       res.render("citations", {
         data: papers,
@@ -77,7 +67,6 @@ app.get("/citations", function (req, res) {
 app.get("/research_papers_authors", function (req, res) {
   let query1 = "SELECT * FROM Research_Papers_has_Authors;";
   let query2 = "SELECT * FROM Research_Papers;";
-  // let query3 = "SELECT CONCAT(first_name, ' ', last_name) AS name FROM Authors;";
   let query3 = "SELECT * FROM Authors;";
   db.pool.query(query1, function (error, rows, fields) {
     let research_papers_authors = rows;
@@ -109,34 +98,23 @@ app.get("/disciplines", function (req, res) {
     res.render("disciplines", { data: rows });
   });
 });
+///////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////* ADD ROUTES, AJAX METHOD *///////////////////////////////
 app.post("/add-author-ajax", function (req, res) {
-  // parse incoming data back to JavaScript object
   let data = req.body;
-
-  // run query on database
   query1 = `INSERT INTO Authors (first_name, last_name) VALUES ('${data.first_name}', '${data.last_name}')`;
+
   db.pool.query(query1, function (error, rows, fields) {
-    // check if error
     if (error) {
-      // log error to terminal, send HTTP response 400 showing bad request
       console.log(error);
       res.sendStatus(400);
-    }
-
-    // if no error, run SELECT * on Authors
-    else {
+    } else {
       query2 = `SELECT * FROM Authors;`;
       db.pool.query(query2, function (error, rows, fields) {
-        // if error on second query, send 400
         if (error) {
           console.log(error);
           res.sendStatus(400);
-        }
-
-        // else good, send query
-        else {
+        } else {
           res.send(rows);
         }
       });
@@ -144,31 +122,36 @@ app.post("/add-author-ajax", function (req, res) {
   });
 });
 
-///////////////////////////////* UPDATE ROUTES, AJAX METHOD *///////////////////////////////
-
-app.put('/put-author-ajax', function(req,res,next){
+app.put("/put-author-ajax", function (req, res, next) {
   let data = req.body;
-
   let author = parseInt(data.author_id);
   let firstName = data.first_name;
   let lastName = data.last_name;
-  // console.log("in app.js, author, firstname, lastname, ", author, firstName, lastName);
 
   let queryUpdateAuthor = `UPDATE Authors SET first_name = ?, last_name = ? WHERE Authors.author_id = ?`;
+  db.pool.query(
+    queryUpdateAuthor,
+    [firstName, lastName, author],
+    function (error, rows, fields) {
 
-        // Run the 1st query
-        db.pool.query(queryUpdateAuthor, [firstName, lastName, author], function(error, rows, fields){
-            if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      if (error) {
+        console.log(error);
+        res.sendStatus(400);
+      } else {
+        let updatedListAuthors = `SELECT * FROM Authors;`;
+        db.pool.query(updatedListAuthors, function (error, rows, fields) {
+          
+          if (error) {
             console.log(error);
             res.sendStatus(400);
-            }
-            else
-            {
-              res.send(rows);
-            }
-})});
+          } else {
+            res.send(rows);
+          }
+        });
+      }
+    }
+  );
+});
 
 ///////////////////////////////* DELETE ROUTES, AJAX METHOD *///////////////////////////////
 app.delete("/delete-author-ajax/", function (req, res, next) {
@@ -177,17 +160,14 @@ app.delete("/delete-author-ajax/", function (req, res, next) {
   let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE author_id = ?`;
   let deleteAuthorQuery = `DELETE FROM Authors WHERE author_id = ?`;
 
-  // run first query
   db.pool.query(
     deleteResearch_Papers_has_AuthorsQuery,
     [authorID],
     function (error, rows, fields) {
       if (error) {
-        // log error, send HTTP 400 response
         console.log(error);
         res.sendStatus(400);
       } else {
-        // run second query
         db.pool.query(
           deleteAuthorQuery,
           [authorID],
@@ -205,7 +185,6 @@ app.delete("/delete-author-ajax/", function (req, res, next) {
   );
 });
 
-///////////////////////////////* LISTENER *///////////////////////////////
 app.listen(PORT, function () {
   console.log(
     "express active on http://localhost:" + PORT + "; Ctrl-C to stop"
@@ -248,3 +227,17 @@ app.listen(PORT, function () {
 //     }
 //   });
 // });
+
+// app.put('/put-author-ajax', function(req,res,next){
+//   let data = req.body;
+
+//   let author = parseInt(data.author_id);
+//   let firstName = data.first_name;
+//   let lastName = data.last_name;
+//   let queryUpdateAuthor = `UPDATE Authors SET first_name = ?, last_name = ? WHERE Authors.author_id = ?`;
+
+//         db.pool.query(queryUpdateAuthor, [firstName, lastName, author], function(error, rows, fields){
+//             if (error) {
+//               console.log(error);
+//               res.sendStatus(400);}
+//             else{res.send(rows);}})});

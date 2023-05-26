@@ -1,7 +1,60 @@
+h1, h2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  margin: 10;
+}
+
+body {
+  background-color: #f2f2f2;
+  font-family: 'Roboto', sans-serif;
+}
+
+p {
+  margin-left: 10;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10;
+}
+
+nav a {
+  margin-right: 13px;
+}
+
+nav a:last-child {
+  margin-right: 0;
+}
+
+section {
+  margin-left: 40px;
+}
+
+a {
+  color: blue;
+  font-weight: bold;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
 table {
   border-collapse: collapse;
+  margin-left: 10;
+  text-align: center;
+  vertical-align: middle;
 }
 
 th, tr, td {
     border: 1px solid;
+}
+
+form {
+  margin: 10;
+}
+
+input, select {
+  display: inline-block;
 }

@@ -1,4 +1,4 @@
-<h1>Research Papers</h1>
+<h1>Disciplines</h1>
 <nav>
     <a href="/">Index</a>
     <a href="/research_papers">Research Papers</a>
@@ -6,16 +6,7 @@
     <a href="/authors">Authors</a>
     <a href="/research_papers_authors">Research Papers to Authors</a>
     <a href="/institutions">Institutions</a>
-    <a href="/disciplines">Disciplines</a>
 </nav>
-
-<h2>Add a new discipline:</h2>
-<p>To add a new discipline, please enter the field below and click 'Submit'!</p>
-<form>
-  <legend>Add discipline</legend>
-  <label>Field </label><input type="text" />
-  <input type="submit" />
-</form>
 
 <table>
     <thead>
@@ -32,9 +23,18 @@
         <tr>
             <td>{{this.discipline_id}}</td>
             <td>{{this.field}}</td>
-            {{!-- <td><button>Edit</button></td>
-            <td><button>Delete</button></td> --}}
+            <td><button>Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+<h2>Add (To Do)</h2>
+<form>
+  <label>Field </label><input type="text" />
+  <br>
+  <br>
+  <input type="submit" />
+</form>
+
+<h2>Update (To Do)</h2>

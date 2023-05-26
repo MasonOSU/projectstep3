@@ -3,7 +3,6 @@
   <a href="/">Index</a>
   <a href="/research_papers">Research Papers</a>
   <a href="/citations">Citations</a>
-  <a href="/authors">Authors</a>
   <a href="/research_papers_authors">Research Papers to Authors</a>
   <a href="/institutions">Institutions</a>
   <a href="/disciplines">Disciplines</a>
@@ -11,9 +10,6 @@
 
 <table id="authors-table">
   <thead>
-
-    {{! first row: print each row object key as header cell,
-        to depict each column clearly as page renders }}
     <tr>
       {{#each data.[0]}}
         <th>
@@ -23,7 +19,6 @@
     </tr>
   </thead>
   <tbody>
-    {{! show the id, first_name, and last_name each row }}
     {{#each data}}
       <tr data-value="{{this.author_id}}">
         <td>{{this.author_id}}</td>
@@ -38,24 +33,22 @@
 </table>
 <script src="./js/delete_author.js"></script>
 
-{{! add record to table with AJAX }}
-<h2>Add a new author:</h2>
-<p>To add a new author, please enter the information below and click 'Submit'!</p>
+<h2>Add</h2>
 <form id="add-author-form-ajax">
-  <legend>Add author</legend>
   <label for="input-first_name">First Name: </label>
   <input type="text" name="input-first_name" id="input-first_name" />
 
   <label for="input-last_name">Last Name: </label>
   <input type="text" name="input-last_name" id="input-last_name" />
-
+  <br>
+  <br>
   <input type="submit" />
 </form>
 
-{{! embed JavaScript for DOM manipulation, AJAX request }}
 <script src="./js/add_author.js"></script>
 
-<h2>Update existing author:</h2>
+<h2>Update</h2>
+<p>Select from the dropdown menu before editing an author.</p>
 <form id="update-author-form-ajax">
   <label for="input-fullname">Full name: </label>
   <select name="input-fullname" id="authorSelect">
@@ -70,6 +63,8 @@
 
   <label for="input-last_name">Last Name: </label>
   <input type="text" name="input-last_name" id="input-last_name-update">
+  <br>
+  <br>
   <input type="submit">
 </form>
 

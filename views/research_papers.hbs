@@ -1,65 +1,71 @@
 <h1>Research Papers</h1>
 <nav>
-    <a href="/">Index</a>
-    <a href="/research_papers">Research Papers</a>
-    <a href="/citations">Citations</a>
-    <a href="/authors">Authors</a>
-    <a href="/research_papers_authors">Research Papers to Authors</a>
-    <a href="/institutions">Institutions</a>
-    <a href="/disciplines">Disciplines</a>
+  <a href="/">Index</a>
+  <a href="/citations">Citations</a>
+  <a href="/authors">Authors</a>
+  <a href="/research_papers_authors">Research Papers to Authors</a>
+  <a href="/institutions">Institutions</a>
+  <a href="/disciplines">Disciplines</a>
 </nav>
 
 <table>
-    <thead>
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-    <tbody>
-        {{#each data}}
-        <tr>
-            <td>{{this.research_paper_id}}</td>
-            <td>{{this.title}}</td>
-            <td>{{this.date_published}}</td>
-            <td>{{this.doi}}</td>
-            <td>{{this.institution_id}}</td>
-            <td>{{this.discipline_id}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <thead>
+    <tr>
+      {{#each data.[0]}}
+        <th>
+          {{@key}}
+        </th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+      <tr>
+        <td>{{this.research_paper_id}}</td>
+        <td>{{this.title}}</td>
+        <td>{{this.date_published}}</td>
+        <td>{{this.doi}}</td>
+        <td>{{this.institution_id}}</td>
+        <td>{{this.discipline_id}}</td>
+        <td><button>Delete</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
-<h2>Add a new research paper:</h2>
-<p>To add a new research paper, please enter the information below and click 'Submit'!</p>
-<form id="add-research_paper-form" method="POST" action="/add-research_paper-form">
-    <legend>Add research paper</legend>
-    <label for="input-title">Title: </label>
-    <input type="text" name="input-title" id="input-title">
-    
-    <label for="input-date_published">Date Published: </label>
-    <input type="date" name="input-date_published" id="input-date_published">
+<h2>Add (To Do)</h2>
+<form
+  id="add-research_paper-form"
+  method="POST"
+  action="/add-research_paper-form"
+>
+  <label for="input-title">Title: </label>
+  <input type="text" name="input-title" id="input-title" />
 
-    <label for="input-doi">DOI: </label>
-    <input type="text" name="input-doi" id="input-doi">
+  <label for="input-date_published">Date Published: </label>
+  <input type="date" name="input-date_published" id="input-date_published" />
 
-    <label for="input-institution">Institution </label>
-    <select name="input-institution" id="input-institution">
-        <option value="">Select an institution</option>
-        {{#each institutions}}
-        <option value="{{this.id}}">{{this.name}}</option>
-        {{/each}}
-    </select>
+  <label for="input-doi">DOI: </label>
+  <input type="text" name="input-doi" id="input-doi" />
 
-    <label for="input-discipline">Discipline </label>
-   <select name="input-discipline" id="input-discipline">
-        <option value="">Select a discipline</option>
-        {{#each disciplines}}
-        <option value="{{this.id}}">{{this.field}}</option>
-        {{/each}}
-    </select>
-    <input type="submit">
+  <label for="input-institution">Institution </label>
+  <select name="input-institution" id="input-institution">
+    <option value="">Select an institution</option>
+    {{#each institutions}}
+      <option value="{{this.id}}">{{this.name}}</option>
+    {{/each}}
+  </select>
+
+  <label for="input-discipline">Discipline </label>
+  <select name="input-discipline" id="input-discipline">
+    <option value="">Select a discipline</option>
+    {{#each disciplines}}
+      <option value="{{this.id}}">{{this.field}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <br>
+  <input type="submit" />
 </form>
+
+<h2>Update (To Do)</h2>

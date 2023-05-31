@@ -23,18 +23,20 @@
         <tr>
             <td>{{this.discipline_id}}</td>
             <td>{{this.field}}</td>
-            <td><button>Delete</button></td>
+            <td><button onclick="deleteDiscipline({{this.discipline_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 
+<script src="./js/delete_discipline.js"></script>
+
 <h2>Add a Discipline</h2>
 <form id="add-discipline-form-ajax">
-  <label for="field-name">Field </label>
-  <input type="text" name="field-name" id="field-name"/>
-  <br>
-  <input type="submit" />
+    <label for="field-name">Field </label>
+    <input type="text" name="field-name" id="field-name" />
+    <br>
+    <input type="submit" />
 </form>
 
 
@@ -46,9 +48,24 @@
 <form id="search-discipline-html" method='GET' action='/disciplines'>
     <label for="field_name">Search by Field Name: </label>
     <input type="text" name="field_name" id="field_name">
-    
+
     <input type="submit">
     <a href='/disciplines'><button>Reset</button></a>
 </form>
 
-<h2>Update (To Do)</h2>
+<h2>Update a Discipline</h2>
+<form id="update-discipline-form-ajax">
+    <label for="fieldName">Discipline:</label>
+    <select name="fieldName" id="disciplineSelect">
+        <option value="fieldName">Select a Discipline</option>
+        {{#each data}}
+        <option value="{{this.discipline_id}}">{{this.field}}</option>
+        {{/each}}
+    </select>
+    <label for="input-field_name">Updated Discipline: </label>
+  <input type="text" name="input-field_name" id="input-field_name">
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_discipline.js"></script>

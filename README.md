@@ -1,17 +1,23 @@
 # Crucial
 Institutions: Update
+
 Research_Papers: Update
+
 Citations: Add, Update, Delete
+
 Research_Papers_has_Authors: Add, Read, Update, Delete
 
 # General
 Alias header names
+
 Update, format code comments
+
 Finetune CSS
 
 # Authors
 ## Design
 Center-align Delete button on dynamic Add
+
 Display Add, Update forms inline
 
 # Institutions

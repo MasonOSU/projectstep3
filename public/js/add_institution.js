@@ -3,7 +3,7 @@ let addInstitutionForm = document.getElementById('add-institution-form-ajax');
 
 // Modify the objects we need
 addInstitutionForm.addEventListener("submit", function (e) {
-    
+
     // Prevent the form from submitting
     e.preventDefault();
 
@@ -30,7 +30,7 @@ addInstitutionForm.addEventListener("submit", function (e) {
         website: websiteValue
     }
     console.log("data we are passing in: ", data);
-    
+
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/add-institution-ajax", true);
@@ -96,7 +96,7 @@ addRowToTable = (data) => {
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
-    deleteCell.onclick = function(){
+    deleteCell.onclick = function () {
         deleteInstitution(newRow.institution_id);
     };
 
@@ -107,7 +107,7 @@ addRowToTable = (data) => {
     row.appendChild(cityCell);
     row.appendChild(countryCell);
     row.appendChild(websiteCell);
-    
+
     // Add the row to the table
     currentTable.appendChild(row);
 
@@ -116,4 +116,13 @@ addRowToTable = (data) => {
 
     // Add the row to the table
     currentTable.appendChild(row);
+
+    // Find drop down menu, create a new option, fill data in the option (full name, id),
+    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
+    let selectMenu = document.getElementById("institutionSelect");
+    let option = document.createElement("option");
+    // TODO: update this!!!
+    option.text = newRow.name + ' ' +  newRow.address;
+    option.value = newRow.institution_id;
+    selectMenu.add(option);
 }

@@ -34,7 +34,19 @@ function deleteRow(institutionID){
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == institutionID) {
             table.deleteRow(i);
+            deleteDropDownMenu(institutionID);
             break;
        }
     }
 }
+
+function deleteDropDownMenu(institutionID){
+    let selectMenu = document.getElementById("institutionSelect");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(institutionID)){
+        selectMenu[i].remove();
+        break;
+      } 
+  
+    }
+  }

@@ -4,7 +4,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-PORT = 1991;
+PORT = 1994;
 
 var db = require("./database/db-connector");
 const { engine } = require("express-handlebars");
@@ -280,6 +280,45 @@ app.put('/put-discipline-ajax', function (req, res, next) {
     }
   })
 });
+
+app.put('/put-institution-ajax', function(req,res,next){
+  let data = req.body;
+  console.log("this is data", data);
+  let institutionID = parseInt(data.institution_id);
+  let name = data.name;
+  let address = data.address;
+  let city = data.city;
+  let country = data.country;
+  let website = data.website;
+
+  let queryUpdateInstitution = `UPDATE Institutions SET name = ?, address = ?, city = ?, country = ?, website = ? WHERE Institutions.institution_id = ?;`;
+  let selectAllInstitutions = `SELECT * FROM Institutions;`;
+
+        // Run the 1st query
+        db.pool.query(queryUpdateInstitution, [name, address, city, country, website, institutionID], function(error, rows, fields){
+            if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+
+            // If there was no error, we run our second query and return that data so we can use it to update the Institutions
+            // table on the front-end
+            else
+            {
+                // Run the second query
+                db.pool.query(selectAllInstitutions, [institutionID], function(error, rows, fields) {
+
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.send(rows);
+                    }
+                })
+            }
+})});
 
 ///////////////////////////////* DELETE ROUTES, AJAX METHOD *///////////////////////////////
 app.delete("/delete-author-ajax/", function (req, res, next) {

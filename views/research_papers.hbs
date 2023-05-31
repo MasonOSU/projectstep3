@@ -48,7 +48,7 @@
   <select name="input-institution" id="institutionIdSelect">
     <option value="test">Select an institution</option>
     {{#each institutions}}
-    <option value="{{this.id}}">{{this.name}}</option>
+    <option value="{{this.institution_id}}">{{this.name}}</option>
     {{/each}}
   </select>
 
@@ -56,7 +56,7 @@
   <select name="input-discipline" id="disciplineIdSelect">
     <option value="test">Select a discipline</option>
     {{#each disciplines}}
-    <option value="{{this.id}}">{{this.field}}</option>
+    <option value="{{this.discipline_id}}">{{this.field}}</option>
     {{/each}}
   </select>
   <br>

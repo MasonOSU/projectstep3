@@ -108,9 +108,6 @@ addRowToTable = (data) => {
     row.appendChild(countryCell);
     row.appendChild(websiteCell);
 
-    // Add the row to the table
-    currentTable.appendChild(row);
-
     // Add a row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.institution_id);
 

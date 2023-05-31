@@ -174,82 +174,76 @@ app.post('/add-discipline-ajax', function (req, res) {
   })
 });
 
-app.post('/add-institution-ajax', function(req, res) 
-{
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-    console.log("this is data", data);
-    // Create the query and run it on the database
-    query1 = `INSERT INTO Institutions (name, address, city, country, website) VALUES ('${data.name}', '${data.address}', '${data.city}', '${data.country}', '${data.website}')`;
-    db.pool.query(query1, function(error, rows, fields){
+app.post('/add-institution-ajax', function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+  console.log("this is data", data);
+  // Create the query and run it on the database
+  query1 = `INSERT INTO Institutions (name, address, city, country, website) VALUES ('${data.name}', '${data.address}', '${data.city}', '${data.country}', '${data.website}')`;
+  db.pool.query(query1, function (error, rows, fields) {
 
-        // Check to see if there was an error
+    // Check to see if there was an error
+    if (error) {
+
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error)
+      res.sendStatus(400);
+    }
+    else {
+      // If there was no error, perform a SELECT * on Institutions
+      query2 = `SELECT * FROM Institutions;`;
+      db.pool.query(query2, function (error, rows, fields) {
+
+        // If there was an error on the second query, send a 400
         if (error) {
 
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
+          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+          console.log(error);
+          res.sendStatus(400);
         }
-        else
-        {
-            // If there was no error, perform a SELECT * on Institutions
-            query2 = `SELECT * FROM Institutions;`;
-            db.pool.query(query2, function(error, rows, fields){
-
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
-                }
-            })
+        // If all went well, send the results of the query back.
+        else {
+          res.send(rows);
         }
-    })
+      })
+    }
+  })
 });
 
-app.post('/add-research-paper-ajax', function(req, res) 
-{
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-    console.log("this is data", data);
-    // Create the query and run it on the database
-    query1 = `INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) VALUES ('${data.title}', '${data.date_published}', '${data.doi}', '${data.institution_id}', '${data.discipline_id}');`;
-    db.pool.query(query1, function(error, rows, fields){
+app.post('/add-research-paper-ajax', function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+  console.log("this is data", data);
+  // Create the query and run it on the database
+  query1 = `INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) VALUES ('${data.title}', '${data.date_published}', '${data.doi}', '${data.institution_id}', '${data.discipline_id}');`;
+  db.pool.query(query1, function (error, rows, fields) {
 
-        // Check to see if there was an error
+    // Check to see if there was an error
+    if (error) {
+
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error)
+      res.sendStatus(400);
+    }
+    else {
+      // If there was no error, perform a SELECT * on Research_Papers
+      query2 = `SELECT * FROM Research_Papers;`;
+      db.pool.query(query2, function (error, rows, fields) {
+
+        // If there was an error on the second query, send a 400
         if (error) {
 
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
+          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+          console.log(error);
+          res.sendStatus(400);
         }
-        else
-        {
-            // If there was no error, perform a SELECT * on Research_Papers
-            query2 = `SELECT * FROM Research_Papers;`;
-            db.pool.query(query2, function(error, rows, fields){
-
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
-                }
-            })
+        // If all went well, send the results of the query back.
+        else {
+          res.send(rows);
         }
-    })
+      })
+    }
+  })
 });
 
 app.put("/put-author-ajax", function (req, res, next) {
@@ -318,7 +312,7 @@ app.put('/put-discipline-ajax', function (req, res, next) {
   })
 });
 
-app.put('/put-institution-ajax', function(req,res,next){
+app.put('/put-institution-ajax', function (req, res, next) {
   let data = req.body;
   console.log("this is data", data);
   let institutionID = parseInt(data.institution_id);
@@ -331,31 +325,31 @@ app.put('/put-institution-ajax', function(req,res,next){
   let queryUpdateInstitution = `UPDATE Institutions SET name = ?, address = ?, city = ?, country = ?, website = ? WHERE Institutions.institution_id = ?;`;
   let selectAllInstitutions = `SELECT * FROM Institutions;`;
 
-        // Run the 1st query
-        db.pool.query(queryUpdateInstitution, [name, address, city, country, website, institutionID], function(error, rows, fields){
-            if (error) {
+  // Run the 1st query
+  db.pool.query(queryUpdateInstitution, [name, address, city, country, website, institutionID], function (error, rows, fields) {
+    if (error) {
 
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error);
-            res.sendStatus(400);
-            }
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
 
-            // If there was no error, we run our second query and return that data so we can use it to update the Institutions
-            // table on the front-end
-            else
-            {
-                // Run the second query
-                db.pool.query(selectAllInstitutions, [institutionID], function(error, rows, fields) {
+    // If there was no error, we run our second query and return that data so we can use it to update the Institutions
+    // table on the front-end
+    else {
+      // Run the second query
+      db.pool.query(selectAllInstitutions, [institutionID], function (error, rows, fields) {
 
-                    if (error) {
-                        console.log(error);
-                        res.sendStatus(400);
-                    } else {
-                        res.send(rows);
-                    }
-                })
-            }
-})});
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      })
+    }
+  })
+});
 
 ///////////////////////////////* DELETE ROUTES, AJAX METHOD *///////////////////////////////
 app.delete("/delete-author-ajax/", function (req, res, next) {
@@ -421,7 +415,7 @@ app.delete('/delete-discipline-ajax/', function (req, res, next) {
   );
 });
 
-app.delete('/delete-institution-ajax/', function(req,res,next){
+app.delete('/delete-institution-ajax/', function (req, res, next) {
   let data = req.body;
   console.log("this is data", data);
   let institutionID = parseInt(data.id);
@@ -429,29 +423,29 @@ app.delete('/delete-institution-ajax/', function(req,res,next){
   let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
 
 
-        // Run the 1st query
-        db.pool.query(deleteResearch_Papers_has_AuthorsQuery, [institutionID], function(error, rows, fields){
-            if (error) {
+  // Run the 1st query
+  db.pool.query(deleteResearch_Papers_has_AuthorsQuery, [institutionID], function (error, rows, fields) {
+    if (error) {
 
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error);
-            res.sendStatus(400);
-            }
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
 
-            else
-            {
-                // Run the second query
-                db.pool.query(deleteInstitutionQuery, [institutionID], function(error, rows, fields) {
+    else {
+      // Run the second query
+      db.pool.query(deleteInstitutionQuery, [institutionID], function (error, rows, fields) {
 
-                    if (error) {
-                        console.log(error);
-                        res.sendStatus(400);
-                    } else {
-                        res.sendStatus(204);
-                    }
-                })
-            }
-})});
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.sendStatus(204);
+        }
+      })
+    }
+  })
+});
 
 app.listen(PORT, function () {
   console.log(

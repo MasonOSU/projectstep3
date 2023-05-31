@@ -13,6 +13,7 @@ addResearchPaperForm.addEventListener("submit", function (e) {
     let inputDoi = document.getElementById("input-doi");
     let inputInstitution = document.getElementById("institutionIdSelect");
     let inputDiscipline = document.getElementById("disciplineIdSelect");
+    console.log("inputInstitution: ", inputInstitution);
 
     // Get the values from the form fields
     let titleValue = inputTitle.value;
@@ -79,6 +80,7 @@ addRowToTable = (data) => {
 
     // Create a row and 4 cells
     let row = document.createElement("TR");
+    let idCell = document.createElement("TD");
     let titleCell = document.createElement("TD");
     let datePublishedCell = document.createElement("TD");
     let doiCell = document.createElement("TD");
@@ -95,11 +97,11 @@ addRowToTable = (data) => {
     institutionIdCell.innerText = newRow.institution_id;
     disciplineIdCell.innerText = newRow.discipline_id;
 
-    // deleteCell = document.createElement("button");
-    // deleteCell.innerHTML = "Delete";
-    // deleteCell.onclick = function () {
-    //     deleteResearchPaper(newRow.research_paper_id);
-    // };
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function () {
+        deleteResearchPaper(newRow.research_paper_id);
+    };
 
     // Add the cells to the row 
     row.appendChild(idCell);
@@ -108,6 +110,9 @@ addRowToTable = (data) => {
     row.appendChild(doiCell);
     row.appendChild(institutionIdCell);
     row.appendChild(disciplineIdCell);
+    
+    // Add a row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.research_paper_id);
 
     // Add the row to the table
     currentTable.appendChild(row);

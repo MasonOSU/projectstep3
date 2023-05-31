@@ -8,7 +8,7 @@
     <a href="/institutions">Institutions</a>
 </nav>
 
-<table>
+<table id="disciplines-table">
     <thead>
         <tr>
             {{#each data.[0]}}
@@ -29,12 +29,16 @@
     </tbody>
 </table>
 
-<h2>Add (To Do)</h2>
-<form>
-  <label>Field </label><input type="text" />
-  <br>
+<h2>Add a Discipline</h2>
+<form id="add-discipline-form-ajax">
+  <label for="field-name">Field </label>
+  <input type="text" name="field-name" id="field-name"/>
   <br>
   <input type="submit" />
 </form>
+
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_discipline.js"></script>
 
 <h2>Update (To Do)</h2>

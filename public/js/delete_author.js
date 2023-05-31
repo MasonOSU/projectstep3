@@ -1,5 +1,5 @@
 function deleteAuthor(authorID) {
-  let data = {id: authorID,};
+  let data = { id: authorID };
 
   var xhttp = new XMLHttpRequest();
   xhttp.open("DELETE", "/delete-author-ajax", true);
@@ -9,7 +9,9 @@ function deleteAuthor(authorID) {
     if (xhttp.readyState == 4 && xhttp.status == 204) {
       deleteRow(authorID);
     } else if (xhttp.readyState == 4 && xhttp.status != 204) {
-      console.log("There was an error with the input.");}};
+      console.log("There was an error with the input.");
+    }
+  };
   // Send the request and wait for the response
   xhttp.send(JSON.stringify(data));
 }
@@ -24,10 +26,10 @@ function deleteRow(authorID) {
   }
 }
 
-function deleteDropDownMenu(authorID){
+function deleteDropDownMenu(authorID) {
   let selectMenu = document.getElementById("authorSelect");
-  for (let i = 0; i < selectMenu.length; i++){
-    if (Number(selectMenu.options[i].value) === Number(authorID)){
+  for (let i = 0; i < selectMenu.length; i++) {
+    if (Number(selectMenu.options[i].value) === Number(authorID)) {
       selectMenu[i].remove();
       break;
     }

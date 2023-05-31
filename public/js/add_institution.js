@@ -62,7 +62,7 @@ addInstitutionForm.addEventListener("submit", function (e) {
 
 
 // Creates a single row from an Object representing a single record from 
-// bsg_people
+// Institutions
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
@@ -84,6 +84,8 @@ addRowToTable = (data) => {
     let countryCell = document.createElement("TD");
     let websiteCell = document.createElement("TD");
 
+    let deleteCell = document.createElement("TD");
+
     // Fill the cells with correct data
     idCell.innerText = newRow.institution_id;
     nameCell.innerText = newRow.name;
@@ -91,6 +93,12 @@ addRowToTable = (data) => {
     cityCell.innerText = newRow.city;
     countryCell.innerText = newRow.country;
     websiteCell.innerText = newRow.website;
+
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function(){
+        deleteInstitution(newRow.institution_id);
+    };
 
     // Add the cells to the row 
     row.appendChild(idCell);
@@ -100,6 +108,12 @@ addRowToTable = (data) => {
     row.appendChild(countryCell);
     row.appendChild(websiteCell);
     
+    // Add the row to the table
+    currentTable.appendChild(row);
+
+    // Add a row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.institution_id);
+
     // Add the row to the table
     currentTable.appendChild(row);
 }

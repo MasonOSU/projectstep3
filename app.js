@@ -345,6 +345,38 @@ app.delete('/delete-discipline-ajax/', function (req, res, next) {
   );
 });
 
+app.delete('/delete-institution-ajax/', function(req,res,next){
+  let data = req.body;
+  console.log("this is data", data);
+  let institutionID = parseInt(data.id);
+  let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers WHERE institution_id = ?`;
+  let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
+
+
+        // Run the 1st query
+        db.pool.query(deleteResearch_Papers_has_AuthorsQuery, [institutionID], function(error, rows, fields){
+            if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+
+            else
+            {
+                // Run the second query
+                db.pool.query(deleteInstitutionQuery, [institutionID], function(error, rows, fields) {
+
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.sendStatus(204);
+                    }
+                })
+            }
+})});
+
 app.listen(PORT, function () {
   console.log(
     "express active on http://localhost:" + PORT + "; Ctrl-C to stop"

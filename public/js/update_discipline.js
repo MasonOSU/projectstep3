@@ -67,7 +67,7 @@ function updateRow(data, disciplineID) {
         //rows would be accessed using the "row" variable assigned in the for loop
         if (table.rows[i].getAttribute("data-value") == disciplineID) {
 
-            // Get the location of the row where we found the matching person ID
+            // Get the location of the row where we found the matching disciplineID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             let tdField = updateRowIndex.getElementsByTagName("td")[1];

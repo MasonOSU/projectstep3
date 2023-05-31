@@ -24,13 +24,17 @@
         <td>{{this.institution_id}}</td>
         <td>{{this.name}}</td>
         <td>{{this.address}}</td>
+        <td>{{this.city}}</td>
         <td>{{this.country}}</td>
         <td>{{this.website}}</td>
-        <td><button>Delete</button></td>
+        <td><button
+            onclick="deleteInstitution({{this.institution_id}})"
+          >Delete</button></td>
       </tr>
     {{/each}}
   </tbody>
 </table>
+<script src="./js/delete_institution.js"></script>
 
 <h2>Add</h2>
 <form id="add-institution-form-ajax">

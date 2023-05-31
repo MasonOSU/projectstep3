@@ -92,9 +92,27 @@ app.get("/institutions", function (req, res) {
   });
 });
 
+// app.get("/disciplines", function (req, res) {
+//   let query = "SELECT * FROM Disciplines;";
+//   db.pool.query(query, function (error, rows, fields) {
+//     res.render("disciplines", { data: rows });
+//   });
+// });
 app.get("/disciplines", function (req, res) {
-  let query = "SELECT * FROM Disciplines;";
-  db.pool.query(query, function (error, rows, fields) {
+  let query1;
+  // If there is no query string, we just perform a basic SELECT
+  if (req.query.field_name === undefined)
+  {
+      query1 = "SELECT * FROM Disciplines;";
+  }
+
+  // If there is a query string, we assume this is a search, and return desired results
+  else
+  {
+      query1 = `SELECT * FROM Disciplines WHERE field LIKE "${req.query.field_name}%"`
+  }
+
+  db.pool.query(query1, function (error, rows, fields) {
     res.render("disciplines", { data: rows });
   });
 });

@@ -174,8 +174,6 @@ app.post('/add-discipline-ajax', function (req, res) {
   })
 });
 
-// app.js - ROUTES section
-
 app.post('/add-institution-ajax', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
@@ -196,6 +194,45 @@ app.post('/add-institution-ajax', function(req, res)
         {
             // If there was no error, perform a SELECT * on Institutions
             query2 = `SELECT * FROM Institutions;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+app.post('/add-research-paper-ajax', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+    console.log("this is data", data);
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) VALUES ('${data.title}', '${data.date_published}', '${data.doi}', '${data.institution_id}', '${data.discipline_id}');`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Research_Papers
+            query2 = `SELECT * FROM Research_Papers;`;
             db.pool.query(query2, function(error, rows, fields){
 
                 // If there was an error on the second query, send a 400

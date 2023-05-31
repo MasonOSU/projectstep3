@@ -8,7 +8,7 @@
   <a href="/disciplines">Disciplines</a>
 </nav>
 
-<table>
+<table id="institutions-table">
   <thead>
     <tr>
       {{#each data.[0]}}
@@ -32,16 +32,23 @@
   </tbody>
 </table>
 
-<h2>Add (To Do)</h2>
-<form>
-  <label>Name </label><input type="text" />
-  <label>Address </label><input type="text" />
-  <label>City </label><input type="text" />
-  <label>Country </label><input type="text" />
-  <label>Website </label><input type="url" />
+<h2>Add</h2>
+<form id="add-institution-form-ajax">
+  <label for="input-name">Name </label>
+  <input type="text" name="input-name" id="input-name" />
+  <label for="input-address">Address </label>
+  <input type="text" name="input-address" id="input-address" />
+  <label for="input-city">City </label>
+  <input type="text" name="input-city" id="input-city" />
+  <label for="input-country">Country </label>
+  <input type="text" name="input-country" id="input-country" />
+  <label for="input-website">Website </label>
+  <input type="text" name="input-website" id="input-website" />
   <br>
   <br>
   <input type="submit" />
 </form>
+
+<script src="./js/add_institution.js"></script>
 
 <h2>Update (To Do)</h2>

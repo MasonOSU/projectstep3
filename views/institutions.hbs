@@ -1,82 +1,74 @@
 <h1>Institutions</h1>
 <nav>
-  <a href="/">Index</a>
-  <a href="/research_papers">Research Papers</a>
-  <a href="/citations">Citations</a>
-  <a href="/authors">Authors</a>
-  <a href="/research_papers_authors">Research Papers to Authors</a>
-  <a href="/disciplines">Disciplines</a>
+	<a href="/">Index</a>
+	<a href="/research_papers">Research Papers</a>
+	<a href="/citations">Citations</a>
+	<a href="/authors">Authors</a>
+	<a href="/research_papers_authors">Research Papers to Authors</a>
+	<a href="/institutions">Institutions</a>
+	<a href="/disciplines">Disciplines</a>
 </nav>
 
 <table id="institutions-table">
-  <thead>
-    <tr>
-      {{#each data.[0]}}
-      <th>
-        {{@key}}
-      </th>
-      {{/each}}
-    </tr>
-  </thead>
-  <tbody>
-    {{#each data}}
-    <tr>
-      <td>{{this.institution_id}}</td>
-      <td>{{this.name}}</td>
-      <td>{{this.address}}</td>
-      <td>{{this.city}}</td>
-      <td>{{this.country}}</td>
-      <td>{{this.website}}</td>
-      <td><button onclick="deleteInstitution({{this.institution_id}})">Delete</button></td>
-    </tr>
-    {{/each}}
-  </tbody>
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>{{@key}}</th>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#each data}}
+			<tr>
+				<td>{{this.institution_id}}</td>
+				<td>{{this.name}}</td>
+				<td>{{this.address}}</td>
+				<td>{{this.country}}</td>
+				<td>{{this.website}}</td>
+				<td><button
+						onclick="deleteInstitution({{this.institution_id}})"
+					>Delete</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
 </table>
-<script src="./js/delete_institution.js"></script>
 
+{{!-- CRUD operations --}}
 <h2>Add</h2>
 <form id="add-institution-form-ajax">
-  <label for="input-name">Name </label>
-  <input type="text" name="input-name" id="input-name" />
-  <label for="input-address">Address </label>
-  <input type="text" name="input-address" id="input-address" />
-  <label for="input-city">City </label>
-  <input type="text" name="input-city" id="input-city" />
-  <label for="input-country">Country </label>
-  <input type="text" name="input-country" id="input-country" />
-  <label for="input-website">Website </label>
-  <input type="text" name="input-website" id="input-website" />
-  <br>
-  <br>
-  <input type="submit" />
+	<label for="input-name">Name </label>
+	<input type="text" name="input-name" id="input-name" />
+	<label for="input-address">Address </label>
+	<input type="text" name="input-address" id="input-address" />
+	<label for="input-city">City </label>
+	<input type="text" name="input-city" id="input-city" />
+	<label for="input-country">Country </label>
+	<input type="text" name="input-country" id="input-country" />
+	<label for="input-website">Website </label>
+	<input type="text" name="input-website" id="input-website" />
+	<input type="submit" />
 </form>
-
-<script src="./js/add_institution.js"></script>
 
 <h2>Update</h2>
 <form id="update-institution-form-ajax">
-
-  <label for="input-institution">Institution: </label>
-  <select name="input-institution" id="institutionSelect">
-    <option value="test">Select an Institution</option>
-    {{#each data}}
-    <option value="{{this.institution_id}}">{{this.name}}</option>
-    {{/each}}
-  </select>
-
-  <label for="input-name">Name </label>
-  <input type="text" name="input-name" id="input-name_update" />
-  <label for="input-address">Address </label>
-  <input type="text" name="input-address" id="input-address_update" />
-  <label for="input-city">City </label>
-  <input type="text" name="input-city" id="input-city_update" />
-  <label for="input-country">Country </label>
-  <input type="text" name="input-country" id="input-country_update" />
-  <label for="input-website">Website </label>
-  <input type="text" name="input-website" id="input-website_update" />
-  <br>
-  <input type="submit">
-
+	<label for="input-institution">Institution: </label>
+	<select name="input-institution" id="institutionSelect">
+		<option value="test">Select an Institution</option>
+		{{#each data}}
+			<option value="{{this.institution_id}}">{{this.name}}</option>
+		{{/each}}
+	</select>
+	<label for="input-name">Name </label>
+	<input type="text" name="input-name" id="input-name_update" />
+	<label for="input-address">Address </label>
+	<input type="text" name="input-address" id="input-address_update" />
+	<label for="input-country">Country </label>
+	<input type="text" name="input-country" id="input-country_update" />
+	<label for="input-website">Website </label>
+	<input type="text" name="input-website" id="input-website_update" />
+	<input type="submit" />
 </form>
 
+<script src="./js/add_institution.js"></script>
 <script src="./js/update_institution.js"></script>
+<script src="./js/delete_institution.js"></script>

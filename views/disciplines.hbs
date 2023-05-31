@@ -1,71 +1,65 @@
 <h1>Disciplines</h1>
 <nav>
-    <a href="/">Index</a>
-    <a href="/research_papers">Research Papers</a>
-    <a href="/citations">Citations</a>
-    <a href="/authors">Authors</a>
-    <a href="/research_papers_authors">Research Papers to Authors</a>
-    <a href="/institutions">Institutions</a>
+	<a href="/">Index</a>
+	<a href="/research_papers">Research Papers</a>
+	<a href="/citations">Citations</a>
+	<a href="/authors">Authors</a>
+	<a href="/research_papers_authors">Research Papers to Authors</a>
+	<a href="/institutions">Institutions</a>
+	<a href="/disciplines">Disciplines</a>
 </nav>
 
+<h2>Search</h2>
+<form id="search-discipline-html" method="GET" action="/disciplines">
+	<label for="field_name">Search by Field: </label>
+	<input type="text" name="field_name" id="field_name" />
+	<input type="submit" />
+	<a href="/disciplines"><button>Reset</button></a>
+</form>
+
 <table id="disciplines-table">
-    <thead>
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-    <tbody>
-        {{#each data}}
-        <tr>
-            <td>{{this.discipline_id}}</td>
-            <td>{{this.field}}</td>
-            <td><button onclick="deleteDiscipline({{this.discipline_id}})">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>{{@key}}</th>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#each data}}
+			<tr>
+				<td>{{this.discipline_id}}</td>
+				<td>{{this.field}}</td>
+				<td><button
+						onclick="deleteDiscipline({{this.discipline_id}})"
+					>Delete</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
 </table>
 
-<script src="./js/delete_discipline.js"></script>
-
-<h2>Add a Discipline</h2>
+{{!-- CRUD operations --}}
+<h2>Add</h2>
 <form id="add-discipline-form-ajax">
-    <label for="field-name">Field </label>
-    <input type="text" name="field-name" id="field-name" />
-    <br>
-    <input type="submit" />
+	<label for="field-name">Field </label>
+	<input type="text" name="field-name" id="field-name" />
+	<input type="submit" />
 </form>
 
-
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_discipline.js"></script>
-
-<h2>Search for a Discipline</h2>
-<p>Search using the field below. Partial field names are OK too!</p>
-<form id="search-discipline-html" method='GET' action='/disciplines'>
-    <label for="field_name">Search by Field Name: </label>
-    <input type="text" name="field_name" id="field_name">
-
-    <input type="submit">
-    <a href='/disciplines'><button>Reset</button></a>
-</form>
-
-<h2>Update a Discipline</h2>
+<h2>Update</h2>
 <form id="update-discipline-form-ajax">
-    <label for="fieldName">Discipline:</label>
-    <select name="fieldName" id="disciplineSelect">
-        <option value="fieldName">Select a Discipline</option>
-        {{#each data}}
-        <option value="{{this.discipline_id}}">{{this.field}}</option>
-        {{/each}}
-    </select>
-    <label for="input-field_name">Updated Discipline: </label>
-  <input type="text" name="input-field_name" id="input-field_name">
-    <input type="submit">
-
+	<label for="fieldName">Discipline:</label>
+	<select name="fieldName" id="disciplineSelect">
+		<option value="fieldName">Select field</option>
+		{{#each data}}
+			<option value="{{this.discipline_id}}">{{this.field}}</option>
+		{{/each}}
+	</select>
+	<label for="input-field_name">Updated Field: </label>
+	<input type="text" name="input-field_name" id="input-field_name" />
+	<input type="submit" />
 </form>
 
+<script src="./js/add_discipline.js"></script>
 <script src="./js/update_discipline.js"></script>
+<script src="./js/delete_discipline.js"></script>

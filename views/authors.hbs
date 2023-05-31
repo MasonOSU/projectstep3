@@ -1,69 +1,73 @@
 <h1>Authors</h1>
 <nav>
-  <a href="/">Index</a>
-  <a href="/research_papers">Research Papers</a>
-  <a href="/citations">Citations</a>
-  <a href="/research_papers_authors">Research Papers to Authors</a>
-  <a href="/institutions">Institutions</a>
-  <a href="/disciplines">Disciplines</a>
+	<a href="/">Index</a>
+	<a href="/research_papers">Research Papers</a>
+	<a href="/citations">Citations</a>
+	<a href="/authors">Authors</a>
+	<a href="/research_papers_authors">Research Papers to Authors</a>
+	<a href="/institutions">Institutions</a>
+	<a href="/disciplines">Disciplines</a>
 </nav>
 
 <table id="authors-table">
-  <thead>
-    <tr>
-      {{#each data.[0]}}
-      <th>
-        {{@key}}
-      </th>
-      {{/each}}
-    </tr>
-  </thead>
-  <tbody>
-    {{#each data}}
-    <tr data-value="{{this.author_id}}">
-      <td>{{this.author_id}}</td>
-      <td>{{this.first_name}}</td>
-      <td>{{this.last_name}}</td>
-      <td><button onclick="deleteAuthor({{this.author_id}})">Delete</button></td>
-    </tr>
-    {{/each}}
-  </tbody>
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>{{@key}}</th>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#each data}}
+			<tr data-value="{{this.author_id}}">
+				<td>{{this.author_id}}</td>
+				<td>{{this.first_name}}</td>
+				<td>{{this.last_name}}</td>
+				<td>
+					<button
+						onclick="deleteAuthor({{this.author_id}})"
+					>Delete</button>
+				</td>
+			</tr>
+		{{/each}}
+	</tbody>
 </table>
-<script src="./js/delete_author.js"></script>
 
-<h2>Add</h2>
-<form id="add-author-form-ajax">
-  <label for="input-first_name">First Name: </label>
-  <input type="text" name="input-first_name" id="input-first_name" />
+{{! CRUD operations }}
+	<h2>Add</h2>
+	<form id="add-author-form-ajax">
+		<label for="input-first_name">First Name: </label>
+		<input type="text" name="input-first_name" id="input-first_name" />
+		<label for="input-last_name">Last Name: </label>
+		<input type="text" name="input-last_name" id="input-last_name" />
+		<input type="submit" />
+	</form>
 
-  <label for="input-last_name">Last Name: </label>
-  <input type="text" name="input-last_name" id="input-last_name" />
-  <br>
-  <br>
-  <input type="submit" />
-</form>
+	<h2>Update</h2>
+	<form id="update-author-form-ajax">
+		<label for="input-fullname">Author: </label>
+		<select name="input-fullname" id="authorSelect">
+			<option value="test">Select one</option>
+			{{#each data}}
+				<option value="{{this.author_id}}">{{this.first_name}}
+					{{this.last_name}}</option>
+			{{/each}}
+		</select>
+		<label for="input-first_name">First Name: </label>
+		<input
+			type="text"
+			name="input-first_name"
+			id="input-first_name-update"
+		/>
+		<label for="input-last_name">Last Name: </label>
+		<input
+			type="text"
+			name="input-last_name"
+			id="input-last_name-update"
+		/>
+		<input type="submit" />
+	</form>
 
 <script src="./js/add_author.js"></script>
-
-<h2>Update</h2>
-<p>Select from the dropdown menu before editing an author.</p>
-<form id="update-author-form-ajax">
-  <label for="input-fullname">Full name: </label>
-  <select name="input-fullname" id="authorSelect">
-    <option value="test">Select an author</option>
-    {{#each data}}
-    <option value="{{this.author_id}}">{{this.first_name}} {{this.last_name}}</option>
-    {{/each}}
-  </select>
-
-  <label for="input-first_name">First Name: </label>
-  <input type="text" name="input-first_name" id="input-first_name-update">
-
-  <label for="input-last_name">Last Name: </label>
-  <input type="text" name="input-last_name" id="input-last_name-update">
-  <br>
-  <br>
-  <input type="submit">
-</form>
-
 <script src="./js/update_author.js"></script>
+<script src="./js/delete_author.js"></script>

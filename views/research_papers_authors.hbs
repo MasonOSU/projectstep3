@@ -1,57 +1,54 @@
 <h1>Research Papers to Authors</h1>
 <nav>
-  <a href="/">Index</a>
-  <a href="/research_papers">Research Papers</a>
-  <a href="/citations">Citations</a>
-  <a href="/authors">Authors</a>
-  <a href="/institutions">Institutions</a>
-  <a href="/disciplines">Disciplines</a>
+	<a href="/">Index</a>
+	<a href="/research_papers">Research Papers</a>
+	<a href="/citations">Citations</a>
+	<a href="/authors">Authors</a>
+	<a href="/research_papers_authors">Paper-to-Author Associations</a>
+	<a href="/institutions">Institutions</a>
+	<a href="/disciplines">Disciplines</a>
 </nav>
 
 <table>
-  <thead>
-    <tr>
-      {{#each data.[0]}}
-        <th>
-          {{@key}}
-        </th>
-      {{/each}}
-    </tr>
-  </thead>
-  <tbody>
-    {{#each data}}
-      <tr>
-        <td>{{this.research_paper_author_id}}</td>
-        <td>{{this.research_paper_id}}</td>
-        <td>{{this.author_id}}</td>
-        <td><button>Delete</button></td>
-      </tr>
-    {{/each}}
-  </tbody>
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>{{@key}}</th>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#each data}}
+			<tr>
+				<td>{{this.research_paper_author_id}}</td>
+				<td>{{this.research_paper_id}}</td>
+				<td>{{this.author_id}}</td>
+				<td><button>Delete</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
 </table>
 
-<h2>Add (To Do)</h2>
+{{!-- CRUD operations --}}
+<h2>Add</h2>
 <form>
-  <legend>Add research paper and author relationship</legend>
-  <label for="input-research_paper">Research Paper </label>
-  <select name="input-research_paper" id="input-research_paper">
-    <option value="">Select a research paper</option>
-    {{#each research_papers}}
-      <option value="{{this.id}}">{{this.title}}</option>
-    {{/each}}
-  </select>
-
-  <label for="input-author">Author </label>
-  <select name="input-author" id="input-author">
-    <option value="">Select a research paper</option>
-    {{#each authors}}
-      <option value="{{this.id}}">{{this.first_name}}
-        {{this.last_name}}</option>
-    {{/each}}
-  </select>
-  <br>
-  <br>
-  <input type="submit" />
+	<legend>Add research paper and author relationship</legend>
+	<label for="input-research_paper">Research Paper </label>
+	<select name="input-research_paper" id="input-research_paper">
+		<option value="">Select a research paper</option>
+		{{#each research_papers}}
+			<option value="{{this.id}}">{{this.title}}</option>
+		{{/each}}
+	</select>
+	<label for="input-author">Author </label>
+	<select name="input-author" id="input-author">
+		<option value="">Select a research paper</option>
+		{{#each authors}}
+			<option value="{{this.id}}">{{this.first_name}}
+				{{this.last_name}}</option>
+		{{/each}}
+	</select>
+	<input type="submit" />
 </form>
 
 <h2>Update (To Do)</h2>

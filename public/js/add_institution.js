@@ -1,125 +1,112 @@
-// Get the objects we need to modify
-let addInstitutionForm = document.getElementById('add-institution-form-ajax');
+// get objects to modify
+let addInstitutionForm = document.getElementById("add-institution-form-ajax");
 
-// Modify the objects we need
+// alter objects needed
 addInstitutionForm.addEventListener("submit", function (e) {
+	// stop form from submitting
+	e.preventDefault();
 
-    // Prevent the form from submitting
-    e.preventDefault();
+	// get form fields for data retrieval
+	let inputName = document.getElementById("input-name");
+	let inputAddress = document.getElementById("input-address");
+	let inputCountry = document.getElementById("input-country");
+	let inputWebsite = document.getElementById("input-website");
 
-    // Get form fields we need to get data from
-    let inputName = document.getElementById("input-name");
-    let inputAddress = document.getElementById("input-address");
-    let inputCity = document.getElementById("input-city");
-    let inputCountry = document.getElementById("input-country");
-    let inputWebsite = document.getElementById("input-website");
+	// get values from form fields
+	let nameValue = inputName.value;
+	let addressValue = inputAddress.value;
+	let countryValue = inputCountry.value;
+	let websiteValue = inputWebsite.value;
 
-    // Get the values from the form fields
-    let nameValue = inputName.value;
-    let addressValue = inputAddress.value;
-    let cityValue = inputCity.value;
-    let countryValue = inputCountry.value;
-    let websiteValue = inputWebsite.value;
+	// put data data to send in JavaScript object
+	let data = {
+		name: nameValue,
+		address: addressValue,
+		country: countryValue,
+		website: websiteValue,
+	};
+	console.log("data we are passing in: ", data);
 
-    // Put our data we want to send in a javascript object
-    let data = {
-        name: nameValue,
-        address: addressValue,
-        city: cityValue,
-        country: countryValue,
-        website: websiteValue
-    }
-    console.log("data we are passing in: ", data);
+	// setup AJAX request
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("POST", "/add-institution-ajax", true);
+	xhttp.setRequestHeader("Content-type", "application/json");
 
-    // Setup our AJAX request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/add-institution-ajax", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
+	// tell request how to resolve
+	xhttp.onreadystatechange = () => {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			// add data to table
+			addRowToTable(xhttp.response);
 
-    // Tell our AJAX request how to resolve
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
+			// clear input fields for new transaction
+			inputName.value = "";
+			inputAddress.value = "";
+			inputCountry.value = "";
+			inputWebsite.value = "";
+		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
+			console.log("There was an error with the input.");
+		}
+	};
 
-            // Add the new data to the table
-            addRowToTable(xhttp.response);
+	// send request, wait
+	xhttp.send(JSON.stringify(data));
+});
 
-            // Clear the input fields for another transaction
-            inputName.value = '';
-            inputAddress.value = '';
-            inputCity.value = '';
-            inputCountry.value = '';
-            inputWebsite.value = '';
-        }
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
-        }
-    }
+// create Object row as single record from Institutions
+addRowToTable = data => {
+	// get reference to current table on page, clear it out.
+	let currentTable = document.getElementById("institutions-table");
 
-    // Send the request and wait for the response
-    xhttp.send(JSON.stringify(data));
+	// get location to insert new row (end of table)
+	let newRowIndex = currentTable.rows.length;
 
-})
+	// get reference to new row from database query (last object)
+	let parsedData = JSON.parse(data);
+	let newRow = parsedData[parsedData.length - 1];
 
+	// make row, four cells
+	let row = document.createElement("TR");
+	let idCell = document.createElement("TD");
+	let nameCell = document.createElement("TD");
+	let addressCell = document.createElement("TD");
+	let countryCell = document.createElement("TD");
+	let websiteCell = document.createElement("TD");
 
-// Creates a single row from an Object representing a single record from 
-// Institutions
-addRowToTable = (data) => {
+	let deleteCell = document.createElement("TD");
 
-    // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("institutions-table");
+	// fill cells with data
+	idCell.innerText = newRow.institution_id;
+	nameCell.innerText = newRow.name;
+	addressCell.innerText = newRow.address;
+	countryCell.innerText = newRow.country;
+	websiteCell.innerText = newRow.website;
 
-    // Get the location where we should insert the new row (end of table)
-    let newRowIndex = currentTable.rows.length;
+	deleteCell = document.createElement("button");
+	deleteCell.innerHTML = "Delete";
+	deleteCell.onclick = function () {
+		deleteInstitution(newRow.institution_id);
+	};
 
-    // Get a reference to the new row from the database query (last object)
-    let parsedData = JSON.parse(data);
-    let newRow = parsedData[parsedData.length - 1]
+	// add cells to row
+	row.appendChild(idCell);
+	row.appendChild(nameCell);
+	row.appendChild(addressCell);
+	row.appendChild(countryCell);
+	row.appendChild(websiteCell);
 
-    // Create a row and 4 cells
-    let row = document.createElement("TR");
-    let idCell = document.createElement("TD");
-    let nameCell = document.createElement("TD");
-    let addressCell = document.createElement("TD");
-    let cityCell = document.createElement("TD");
-    let countryCell = document.createElement("TD");
-    let websiteCell = document.createElement("TD");
+	// add attribute so deleteRow function can find new row
+	row.setAttribute("data-value", newRow.institution_id);
 
-    let deleteCell = document.createElement("TD");
+	// add row to table
+	currentTable.appendChild(row);
 
-    // Fill the cells with correct data
-    idCell.innerText = newRow.institution_id;
-    nameCell.innerText = newRow.name;
-    addressCell.innerText = newRow.address;
-    cityCell.innerText = newRow.city;
-    countryCell.innerText = newRow.country;
-    websiteCell.innerText = newRow.website;
-
-    deleteCell = document.createElement("button");
-    deleteCell.innerHTML = "Delete";
-    deleteCell.onclick = function () {
-        deleteInstitution(newRow.institution_id);
-    };
-
-    // Add the cells to the row 
-    row.appendChild(idCell);
-    row.appendChild(nameCell);
-    row.appendChild(addressCell);
-    row.appendChild(cityCell);
-    row.appendChild(countryCell);
-    row.appendChild(websiteCell);
-
-    // Add a row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.institution_id);
-
-    // Add the row to the table
-    currentTable.appendChild(row);
-
-    // Find drop down menu, create a new option, fill data in the option (full name, id),
-    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    let selectMenu = document.getElementById("institutionSelect");
-    let option = document.createElement("option");
-    // TODO: update this!!!
-    option.text = newRow.name + ' ' +  newRow.address;
-    option.value = newRow.institution_id;
-    selectMenu.add(option);
-}
+	// find dropdown, create new option, fill data
+	// append option to dropdown for AJAX to find without refreshing
+	let selectMenu = document.getElementById("institutionSelect");
+	let option = document.createElement("option");
+    
+	// TODO: update this!!!
+	option.text = newRow.name + " " + newRow.address;
+	option.value = newRow.institution_id;
+	selectMenu.add(option);
+};

@@ -1,55 +1,54 @@
 <h1>Citations</h1>
 <nav>
-    <a href="/">Index</a>
-    <a href="/research_papers">Research Papers</a>
-    <a href="/authors">Authors</a>
-    <a href="/research_papers_authors">Research Papers to Authors</a>
-    <a href="/institutions">Institutions</a>
-    <a href="/disciplines">Disciplines</a>
+	<a href="/">Index</a>
+	<a href="/research_papers">Research Papers</a>
+	<a href="/citations">Citations</a>
+	<a href="/authors">Authors</a>
+	<a href="/research_papers_authors">Research Papers to Authors</a>
+	<a href="/institutions">Institutions</a>
+	<a href="/disciplines">Disciplines</a>
 </nav>
 
 <table>
-    <thead>
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-    <tbody>
-        {{#each data}}
-        <tr>
-            <td>{{this.citation_id}}</td>
-            <td>{{this.citing_paper_id}}</td>
-            <td>{{this.cited_paper_id}}</td>
-            <td><button>Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>{{@key}}</th>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#each data}}
+			<tr>
+				<td>{{this.citation_id}}</td>
+				<td>{{this.citing_paper_id}}</td>
+				<td>{{this.cited_paper_id}}</td>
+				<td><button>Delete</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
 </table>
 
-<h2>Add (To Do)</h2>
+{{! CRUD operations }}
+<h2>Add</h2>
 <form>
-    <label for="input-citing-paper">Citing Paper</label>
-    <select name="input-citing-paper" id="input-citing-paper">
-        <option value="">Select a citing paper</option>
-        {{#each citing_papers}}
-        <option value="{{this.id}}">{{this.title}}</option>
-        {{/each}}
-    </select>
-
-    <label for="input-referenced">Referenced</label>
-    <select name="input-referenced" id="input-referenced">
-        <option value="">Select a referenced paper</option>
-        {{#each referenced_papers}}
-        <option value="{{this.id}}">{{this.title}}</option>
-        {{/each}}
-    </select>
-    <br>
-    <br>
-    <input type="submit">
+	<label for="input-citing-paper">Citing Paper</label>
+	<select name="input-citing-paper" id="input-citing-paper">
+		<option value="">Select a citing paper</option>
+		{{#each citing_papers}}
+			<option value="{{this.id}}">{{this.title}}</option>
+		{{/each}}
+	</select>
+	<label for="input-referenced">Referenced</label>
+	<select name="input-referenced" id="input-referenced">
+		<option value="">Select a referenced paper</option>
+		{{#each referenced_papers}}
+			<option value="{{this.id}}">{{this.title}}</option>
+		{{/each}}
+	</select>
+	<br />
+	<br />
+	<input type="submit" />
 </form>
 
-<h2>Update (To Do)</h2>
+<h2>Update</h2>

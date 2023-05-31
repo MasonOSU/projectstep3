@@ -57,7 +57,7 @@ function updateRow(data, disciplineID) {
 
     let parsedDataIndex = 0;
     for (let dataIndex = 0; dataIndex < parsedData.length; dataIndex++) {
-        if (parsedData[dataIndex].disciplineID == disciplineID) {
+        if (parsedData[dataIndex].discipline_id == disciplineID) {
             parsedDataIndex = dataIndex;
         }
     }
@@ -70,13 +70,8 @@ function updateRow(data, disciplineID) {
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // // Get td of homeworld value
-            // let td = updateRowIndex.getElementsByTagName("td")[3];
-
-            // // Reassign homeworld to our value we updated to
-            // td.innerHTML = parsedData[0].name; 
             let tdField = updateRowIndex.getElementsByTagName("td")[1];
-
+            //console.log("inner html", parsedData[parsedDataIndex].field);
             // reassign new values from parsedData to row in table
             tdField.innerHTML = parsedData[parsedDataIndex].field;
         }

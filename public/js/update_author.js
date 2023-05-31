@@ -31,33 +31,33 @@ updateAuthorForm.addEventListener("submit", function (e) {
   xhttp.send(JSON.stringify(data));
 });
 
-function updateRow(data, authorID){
+function updateRow(data, authorID) {
   let parsedData = JSON.parse(data);
 
   let table = document.getElementById("authors-table");
 
-  let parsedDataIndex= 0;
+  let parsedDataIndex = 0;
   for (let dataIndex = 0; dataIndex < parsedData.length; dataIndex++) {
-      if (parsedData[dataIndex].author_id == authorID) {
-          parsedDataIndex = dataIndex;
-      }
+    if (parsedData[dataIndex].author_id == authorID) {
+      parsedDataIndex = dataIndex;
+    }
   }
 
   for (let i = 0, row; row = table.rows[i]; i++) {
-     //iterate through rows
-     //rows would be accessed using the "row" variable assigned in the for loop
-     if (table.rows[i].getAttribute("data-value") == authorID) {
+    //iterate through rows
+    //rows would be accessed using the "row" variable assigned in the for loop
+    if (table.rows[i].getAttribute("data-value") == authorID) {
 
-          // Get the location of the row where we found the matching author ID
-          let updateRowIndex = table.getElementsByTagName("tr")[i];
-          
-          // Get td of values
-          let tdFirstName = updateRowIndex.getElementsByTagName("td")[1];
-          let tdLastName = updateRowIndex.getElementsByTagName("td")[2];
+      // Get the location of the row where we found the matching author ID
+      let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-          // reassign new values from parsedData to row in table
-          tdFirstName.innerHTML = parsedData[parsedDataIndex].first_name;
-          tdLastName.innerHTML = parsedData[parsedDataIndex].last_name;
-     }
+      // Get td of values
+      let tdFirstName = updateRowIndex.getElementsByTagName("td")[1];
+      let tdLastName = updateRowIndex.getElementsByTagName("td")[2];
+
+      // reassign new values from parsedData to row in table
+      tdFirstName.innerHTML = parsedData[parsedDataIndex].first_name;
+      tdLastName.innerHTML = parsedData[parsedDataIndex].last_name;
+    }
   }
 }

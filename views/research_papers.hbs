@@ -8,37 +8,35 @@
   <a href="/disciplines">Disciplines</a>
 </nav>
 
-<table>
+<table id="research_papers-table">
   <thead>
     <tr>
       {{#each data.[0]}}
-        <th>
-          {{@key}}
-        </th>
+      <th>
+        {{@key}}
+      </th>
       {{/each}}
     </tr>
   </thead>
   <tbody>
     {{#each data}}
-      <tr>
-        <td>{{this.research_paper_id}}</td>
-        <td>{{this.title}}</td>
-        <td>{{this.date_published}}</td>
-        <td>{{this.doi}}</td>
-        <td>{{this.institution_id}}</td>
-        <td>{{this.discipline_id}}</td>
-        <td><button>Delete</button></td>
-      </tr>
+    <tr>
+      <td>{{this.research_paper_id}}</td>
+      <td>{{this.title}}</td>
+      <td>{{this.date_published}}</td>
+      <td>{{this.doi}}</td>
+      <td>{{this.institution_id}}</td>
+      <td>{{this.discipline_id}}</td>
+      <td><button onclick="deleteResearchPaper({{this.research_paper_id}})">Delete</button></td>
+    </tr>
     {{/each}}
   </tbody>
 </table>
 
-<h2>Add (To Do)</h2>
-<form
-  id="add-research_paper-form"
-  method="POST"
-  action="/add-research_paper-form"
->
+<script src="./js/delete_research_paper.js"></script>
+
+<h2>Add</h2>
+<form id="add-research-paper-form-ajax">
   <label for="input-title">Title: </label>
   <input type="text" name="input-title" id="input-title" />
 
@@ -49,23 +47,25 @@
   <input type="text" name="input-doi" id="input-doi" />
 
   <label for="input-institution">Institution </label>
-  <select name="input-institution" id="input-institution">
-    <option value="">Select an institution</option>
+  <select name="input-institution" id="institutionIdSelect">
+    <option value="test">Select an institution</option>
     {{#each institutions}}
-      <option value="{{this.id}}">{{this.name}}</option>
+    <option value="{{this.institution_id}}">{{this.name}}</option>
     {{/each}}
   </select>
 
   <label for="input-discipline">Discipline </label>
-  <select name="input-discipline" id="input-discipline">
-    <option value="">Select a discipline</option>
+  <select name="input-discipline" id="disciplineIdSelect">
+    <option value="test">Select a discipline</option>
     {{#each disciplines}}
-      <option value="{{this.id}}">{{this.field}}</option>
+    <option value="{{this.discipline_id}}">{{this.field}}</option>
     {{/each}}
   </select>
   <br>
   <br>
   <input type="submit" />
 </form>
+
+<script src="./js/add_research_paper.js"></script>
 
 <h2>Update (To Do)</h2>

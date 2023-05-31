@@ -21,6 +21,7 @@ function deleteRow(authorID) {
   for (let i = 0, row; (row = table.rows[i]); i++) {
     if (table.rows[i].getAttribute("data-value") == authorID) {
       table.deleteRow(i);
+      deleteDropDownMenu(authorID);
       break;
     }
   }

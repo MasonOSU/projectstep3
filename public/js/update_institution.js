@@ -11,7 +11,6 @@ updateInstitutionForm.addEventListener("submit", function (e) {
     let inputInstitution = document.getElementById("institutionSelect");
     let inputName = document.getElementById("input-name_update");
     let inputAddress = document.getElementById("input-address_update");
-    let inputCity = document.getElementById("input-city_update");
     let inputCountry = document.getElementById("input-country_update");
     let inputWebsite = document.getElementById("input-website_update");
 
@@ -19,7 +18,6 @@ updateInstitutionForm.addEventListener("submit", function (e) {
     let institutionID = inputInstitution.value;
     let nameValue = inputName.value;
     let addressValue = inputAddress.value;
-    let cityValue = inputCity.value;
     let countryValue = inputCountry.value;
     let websiteValue = inputWebsite.value;
 
@@ -28,7 +26,6 @@ updateInstitutionForm.addEventListener("submit", function (e) {
         institution_id: institutionID,
         name: nameValue,
         address: addressValue,
-        city: cityValue,
         country: countryValue,
         website: websiteValue,
     };
@@ -81,14 +78,12 @@ function updateRow(data, institutionID){
             // Get td of values
             let tdName = updateRowIndex.getElementsByTagName("td")[1];
             let tdAddress = updateRowIndex.getElementsByTagName("td")[2];
-            let tdCity = updateRowIndex.getElementsByTagName("td")[3];
             let tdCountry = updateRowIndex.getElementsByTagName("td")[4];
             let tdWebsite = updateRowIndex.getElementsByTagName("td")[5];
 
             // Reassign homeworld to our value we updated to
             tdName.innerHTML = parsedData[parsedDataIndex].name; 
             tdAddress.innerHTML = parsedData[parsedDataIndex].address;
-            tdCity.innerHTML = parsedData[parsedDataIndex].city;
             tdCountry.innerHTML = parsedData[parsedDataIndex].country;
             tdWebsite.innerHTML = parsedData[parsedDataIndex].website; 
        }

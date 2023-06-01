@@ -1,6 +1,4 @@
 # Crucial
-Institutions: Update
-
 Research_Papers: Update
 
 Citations: Add, Update, Delete
@@ -24,7 +22,7 @@ Display Add, Update forms inline
 ## Add
 Make Delete button show on dynamic Add
 ## Update
-Fix all
+Fix dynamic Update (static works)
 ## Delete
 Fix dynamic Delete (static works)
 

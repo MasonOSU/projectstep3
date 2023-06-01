@@ -258,18 +258,19 @@ app.put("/put-discipline-ajax", function (req, res, next) {
 
 app.put("/put-institution-ajax", function (req, res, next) {
 	let data = req.body;
-	console.log("this is data", data);
+
 	let institutionID = parseInt(data.institution_id);
 	let name = data.name;
 	let address = data.address;
-	let city = data.city;
 	let country = data.country;
 	let website = data.website;
-	let queryUpdateInstitution = `UPDATE Institutions SET name = ?, address = ?, city = ?, country = ?, website = ? WHERE Institutions.institution_id = ?;`;
+
+	let queryUpdateInstitution = `UPDATE Institutions SET name = ?, address = ?, country = ?, website = ? WHERE Institutions.institution_id = ?;`;
 	let selectAllInstitutions = `SELECT * FROM Institutions;`;
+
 	db.pool.query(
 		queryUpdateInstitution,
-		[name, address, city, country, website, institutionID],
+		[name, address, country, website, institutionID],
 		function (error, rows, fields) {
 			if (error) {
 				console.log(error);
@@ -412,32 +413,6 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 		}
 	);
 });
-
-// 	db.pool.query(
-// 	db.pool.query(
-// 		deleteResearch_PapersQuery,
-// 		[institutionID],
-// 		function (error, rows, fields) {
-// 			if (error) {
-// 				console.log(error);
-// 				res.sendStatus(400);
-// 			} else {
-// 				db.pool.query(
-// 					deleteInstitutionQuery,
-// 					[institutionID],
-// 					function (error, rows, fields) {
-// 						if (error) {
-// 							console.log(error);
-// 							res.sendStatus(400);
-// 						} else {
-// 							res.sendStatus(204);
-// 						}
-// 					}
-// 				);
-// 			}
-// 		}
-// 	);
-// });
 
 app.delete("/delete-research-paper-ajax/", function (req, res, next) {
 	let data = req.body;

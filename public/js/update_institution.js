@@ -1,4 +1,3 @@
-
 // Get the objects we need to modify
 let updateInstitutionForm = document.getElementById('update-institution-form-ajax');
 

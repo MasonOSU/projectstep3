@@ -239,8 +239,7 @@ app.put("/put-discipline-ajax", function (req, res, next) {
 			if (error) {
 				console.log(error);
 				res.sendStatus(400);
-			}
-			else {
+			} else {
 				db.pool.query(
 					selectUpdatedListDisciplines,
 					function (error, rows, fields) {
@@ -275,8 +274,7 @@ app.put("/put-institution-ajax", function (req, res, next) {
 			if (error) {
 				console.log(error);
 				res.sendStatus(400);
-			}
-			else {
+			} else {
 				db.pool.query(
 					selectAllInstitutions,
 					[institutionID],
@@ -327,10 +325,13 @@ app.delete("/delete-author-ajax/", function (req, res, next) {
 
 app.delete("/delete-discipline-ajax/", function (req, res, next) {
 	let data = req.body;
-	console.log("this is data", data);
 	let disciplineID = parseInt(data.id);
-	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers WHERE discipline_id = ?`;
+
+	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
+	research_paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE discipline_id = ?)`;
+	let deleteResearch_PapersQuery = `DELETE FROM Research_Papers WHERE discipline_id = ?`;
 	let deleteDisciplineQuery = `DELETE FROM Disciplines WHERE discipline_id = ?`;
+
 	db.pool.query(
 		deleteResearch_Papers_has_AuthorsQuery,
 		[disciplineID],
@@ -340,14 +341,25 @@ app.delete("/delete-discipline-ajax/", function (req, res, next) {
 				res.sendStatus(400);
 			} else {
 				db.pool.query(
-					deleteDisciplineQuery,
+					deleteResearch_PapersQuery,
 					[disciplineID],
 					function (error, rows, fields) {
 						if (error) {
 							console.log(error);
 							res.sendStatus(400);
 						} else {
-							res.sendStatus(204);
+							db.pool.query(
+								deleteDisciplineQuery,
+								[disciplineID],
+								function (error, rows, fields) {
+									if (error) {
+										console.log(error);
+										res.sendStatus(400);
+									} else {
+										res.sendStatus(204);
+									}
+								}
+							);
 						}
 					}
 				);
@@ -358,10 +370,13 @@ app.delete("/delete-discipline-ajax/", function (req, res, next) {
 
 app.delete("/delete-institution-ajax/", function (req, res, next) {
 	let data = req.body;
-	console.log("this is data", data);
 	let institutionID = parseInt(data.id);
-	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers WHERE institution_id = ?`;
+
+	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
+	research_paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE institution_id = ?)`;
+	let deleteResearch_PapersQuery = `DELETE FROM Research_Papers WHERE institution_id = ?`;
 	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
+
 	db.pool.query(
 		deleteResearch_Papers_has_AuthorsQuery,
 		[institutionID],
@@ -371,14 +386,25 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 				res.sendStatus(400);
 			} else {
 				db.pool.query(
-					deleteInstitutionQuery,
+					deleteResearch_PapersQuery,
 					[institutionID],
 					function (error, rows, fields) {
 						if (error) {
 							console.log(error);
 							res.sendStatus(400);
 						} else {
-							res.sendStatus(204);
+							db.pool.query(
+								deleteInstitutionQuery,
+								[institutionID],
+								function (error, rows, fields) {
+									if (error) {
+										console.log(error);
+										res.sendStatus(400);
+									} else {
+										res.sendStatus(204);
+									}
+								}
+							);
 						}
 					}
 				);
@@ -386,6 +412,32 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 		}
 	);
 });
+
+// 	db.pool.query(
+// 	db.pool.query(
+// 		deleteResearch_PapersQuery,
+// 		[institutionID],
+// 		function (error, rows, fields) {
+// 			if (error) {
+// 				console.log(error);
+// 				res.sendStatus(400);
+// 			} else {
+// 				db.pool.query(
+// 					deleteInstitutionQuery,
+// 					[institutionID],
+// 					function (error, rows, fields) {
+// 						if (error) {
+// 							console.log(error);
+// 							res.sendStatus(400);
+// 						} else {
+// 							res.sendStatus(204);
+// 						}
+// 					}
+// 				);
+// 			}
+// 		}
+// 	);
+// });
 
 app.delete("/delete-research-paper-ajax/", function (req, res, next) {
 	let data = req.body;

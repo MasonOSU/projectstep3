@@ -173,7 +173,7 @@ app.post("/add-discipline-ajax", function (req, res) {
 
 app.post("/add-research-paper-ajax", function (req, res) {
 	let data = req.body;
-	console.log("this is data", data);
+
 	query1 = `INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) VALUES ('${data.title}', '${data.date_published}', '${data.doi}', '${data.institution_id}', '${data.discipline_id}');`;
 	db.pool.query(query1, function (error, rows, fields) {
 		if (error) {
@@ -181,6 +181,29 @@ app.post("/add-research-paper-ajax", function (req, res) {
 			res.sendStatus(400);
 		} else {
 			query2 = `SELECT * FROM Research_Papers;`;
+			db.pool.query(query2, function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);
+				} else {
+					res.send(rows);
+				}
+			});
+		}
+	});
+});
+
+app.post("/add-citation-ajax", function (req, res) {
+	let data = req.body;
+
+	query1 = `INSERT INTO Citations (citing_paper_id, cited_paper_id) 
+	VALUES ('${data.citing_paper_id}', '${data.cited_paper_id}');`;
+	db.pool.query(query1, function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);
+		} else {
+			query2 = `SELECT * FROM Citations;`;
 			db.pool.query(query2, function (error, rows, fields) {
 				if (error) {
 					console.log(error);
@@ -293,9 +316,52 @@ app.put("/put-institution-ajax", function (req, res, next) {
 	);
 });
 
+app.put("/put-research_paper-ajax", function (req, res, next) {
+	let data = req.body;
+	
+	let research_paper_id = parseInt(data.research_paper_id);
+	let title = data.title;
+	let date_published = data.date_published;
+	let doi = data.doi;
+	let institution_id = data.institution_id;
+	let discipline_id = data.discipline_id;
+
+	let queryUpdateResearch_Paper = 
+	`UPDATE Research_Papers 
+	SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
+	WHERE Research_Papers.research_paper_id = ?;`;
+
+	db.pool.query(
+		queryUpdateResearch_Paper,
+		[title, date_published, doi, institution_id, discipline_id, research_paper_id],
+		function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);
+			} else {
+				let updatedListResearch_Papers = `SELECT * FROM Research_Papers;`;
+				db.pool.query(
+					updatedListResearch_Papers,
+					function (error, rows, fields) {
+						if (error) {
+							console.log(error);
+							res.sendStatus(400);
+						} else {
+							res.send(rows);
+						}
+					}
+				);
+			}
+		}
+	);
+});
+
 // delete functions
 app.delete("/delete-author-ajax/", function (req, res, next) {
 	let data = req.body;
+
+	console.log(data);
+
 	let authorID = parseInt(data.id);
 	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE author_id = ?`;
 	let deleteAuthorQuery = `DELETE FROM Authors WHERE author_id = ?`;

@@ -34,7 +34,7 @@
 	</tbody>
 </table>
 
-{{!-- CRUD operations --}}
+{{! CRUD operations }}
 <h2>Add</h2>
 <form id="add-research-paper-form-ajax">
 	<label for="input-title">Title: </label>
@@ -45,7 +45,7 @@
 	<input type="text" name="input-doi" id="input-doi" />
 	<label for="input-institution">Institution </label>
 	<select name="input-institution" id="institutionIdSelect">
-		<option value="test">Select an institution</option>
+		<option value="input-institution">Select an institution</option>
 		{{#each institutions}}
 			<option value="{{this.institution_id}}">{{this.name}}</option>
 		{{/each}}
@@ -53,17 +53,52 @@
 
 	<label for="input-discipline">Discipline </label>
 	<select name="input-discipline" id="disciplineIdSelect">
-		<option value="test">Select a discipline</option>
+		<option value="input-discipline">Select a discipline</option>
 		{{#each disciplines}}
 			<option value="{{this.discipline_id}}">{{this.field}}</option>
 		{{/each}}
 	</select>
-	<br />
-	<br />
+
 	<input type="submit" />
 </form>
 
 <h2>Update</h2>
+<form id="update-research_paper-form-ajax">
+	<label for="input-title">Paper: </label>
+	<select name="input-title" id="paperSelect">
+	<option value="input-title">Select title</option>
+	{{#each data}}
+		<option value="{{this.research_paper_id}}">{{this.title}}</option>
+	{{/each}}
+	</select>
+
+	<label for="input-title-update">Title: </label>
+	<input type="text" name="input-title-update" id="input-title-update" />
+
+	<label for="input-date_published-update">Date Published: </label>
+	<input type="date" name="input-date_published-update" id="input-date_published-update" />
+
+	<label for="input-doi-update">DOI: </label>
+	<input type="text" name="input-doi-update" id="input-doi-update" />
+
+	<label for="input-institution-update">Institution: </label>
+	<select name="input-institution-update" id="input-institution-update">
+		<option value="input-institution">Select institution</option>
+		{{#each institutions}}
+			<option value="{{this.institution_id}}">{{this.name}}</option>
+		{{/each}}
+	</select>
+
+	<label for="input-discipline-update">Discipline </label>
+	<select name="input-discipline-update" id="input-discipline-update">
+		<option value="input-discipline">Select discipline</option>
+		{{#each disciplines}}
+			<option value="{{this.discipline_id}}">{{this.field}}</option>
+		{{/each}}
+	</select>
+
+	<input type="submit" />
 
 <script src="./js/add_research_paper.js"></script>
+<script src="./js/update_research_paper.js"></script>
 <script src="./js/delete_research_paper.js"></script>

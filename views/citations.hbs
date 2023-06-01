@@ -9,7 +9,7 @@
 	<a href="/disciplines">Disciplines</a>
 </nav>
 
-<table>
+<table class="citations-table">
 	<thead>
 		<tr>
 			{{#each data.[0]}}
@@ -32,22 +32,20 @@
 {{! CRUD operations }}
 <h2>Add</h2>
 <form>
-	<label for="input-citing-paper">Citing Paper</label>
-	<select name="input-citing-paper" id="input-citing-paper">
-		<option value="">Select a citing paper</option>
+	<label for="input-citing_paper">Citing Paper:</label>
+	<select name="input-citing_paper" id="input-citing_paper">
+		<option value="paperSelect">Select citing paper</option>
 		{{#each citing_papers}}
-			<option value="{{this.id}}">{{this.title}}</option>
+			<option value="{{this.research_paper_id}}">{{this.title}}</option>
 		{{/each}}
 	</select>
-	<label for="input-referenced">Referenced</label>
-	<select name="input-referenced" id="input-referenced">
-		<option value="">Select a referenced paper</option>
-		{{#each referenced_papers}}
-			<option value="{{this.id}}">{{this.title}}</option>
+	<label for="input-cited_paper">Cited Paper:</label>
+	<select name="input-cited_paper" id="input-cited_paper">
+		<option value="paperSelect">Select cited paper</option>
+		{{#each cited_papers}}
+			<option value="{{this.research_paper_id}}">{{this.title}}</option>
 		{{/each}}
 	</select>
-	<br />
-	<br />
 	<input type="submit" />
 </form>
 

@@ -1,78 +1,31 @@
-# Crucial
-Research_Papers: Update
-
+# CRUD
+## Static
 Citations: Add, Update, Delete
 
 Research_Papers_has_Authors: Add, Read, Update, Delete
 
-# General
-Alias header names
+## Dynamic
+Institutions: Update, Delete
 
-Update, format code comments
+Disciplines: Update, Delete
 
-Finetune CSS
+Research_Papers: Update, Delete
 
-# Authors
-## Design
-Center-align Delete button on dynamic Add
+# Alias
+Header names
 
-Display Add, Update forms inline
+IDs to titles in Citations, Research_Papers, Research_Papers_has_Authors
 
-# Institutions
-## Add
-Make Delete button show on dynamic Add
-## Update
-Fix dynamic Update (static works)
-## Delete
-Fix dynamic Delete (static works)
+# Design
+Display CRUD forms inline
 
-## Design
-Display Add, Update forms inline
+Show Delete Button on Add for Institutions, Research_Papers
 
-# Disciplines
-## Add
-Center-align Delete button on dynamic Add
-## Update
-Fix dynamic Update (static works)
-## Delete
-Fix dynamic Delete (static works)
-
-## Design
-Display Search inputs inline
+Center Delete Button on Add for Authors, Disciplines
 
 # Research_Papers
-## Add
-Make Delete button show on dynamic Add
 ## Read
 Fix date format (toLocaleString I think)
-## Delete
-Fix dynamic Delete (static works)
 
-## Design
-Display Add, Update forms inline
-
-# Citations
-## Add
-Implement
-## Read
-Display paper names instead of ID values
-## Update
-Implement
-## Delete
-Implement
-
-## Design
-Display Submit buttons inline
-
-# Research_Papers_has_Authors
-## Add
-Implement
-## Read
-Fix (not showing author_id, first_name)
-## Update
-Implement
-## Delete
-Implement
-
-## Design
-Display author, paper names instead of ID values
+# Code Comments
+Update, format

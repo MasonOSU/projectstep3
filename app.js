@@ -7,7 +7,7 @@ app.use(express.static("public"));
 
 PORT = 1991;
 
-handlebars
+// handlebars
 var db = require("./database/db-connector");
 const {engine} = require("express-handlebars");
 

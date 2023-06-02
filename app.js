@@ -8,10 +8,35 @@ app.use(express.static("public"));
 PORT = 1991;
 
 // handlebars
+// var db = require("./database/db-connector");
+// const {engine} = require("express-handlebars");
+
+// var exphbs = require("express-handlebars");
+// app.engine(".hbs", engine({extname: ".hbs"}));
+// app.set("view engine", ".hbs");
+
 var db = require("./database/db-connector");
-const {engine} = require("express-handlebars");
 var exphbs = require("express-handlebars");
-app.engine(".hbs", engine({extname: ".hbs"}));
+
+const handlebars = exphbs.create({
+	extname: ".hbs",
+	helpers: {
+		aliasHeader: function (columnName) {
+			const aliases = {
+				research_paper_id: "ID",
+				title: "Title",
+				date_published: "Date Published",
+				doi: "DOI",
+				institution_id: "Institution",
+				discipline_id: "Discipline",
+			};
+
+			return aliases[columnName] || columnName;
+		},
+	},
+});
+
+app.engine(".hbs", handlebars.engine);
 app.set("view engine", ".hbs");
 
 // css
@@ -21,6 +46,33 @@ app.use(express.static("public"));
 app.get("/", function (req, res) {
 	res.render("index");
 });
+
+app.get("/research_papers", function (req, res) {
+	let query1 =
+		"SELECT *, DATE_FORMAT(date_published, '%b. %e, %Y') AS date_published, (SELECT name FROM Institutions WHERE institution_id = Research_Papers.institution_id) AS institution_id, (SELECT field FROM Disciplines WHERE discipline_id = Research_Papers.discipline_id) AS discipline_id FROM Research_Papers;";
+	let query2 = "SELECT * FROM Institutions;";
+	let query3 = "SELECT * FROM Disciplines;";
+	db.pool.query(query1, function (error, rows, fields) {
+		let research_papers = rows;
+		db.pool.query(query2, (error, rows, fields) => {
+			let institutions = rows;
+			db.pool.query(query3, (error, rows, fields) => {
+				let disciplines = rows;
+				res.render("research_papers", {
+					data: research_papers,
+					institutions: institutions,
+					disciplines: disciplines,
+				});
+			});
+		});
+	});
+});
+
+
+
+
+
+
 
 app.get("/authors", function (req, res) {
 	let query1 = "SELECT * FROM Authors;";
@@ -45,26 +97,6 @@ app.get("/disciplines", function (req, res) {
 	}
 	db.pool.query(query1, function (error, rows, fields) {
 		res.render("disciplines", {data: rows});
-	});
-});
-
-app.get("/research_papers", function (req, res) {
-	let query1 = "SELECT * FROM Research_Papers;";
-	let query2 = "SELECT * FROM Institutions;";
-	let query3 = "SELECT * FROM Disciplines;";
-	db.pool.query(query1, function (error, rows, fields) {
-		let research_papers = rows;
-		db.pool.query(query2, (error, rows, fields) => {
-			let institutions = rows;
-			db.pool.query(query3, (error, rows, fields) => {
-				let disciplines = rows;
-				res.render("research_papers", {
-					data: research_papers,
-					institutions: institutions,
-					disciplines: disciplines,
-				});
-			});
-		});
 	});
 });
 
@@ -107,6 +139,34 @@ app.get("/research_papers_authors", function (req, res) {
 });
 
 // post functions
+app.post("/add-research_paper-ajax", function (req, res) {
+	let data = req.body;
+
+	query1 = `INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) 
+	VALUES ('${data.title}', '${data.date_published}', '${data.doi}', '${data.institution_id}', '${data.discipline_id}');`;
+
+	db.pool.query(query1, function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);
+		} else {
+			query2 = `SELECT * FROM Research_Papers;`;
+			db.pool.query(query2, function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);
+				} else {
+					res.send(rows);
+				}
+			});
+		}
+	});
+});
+
+
+
+
+
 app.post("/add-author-ajax", function (req, res) {
 	let data = req.body;
 	query1 = `INSERT INTO Authors (first_name, last_name) VALUES ('${data.first_name}', '${data.last_name}')`;
@@ -171,28 +231,6 @@ app.post("/add-discipline-ajax", function (req, res) {
 	});
 });
 
-app.post("/add-research-paper-ajax", function (req, res) {
-	let data = req.body;
-
-	query1 = `INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) VALUES ('${data.title}', '${data.date_published}', '${data.doi}', '${data.institution_id}', '${data.discipline_id}');`;
-	db.pool.query(query1, function (error, rows, fields) {
-		if (error) {
-			console.log(error);
-			res.sendStatus(400);
-		} else {
-			query2 = `SELECT * FROM Research_Papers;`;
-			db.pool.query(query2, function (error, rows, fields) {
-				if (error) {
-					console.log(error);
-					res.sendStatus(400);
-				} else {
-					res.send(rows);
-				}
-			});
-		}
-	});
-});
-
 app.post("/add-citation-ajax", function (req, res) {
 	let data = req.body;
 
@@ -217,6 +255,61 @@ app.post("/add-citation-ajax", function (req, res) {
 });
 
 // put functions
+app.put("/put-research_paper-ajax", function (req, res, next) {
+	let data = req.body;
+
+	let research_paper_id = parseInt(data.research_paper_id);
+	let title = data.title;
+	let date_published = data.date_published;
+	let doi = data.doi;
+	let institution_id = data.institution_id;
+	let discipline_id = data.discipline_id;
+
+	let queryUpdateResearch_Paper = `UPDATE Research_Papers 
+	SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
+	WHERE Research_Papers.research_paper_id = ?;`;
+
+	db.pool.query(
+		queryUpdateResearch_Paper,
+		[
+			title,
+			date_published,
+			doi,
+			institution_id,
+			discipline_id,
+			research_paper_id,
+		],
+		function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);
+			} else {
+				let updatedListResearch_Papers = `SELECT * FROM Research_Papers;`;
+				db.pool.query(
+					updatedListResearch_Papers,
+					function (error, rows, fields) {
+						if (error) {
+							console.log(error);
+							res.sendStatus(400);
+						} else {
+							res.send(rows);
+						}
+					}
+				);
+			}
+		}
+	);
+});
+
+
+
+
+
+
+
+
+
+
 app.put("/put-author-ajax", function (req, res, next) {
 	let data = req.body;
 	let author = parseInt(data.author_id);
@@ -302,46 +395,6 @@ app.put("/put-institution-ajax", function (req, res, next) {
 				db.pool.query(
 					selectAllInstitutions,
 					[institutionID],
-					function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						} else {
-							res.send(rows);
-						}
-					}
-				);
-			}
-		}
-	);
-});
-
-app.put("/put-research_paper-ajax", function (req, res, next) {
-	let data = req.body;
-	
-	let research_paper_id = parseInt(data.research_paper_id);
-	let title = data.title;
-	let date_published = data.date_published;
-	let doi = data.doi;
-	let institution_id = data.institution_id;
-	let discipline_id = data.discipline_id;
-
-	let queryUpdateResearch_Paper = 
-	`UPDATE Research_Papers 
-	SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
-	WHERE Research_Papers.research_paper_id = ?;`;
-
-	db.pool.query(
-		queryUpdateResearch_Paper,
-		[title, date_published, doi, institution_id, discipline_id, research_paper_id],
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				let updatedListResearch_Papers = `SELECT * FROM Research_Papers;`;
-				db.pool.query(
-					updatedListResearch_Papers,
 					function (error, rows, fields) {
 						if (error) {
 							console.log(error);

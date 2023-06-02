@@ -13,66 +13,74 @@
 	<thead>
 		<tr>
 			{{#each data.[0]}}
-				<th>{{@key}}</th>
+			<th>{{aliasHeader @key}}</th>
 			{{/each}}
 		</tr>
 	</thead>
+
 	<tbody>
 		{{#each data}}
 			<tr>
-				<td>{{this.research_paper_id}}</td>
-				<td>{{this.title}}</td>
-				<td>{{this.date_published}}</td>
-				<td>{{this.doi}}</td>
-				<td>{{this.institution_id}}</td>
-				<td>{{this.discipline_id}}</td>
-				<td><button
-						onclick="deleteResearchPaper({{this.research_paper_id}})"
-					>Delete</button></td>
+				<td class="research_paper_id-cell">{{this.research_paper_id}}</td>
+				<td class="title-cell">{{this.title}}</td>
+				<td class="date_published-cell">{{this.date_published}}</td>
+				<td class="doi-cell">{{this.doi}}</td>
+				<td class="institution_id-cell">{{this.institution_id}}</td>
+				<td class="discipline_id-cell">{{this.discipline_id}}</td>
+				
+				<td class="delete-button-cell">
+					<button onclick="deleteResearchPaper({{this.research_paper_id}})">
+						Delete
+					</button>
+				</td>
 			</tr>
 		{{/each}}
 	</tbody>
 </table>
 
 {{! CRUD operations }}
+<div class="add-update-research_papers">
 <h2>Add</h2>
-<form id="add-research-paper-form-ajax">
+<form id="add-research_paper-form-ajax">
 	<label for="input-title">Title: </label>
-	<input type="text" name="input-title" id="input-title" />
+	<input type="text" name="input-title" id="input-title"/>
+
 	<label for="input-date_published">Date Published: </label>
 	<input type="date" name="input-date_published" id="input-date_published" />
+	
 	<label for="input-doi">DOI: </label>
 	<input type="text" name="input-doi" id="input-doi" />
-	<label for="input-institution">Institution </label>
-	<select name="input-institution" id="institutionIdSelect">
-		<option value="input-institution">Select an institution</option>
+	
+	<label for="input-institution">Institution: </label>
+	<select name="input-institution" id="institutionSelect">
+		<option value="input-institution">Select</option>
 		{{#each institutions}}
 			<option value="{{this.institution_id}}">{{this.name}}</option>
 		{{/each}}
 	</select>
 
-	<label for="input-discipline">Discipline </label>
-	<select name="input-discipline" id="disciplineIdSelect">
-		<option value="input-discipline">Select a discipline</option>
+	<label for="input-discipline">Discipline: </label>
+	<select name="input-discipline" id="disciplineSelect">
+		<option value="input-discipline">Select</option>
 		{{#each disciplines}}
 			<option value="{{this.discipline_id}}">{{this.field}}</option>
 		{{/each}}
 	</select>
 
-	<input type="submit" />
+	<input type="submit"/>
 </form>
 
 <h2>Update</h2>
 <form id="update-research_paper-form-ajax">
-	<label for="input-title">Paper: </label>
-	<select name="input-title" id="paperSelect">
-	<option value="input-title">Select title</option>
+	<label for="input-title">Existing Title: </label>
+	<select name="input-title" id="researchPaperSelect">
+	<option value="input-title">Select</option>
 	{{#each data}}
 		<option value="{{this.research_paper_id}}">{{this.title}}</option>
 	{{/each}}
 	</select>
 
-	<label for="input-title-update">Title: </label>
+	<label for="input-title-update">New Title: </label>
 	<input type="text" name="input-title-update" id="input-title-update" />
 
 	<label for="input-date_published-update">Date Published: </label>
@@ -98,6 +106,8 @@
 	</select>
 
 	<input type="submit" />
+</form>
+</div>
 
 <script src="./js/add_research_paper.js"></script>
 <script src="./js/update_research_paper.js"></script>

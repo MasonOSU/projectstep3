@@ -41,6 +41,7 @@ updateResearchPaperForm.addEventListener("submit", function (e) {
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
 			updateRow(xhttp.response, researchPaperId);
+			location.reload()
 		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
 			console.log("input error");
 		}

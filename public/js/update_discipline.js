@@ -15,10 +15,6 @@ updateDisciplineForm.addEventListener("submit", function (e) {
     let disciplineID = inputDiscipline.value;
     let fieldValue = inputField.value;
 
-    console.log("this is disciplineID: ", disciplineID);
-    console.log("this is fieldValue: ", fieldValue);
-
-
     // Put our data we want to send in a javascript object
     let data = {
         discipline_id: disciplineID,
@@ -37,6 +33,7 @@ updateDisciplineForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, disciplineID);
+            location.reload()
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {

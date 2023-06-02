@@ -29,7 +29,6 @@ updateInstitutionForm.addEventListener("submit", function (e) {
         country: countryValue,
         website: websiteValue,
     };
-    console.log("this is data from update_inst: ", data);
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -42,6 +41,7 @@ updateInstitutionForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, institutionID);
+            location.reload()
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {

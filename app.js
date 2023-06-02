@@ -7,36 +7,12 @@ app.use(express.static("public"));
 
 PORT = 1991;
 
-// handlebars
-// var db = require("./database/db-connector");
-// const {engine} = require("express-handlebars");
-
-// var exphbs = require("express-handlebars");
-// app.engine(".hbs", engine({extname: ".hbs"}));
-// app.set("view engine", ".hbs");
-
+handlebars
 var db = require("./database/db-connector");
+const {engine} = require("express-handlebars");
+
 var exphbs = require("express-handlebars");
-
-const handlebars = exphbs.create({
-	extname: ".hbs",
-	helpers: {
-		aliasHeader: function (columnName) {
-			const aliases = {
-				research_paper_id: "ID",
-				title: "Title",
-				date_published: "Date Published",
-				doi: "DOI",
-				institution_id: "Institution",
-				discipline_id: "Discipline",
-			};
-
-			return aliases[columnName] || columnName;
-		},
-	},
-});
-
-app.engine(".hbs", handlebars.engine);
+app.engine(".hbs", engine({extname: ".hbs"}));
 app.set("view engine", ".hbs");
 
 // css

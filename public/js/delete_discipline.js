@@ -14,6 +14,7 @@ function deleteDiscipline(disciplineID) {
 		if (xhttp.readyState == 4 && xhttp.status == 204) {
 			// add new data
 			deleteRow(disciplineID);
+			location.reload()
 		} else if (xhttp.readyState == 4 && xhttp.status != 204) {
 			console.log("There was an error with the input.");
 		}

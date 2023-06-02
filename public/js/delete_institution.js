@@ -15,6 +15,7 @@ function deleteInstitution(institutionID) {
 
             // Add the new data to the table
             deleteRow(institutionID);
+            location.reload()
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {

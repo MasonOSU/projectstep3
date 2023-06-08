@@ -2,10 +2,9 @@
 a {
 	color: blue;
 	font-weight: bold;
-
-	:hover {
-		cursor: pointer;
-	}
+}
+a:hover {
+	cursor: pointer;
 }
 
 /* headings */
@@ -87,20 +86,30 @@ td {
 	border: 2px solid;
 	padding: 5;
 
-	.title-cell {
+	/* .title-cell {
 		text-align: left;
-	}
+	} */
 
-	.research_paper_id-cell,
-	.institution_id-cell,
-	.discipline_id-cell {
+	/* .research_paper_id-cell, .institution_id-cell, .discipline_id-cell {
 		text-align: center;
-	}
+	} */
 
-	.date_published-cell,
+	/* .date_published-cell,
 	.doi-cell {
 		text-align: right;
-	}
+	} */
+}
+
+td.title-cell {
+	text-align: left;
+}
+
+td.research_paper_id-cell, td.institution_id-cell, td.discipline_id-cell {
+	text-align: center;
+}
+
+td.date_published-cell, td.doi-cell {
+	text-align: right;
 }
 
 .delete-button {

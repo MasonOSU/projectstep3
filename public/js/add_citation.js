@@ -7,18 +7,20 @@ addCitationForm.addEventListener("submit", function (e) {
 	e.preventDefault();
 
 	// get forms for data retrieval
-	let inputCitingPaper = document.getElementById("input-citing_paper");
-	let inputCitedPaper = document.getElementById("input-cited_paper");
+	let inputCitingPaper = document.getElementById("citingPaperSelect");
+	let inputCitedPaper = document.getElementById("citedPaperSelect");
 
 	// get form values
 	let citingPaperValue = inputCitingPaper.value;
 	let citedPaperValue = inputCitedPaper.value;
 
+	console.log("this is values for new citation: ", citingPaperValue, citedPaperValue);
 	// convert data to JavaScript object
 	let data = {
-		citing_paper: citingPaperValue,
-		cited_paper: citedPaperValue,
+		citing_paper_id: citingPaperValue,
+		cited_paper_id: citedPaperValue,
 	};
+	console.log("this is data: ", data);
 
 	// prep AJAX request
 	var xhttp = new XMLHttpRequest();
@@ -32,8 +34,8 @@ addCitationForm.addEventListener("submit", function (e) {
 			addRowToTable(xhttp.response);
 
 			// clear inputs for new transaction
-			citingPaperValue.value = "";
-			citedPaperValue.value = "";
+			inputCitingPaper.value = "";
+			inputCitedPaper.value = "";
 		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
 			console.log("There was an error with the input.");
 		}
@@ -66,7 +68,6 @@ addRowToTable = data => {
 	idCell.innerText = newRow.citation_id;
 	citingPaperCell.innerText = newRow.citing_paper_id;
 	citedPaperCell.innerText = newRow.cited_paper_id;
-	deleteCell.innerText = newRow.cited_paper_id;
 
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
@@ -86,12 +87,12 @@ addRowToTable = data => {
 	// add row to table
 	currentTable.appendChild(row);
 
-	// find dropdown, make new option, fill data;
-	// append option to dropdown so AJAX can find without refreshing
-	let selectMenu = document.getElementById("paperSelect");
-	let option = document.createElement("option");
-	option.text = newRow.citing_paper_id;
-	option.text = newRow.cited_paper_id;
-	option.value = newRow.citation_id;
-	selectMenu.add(option);
+	// // find dropdown, make new option, fill data;
+	// // append option to dropdown so AJAX can find without refreshing
+	// let selectMenu = document.getElementById("paperSelect");
+	// let option = document.createElement("option");
+	// option.text = newRow.citing_paper_id;
+	// option.text = newRow.cited_paper_id;
+	// option.value = newRow.citation_id;
+	// selectMenu.add(option);
 };

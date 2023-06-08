@@ -9,7 +9,7 @@
 	<a href="/disciplines">Disciplines</a>
 </nav>
 
-<table class="citations-table">
+<table id="citations-table">
 	<thead>
 		<tr>
 			{{#each data.[0]}}
@@ -23,30 +23,34 @@
 				<td>{{this.citation_id}}</td>
 				<td>{{this.citing_paper_id}}</td>
 				<td>{{this.cited_paper_id}}</td>
-				<td><button>Delete</button></td>
+				<td><button onclick="deleteCitation({{this.citation_id}})">Delete</button></td>
 			</tr>
 		{{/each}}
 	</tbody>
 </table>
 
+<script src="./js/delete_citation.js"></script>
+
 {{! CRUD operations }}
 <h2>Add</h2>
-<form>
+<form id="add-citation-form-ajax">
 	<label for="input-citing_paper">Citing Paper:</label>
-	<select name="input-citing_paper" id="input-citing_paper">
-		<option value="paperSelect">Select citing paper</option>
+	<select name="input-citing_paper" id="citingPaperSelect">
+		<option value="input-citing_paper">Select citing paper</option>
 		{{#each citing_papers}}
 			<option value="{{this.research_paper_id}}">{{this.title}}</option>
 		{{/each}}
 	</select>
 	<label for="input-cited_paper">Cited Paper:</label>
-	<select name="input-cited_paper" id="input-cited_paper">
-		<option value="paperSelect">Select cited paper</option>
-		{{#each cited_papers}}
+	<select name="input-cited_paper" id="citedPaperSelect">
+		<option value="input-cited_paper">Select cited paper</option>
+		{{#each citing_papers}}
 			<option value="{{this.research_paper_id}}">{{this.title}}</option>
 		{{/each}}
 	</select>
 	<input type="submit" />
 </form>
+
+<script src="./js/add_citation.js"></script>
 
 <h2>Update</h2>

@@ -5,7 +5,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-PORT = 1991;
+PORT = 1994;
 
 // handlebars
 var db = require("./database/db-connector");
@@ -447,6 +447,51 @@ app.delete("/delete-discipline-ajax/", function (req, res, next) {
 							db.pool.query(
 								deleteDisciplineQuery,
 								[disciplineID],
+								function (error, rows, fields) {
+									if (error) {
+										console.log(error);
+										res.sendStatus(400);
+									} else {
+										res.sendStatus(204);
+									}
+								}
+							);
+						}
+					}
+				);
+			}
+		}
+	);
+});
+
+app.delete('/delete-citation-ajax/', function(req,res,next){
+	let data = req.body;
+	console.log("this is data: ", data);
+	let citationID = parseInt(data.id);
+	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
+	research_paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE citation_id = ?)`;
+	let deleteResearch_PapersQuery = `DELETE FROM Research_Papers WHERE citation_id = ?`;
+	let deleteCitationQuery = `DELETE FROM Citations WHERE citation_id = ?`;
+
+	db.pool.query(  
+		deleteResearch_Papers_has_AuthorsQuery,
+		[citationID],
+		function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);
+			} else {
+				db.pool.query(
+					deleteResearch_PapersQuery,
+					[citationID],
+					function (error, rows, fields) {
+						if (error) {
+							console.log(error);
+							res.sendStatus(400);
+						} else {
+							db.pool.query(
+								deleteCitationQuery,
+								[citationID],
 								function (error, rows, fields) {
 									if (error) {
 										console.log(error);

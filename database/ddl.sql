@@ -1,4 +1,3 @@
--- drop tables to avoid conflicts
 DROP TABLE IF EXISTS `Research_Papers`;
 
 DROP TABLE IF EXISTS `Citations`;
@@ -11,7 +10,6 @@ DROP TABLE IF EXISTS `Institutions`;
 
 DROP TABLE IF EXISTS `Disciplines`;
 
--- make `Authors` entity
 CREATE TABLE IF NOT EXISTS `Authors` (
   `author_id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(20) NOT NULL,
@@ -19,7 +17,6 @@ CREATE TABLE IF NOT EXISTS `Authors` (
   PRIMARY KEY (`author_id`)
 );
 
--- make `Institutions` entity
 CREATE TABLE IF NOT EXISTS `Institutions` (
   `institution_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
@@ -29,14 +26,12 @@ CREATE TABLE IF NOT EXISTS `Institutions` (
   PRIMARY KEY (`institution_id`)
 );
 
--- make `Disciplines` entity
 CREATE TABLE IF NOT EXISTS `Disciplines` (
   `discipline_id` INT NOT NULL AUTO_INCREMENT,
   `field` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`discipline_id`)
 );
 
--- make `Research_Papers` entity
 CREATE TABLE `Research_Papers` (
   `research_paper_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
@@ -51,7 +46,6 @@ CREATE TABLE `Research_Papers` (
   CONSTRAINT `institution_id` FOREIGN KEY (`institution_id`) REFERENCES `Institutions` (`institution_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
--- make `Citations` entity
 CREATE TABLE `Citations` (
   `citation_id` INT NOT NULL AUTO_INCREMENT,
   `citing_paper_id` INT NOT NULL,
@@ -61,7 +55,6 @@ CREATE TABLE `Citations` (
   CONSTRAINT `fk_cited_paper_id` FOREIGN KEY (`cited_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
--- make `Research_Papers_has_Authors` entity
 CREATE TABLE IF NOT EXISTS `Research_Papers_has_Authors` (
   `research_paper_author_id` INT NOT NULL AUTO_INCREMENT,
   `research_paper_id` INT NOT NULL,
@@ -73,7 +66,6 @@ CREATE TABLE IF NOT EXISTS `Research_Papers_has_Authors` (
   CONSTRAINT `fk_Research_Papers_has_Authors_Authors1` FOREIGN KEY (`author_id`) REFERENCES `Authors` (`author_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
--- add to `Authors`
 INSERT INTO
   `Authors` (`first_name`, `last_name`)
 VALUES
@@ -83,7 +75,6 @@ VALUES
   ('Sandra', 'Smith'),
   ('Maria', 'Thompson');
 
--- add to `Institutions`
 INSERT INTO
   `Institutions` (`name`, `country`, `address`, `website`)
 VALUES
@@ -106,7 +97,6 @@ VALUES
     'shcollege.edu'
   );
 
--- add to `Disciplines`
 INSERT INTO
   `Disciplines` (`field`)
 VALUES
@@ -115,7 +105,6 @@ VALUES
   ('History'),
   ('Psychology');
 
--- add to `Research_Papers`
 INSERT INTO
   `Research_Papers` (
     `title`,
@@ -224,7 +213,6 @@ VALUES
     )
   );
 
--- add to `Citations`
 INSERT INTO
   `Citations` (`citing_paper_id`, `cited_paper_id`)
 VALUES
@@ -301,7 +289,6 @@ VALUES
     )
   );
 
--- add to `Research_Papers_has_Authors`
 INSERT INTO
   `Research_Papers_has_Authors` (`research_paper_id`, `author_id`)
 VALUES

@@ -1,37 +1,47 @@
+<!-- 
+	`index.html` is the entry point for a database app created by 
+	Mason Blanford and Whitney Zilton, for Oregon State University's CS 340 course. 
+
+	Code citation:
+		Jessica Wilkins. 2021. "Basic HTML5 Template: Use This HTML Boilerplate as a Starter for Any Web Dev Project".
+		[Source code]. https://www.freecodecamp.org/news/basic-html5-template-boilerplate-code-example/. URL
+-->
+
+<!-- Lines 11-24 (Wilkins) -->
+<!DOCTYPE HTML>
 <html lang="en">
+	
 	<head>
-		<h1>Table Index</h1>
+
+	<!-- Set the character encoding to UTF-8. -->
+	<meta charset="UTF-8" />
+	
+	<!-- Display the title above the contents. -->
+	<h1>Table Index</h1>
 	</head>
-	<body>
-		<main>
-			<section>
-				<p>
-					<a href="/research_papers">Research Papers</a>: All
-					publications by title, digital object identifier (DOI),
-					institution, or discipline
-				</p>
-				<p>
-					<a href="/citations">Citations</a>: Papers citing, or
-					cited by, other publications
-				</p>
-				<p>
-					<a href="/authors">Authors</a>: Those who wrote the
-					paper may, or may not, affiliate with an institution
-				</p>
-				<p>
-					<a href="/research_papers_authors">Research Papers to
-						Authors</a>: Some publications have more than one
-					author and vice-versa
-				</p>
-				<p>
-					<a href="/institutions">Institutions</a>: For papers
-					not penned by independent researchers
-				</p>
-				<p>
-					<a href="/disciplines">Disciplines</a>: Relevant
-					research fields
-				</p>
-			</section>
-		</main>
-	</body>
-</html>
+	
+	<!-- Link to all database entities. -->
+	<body><main><section>
+
+		<p>This website stores academic research papers in a database. 
+			Users can add new papers or read, update, and delete existing entries.</p>
+
+        <p><a href="/research_papers">Research Papers</a>: 
+		Publications by title, digital object identifier (DOI), institution, or discipline</p>
+
+        <p><a href="/citations">Citations</a>: 
+		Papers citing, or cited by, other publications</p>
+
+        <p><a href="/authors">Authors</a>: 
+		Researchers may or may not associate with instititutions</p>
+
+        <p><a href="/research_papers_authors">Research Papers to Authors</a>: 
+		Some publications have more than one author and vice-versa</p>
+
+        <p><a href="/institutions">Institutions</a>: 
+		Many papers, but not all, are backed by institutions</p>
+
+        <p><a href="/disciplines">Disciplines</a>: 
+		Relevant research fields</p>
+
+	</section></main></body></html>

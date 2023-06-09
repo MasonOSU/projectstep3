@@ -41,6 +41,7 @@ addResearchPaperForm.addEventListener("submit", function (e) {
 
 			// add new data to table
 			addRowToTable(xhttp.response);
+			location.reload()
 
 			// clear inputs for another transaction
 			inputTitle.value = "";

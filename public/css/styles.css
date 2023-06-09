@@ -1,5 +1,4 @@
-/* links */
-a {
+/* a {
 	color: blue;
 	font-weight: bold;
 }
@@ -7,7 +6,6 @@ a:hover {
 	cursor: pointer;
 }
 
-/* headings */
 h1,
 h2 {
 	font-family: "Roboto", sans-serif;
@@ -15,7 +13,6 @@ h2 {
 	margin: 10;
 }
 
-/* nav bar */
 nav {
 	display: flex;
 	justify-content: flex-start;
@@ -26,7 +23,6 @@ nav a {
 	margin-right: 13;
 }
 
-/* content */
 body {
 	background-color: #f2f2f2;
 	font-family: "Roboto", sans-serif;
@@ -40,7 +36,6 @@ p {
 	margin-left: 10;
 }
 
-/* inputs */
 form {
 	margin: 10;
 }
@@ -73,7 +68,6 @@ input[type=submit] {
 	margin-top: 8;
 }
 
-/* tables, data */
 table {
 	border-collapse: collapse;
 	margin: 0 auto;
@@ -85,19 +79,6 @@ tr,
 td {
 	border: 2px solid;
 	padding: 5;
-
-	/* .title-cell {
-		text-align: left;
-	} */
-
-	/* .research_paper_id-cell, .institution_id-cell, .discipline_id-cell {
-		text-align: center;
-	} */
-
-	/* .date_published-cell,
-	.doi-cell {
-		text-align: right;
-	} */
 }
 
 td.title-cell {
@@ -114,4 +95,4 @@ td.date_published-cell, td.doi-cell {
 
 .delete-button {
 	margin: 5;
-}
+} */

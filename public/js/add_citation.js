@@ -20,7 +20,6 @@ addCitationForm.addEventListener("submit", function (e) {
 		citing_paper_id: citingPaperValue,
 		cited_paper_id: citedPaperValue,
 	};
-	console.log("this is data: ", data);
 
 	// prep AJAX request
 	var xhttp = new XMLHttpRequest();
@@ -32,6 +31,7 @@ addCitationForm.addEventListener("submit", function (e) {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
 			// add new data to table
 			addRowToTable(xhttp.response);
+			location.reload();
 
 			// clear inputs for new transaction
 			inputCitingPaper.value = "";
@@ -87,12 +87,12 @@ addRowToTable = data => {
 	// add row to table
 	currentTable.appendChild(row);
 
-	// // find dropdown, make new option, fill data;
-	// // append option to dropdown so AJAX can find without refreshing
-	// let selectMenu = document.getElementById("paperSelect");
-	// let option = document.createElement("option");
-	// option.text = newRow.citing_paper_id;
-	// option.text = newRow.cited_paper_id;
-	// option.value = newRow.citation_id;
-	// selectMenu.add(option);
+	// find dropdown, make new option, fill data;
+	// append option to dropdown so AJAX can find without refreshing
+	let selectMenu = document.getElementById("citationSelect");
+	let option = document.createElement("option");
+	option.text = newRow.citing_paper_id;
+	option.text = newRow.cited_paper_id;
+	option.value = newRow.citation_id;
+	selectMenu.add(option);
 };

@@ -326,6 +326,35 @@ app.put("/put-discipline-ajax", function (req, res, next) {
 	);
 });
 
+app.put('/put-citation-ajax', function(req,res,next){
+	let data = req.body;
+	console.log("this is data: ", data);
+	let citationID = parseInt(data.citation_id);
+	let citingPaperID = data.citing_paper_id;
+	let citedPaperID = data.cited_paper_id;
+  
+	let queryUpdateCitation = `UPDATE Citations SET citing_paper_id = ?, cited_paper_id = ? WHERE Citations.citation_id = ?;`;
+	let selectAllCitations = `SELECT * FROM Citations;`;
+  
+		  // Run the 1st query
+		  db.pool.query(queryUpdateCitation, [citingPaperID, citedPaperID, citationID], function(error, rows, fields){
+			  if (error) {
+			  console.log(error);
+			  res.sendStatus(400);
+			  }
+			  else
+			  {
+				  db.pool.query(selectAllCitations, [citationID], function(error, rows, fields) {
+					  if (error) {
+						  console.log(error);
+						  res.sendStatus(400);
+					  } else {
+						  res.send(rows);
+					  }
+				  })
+			  }
+  })});
+
 app.put("/put-institution-ajax", function (req, res, next) {
 	let data = req.body;
 

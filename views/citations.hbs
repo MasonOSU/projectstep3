@@ -129,3 +129,32 @@ Lines 131-133 (Curry) --}}
 <script src="./js/add_citation.js"></script>
 <script src="./js/update_citation.js"></script>
 <script src="./js/delete_citation.js"></script>
+<form id="update-citation-form-ajax">
+	<label for="input-citing_paper">Citation ID:</label>
+	<select name="input-citing_paper" id="citationIDUpdate">
+		<option value="input-citing_paper">Select a citation ID</option>
+		{{#each data}}
+			<option value="{{this.citation_id}}">{{this.citation_id}}</option>
+		{{/each}}
+	</select>
+
+	<label for="input-citing_paper">Citing Paper:</label>
+	<select name="input-citing_paper" id="citingPaperUpdate">
+		<option value="input-citing_paper">Select citing paper</option>
+		{{#each citing_papers}}
+			<option value="{{this.research_paper_id}}">{{this.title}}</option>
+		{{/each}}
+	</select>
+
+	<label for="input-cited_paper">Cited Paper:</label>
+	<select name="input-cited_paper" id="citedPaperUpdate">
+		<option value="input-cited_paper">Select cited paper</option>
+		{{#each citing_papers}}
+			<option value="{{this.research_paper_id}}">{{this.title}}</option>
+		{{/each}}
+	</select>
+	<input type="submit" />
+</form>
+
+<script src="./js/update_citation.js"></script>
+

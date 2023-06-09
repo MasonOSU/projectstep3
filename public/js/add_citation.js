@@ -87,12 +87,11 @@ addRowToTable = data => {
 	// add row to table
 	currentTable.appendChild(row);
 
-	// // find dropdown, make new option, fill data;
-	// // append option to dropdown so AJAX can find without refreshing
-	// let selectMenu = document.getElementById("paperSelect");
-	// let option = document.createElement("option");
-	// option.text = newRow.citing_paper_id;
-	// option.text = newRow.cited_paper_id;
-	// option.value = newRow.citation_id;
-	// selectMenu.add(option);
+	// find dropdown, make new option, fill data;
+	// append option to dropdown so AJAX can find without refreshing
+	let selectMenu = document.getElementById("citationIDUpdate");
+	let option = document.createElement("option");
+	option.text = newRow.citation_id;
+	option.value = newRow.citation_id;
+	selectMenu.add(option);
 };

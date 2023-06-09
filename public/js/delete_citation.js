@@ -34,7 +34,20 @@ function deleteRow(citationID){
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == citationID) {
             table.deleteRow(i);
+            // deleteDropDownMenu(citationID);
             break;
        }
     }
 }
+
+// function deleteDropDownMenu(citationID){
+//     let selectMenu = document.getElementById("mySelect");
+//     for (let i = 0; i < selectMenu.length; i++){
+//       if (Number(selectMenu.options[i].value) === Number(citationID)){
+//         selectMenu[i].remove();
+//         break;
+//       } 
+  
+//     }
+//   }
+  

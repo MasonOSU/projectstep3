@@ -328,7 +328,9 @@ app.put("/put-discipline-ajax", function (req, res, next) {
 
 app.put('/put-citation-ajax', function(req,res,next){
 	let data = req.body;
+	
 	console.log("this is data: ", data);
+
 	let citationID = parseInt(data.citation_id);
 	let citingPaperID = data.citing_paper_id;
 	let citedPaperID = data.cited_paper_id;

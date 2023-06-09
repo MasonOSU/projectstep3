@@ -9,8 +9,8 @@ updateCitationForm.addEventListener("submit", function (e) {
 
     // Get form fields we need to get data from
     let inputCitation = document.getElementById("citationIDUpdate");
-    let inputCitingPaper = document.getElementById("citingPaperUpdate");
-	let inputCitedPaper = document.getElementById("citedPaperUpdate");
+    let inputCitingPaper = document.getElementById("citingPaperSelect");
+	let inputCitedPaper = document.getElementById("citedPaperSelect");
 
     // Get the values from the form fields
     let citationID = inputCitation.value;

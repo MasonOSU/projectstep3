@@ -88,11 +88,11 @@
 <form id="update-citation-form-ajax">
 
 	<!-- Create the input for the `citation_id` constraint. -->
-	<label for="input-citation_id-update">Existing Citation: </label>
+	<label for="input-citation-update">Existing Citation: </label>
 
 	<!-- Create a dropdown menu linking `citing_paper_id` and `cited_paper_id` 
 	to their `title` constraints; merge the two for each entry. -->
-	<select name="input-citation-update" id="citationSelect">
+	<select name="input-citation-update" id="citationIDUpdate">
 		<option value="input-citation-update">Select</option>
 		{{#each data}}
 		<option value="{{this.citation_id}}">
@@ -129,15 +129,19 @@ Lines 131-133 (Curry) --}}
 <script src="./js/add_citation.js"></script>
 <script src="./js/update_citation.js"></script>
 <script src="./js/delete_citation.js"></script>
-<form id="update-citation-form-ajax">
+
+
+
+<!--
 	<label for="input-citing_paper">Citation ID:</label>
-	<select name="input-citing_paper" id="citationIDUpdate">
+	<select name="input-citing_paper" id="citationIDUpdate"> 
 		<option value="input-citing_paper">Select a citation ID</option>
 		{{#each data}}
-			<option value="{{this.citation_id}}">{{this.citation_id}}</option>
+		<option value="{{this.citation_id}}">{{this.citation_id}}</option>
 		{{/each}}
-	</select>
-
+	</select> 	
+	
+	
 	<label for="input-citing_paper">Citing Paper:</label>
 	<select name="input-citing_paper" id="citingPaperUpdate">
 		<option value="input-citing_paper">Select citing paper</option>
@@ -155,6 +159,3 @@ Lines 131-133 (Curry) --}}
 	</select>
 	<input type="submit" />
 </form>
-
-<script src="./js/update_citation.js"></script>
-

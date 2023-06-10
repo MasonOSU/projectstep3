@@ -112,8 +112,7 @@ addRowToTable = data => {
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
     deleteCell.classList.add("delete-button");
-	deleteCell.onclick = 
-		function () {deleteResearchPaper(newRow.research_paper_id);};
+	deleteCell.onclick = function () {deleteResearchPaper(newRow.research_paper_id);};
 
 	// Populate the row.
 	row.appendChild(researchPaperIdCell);

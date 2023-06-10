@@ -92,7 +92,7 @@
 
 	<!-- Create a dropdown menu linking `citing_paper_id` and `cited_paper_id` 
 	to their `title` constraints; merge the two for each entry. -->
-	<select name="input-citation-update" id="citationIDUpdate">
+	<select name="input-citation-update" id="input-citation-update">
 		<option value="input-citation-update">Select</option>
 		{{#each data}}
 		<option value="{{this.citation_id}}">
@@ -104,7 +104,7 @@
 	<label for="input-citing_paper-update">New Citing Paper:</label>
 
 	<!-- Create a dropdown menu linking `citing_paper_id` to its `title` constraint. -->
-	<select name="input-citing_paper-update" id="citingPaperSelect">
+	<select name="input-citing_paper-update" id="input-citing_paper-update">
 		<option value="input-citing_paper">Select citing paper</option>
 		{{#each citing_papers}}
 			<option value="{{this.research_paper_id}}">{{this.title}}</option>
@@ -115,7 +115,7 @@
 	<label for="input-cited_paper-update">New Cited Paper:</label>
 
 	<!-- Create a dropdown menu linking `cited_paper_id` to its `title` constraint. -->
-	<select name="input-cited_paper-update" id="citedPaperSelect">
+	<select name="input-cited_paper-update" id="input-cited_paper-update">
 		<option value="input-cited_paper">Select cited paper</option>
 		{{#each citing_papers}}
 			<option value="{{this.research_paper_id}}">{{this.title}}</option>
@@ -129,33 +129,3 @@ Lines 131-133 (Curry) --}}
 <script src="./js/add_citation.js"></script>
 <script src="./js/update_citation.js"></script>
 <script src="./js/delete_citation.js"></script>
-
-
-
-<!--
-	<label for="input-citing_paper">Citation ID:</label>
-	<select name="input-citing_paper" id="citationIDUpdate"> 
-		<option value="input-citing_paper">Select a citation ID</option>
-		{{#each data}}
-		<option value="{{this.citation_id}}">{{this.citation_id}}</option>
-		{{/each}}
-	</select> 	
-	
-	
-	<label for="input-citing_paper">Citing Paper:</label>
-	<select name="input-citing_paper" id="citingPaperUpdate">
-		<option value="input-citing_paper">Select citing paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
-
-	<label for="input-cited_paper">Cited Paper:</label>
-	<select name="input-cited_paper" id="citedPaperUpdate">
-		<option value="input-cited_paper">Select cited paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
-	<input type="submit" />
-</form>

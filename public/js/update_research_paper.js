@@ -6,8 +6,7 @@
 
 // Lines 9-72 (Curry)
 // Get the objects to modify.
-let updateResearchPaperForm = 
-	document.getElementById("update-research_paper-form-ajax");
+let updateResearchPaperForm = document.getElementById("update-research_paper-form-ajax");
 
 // Alter needed objects.
 updateResearchPaperForm.addEventListener("submit", function (e) {

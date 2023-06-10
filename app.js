@@ -1,3 +1,9 @@
+// `app.js` ...
+//
+// Code citation:
+// // Dr. Michael Curry. 2022.
+// // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
+
 // express
 var express = require("express");
 var app = express();

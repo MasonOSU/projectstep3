@@ -46,3 +46,12 @@
 - code cited to credit source; citations in README and source code have 1) citation scope (e.g. module, function or line); 2) date; 3) originality, (copied, adapted, or based, e.g. "Based on the CS 340 starter code, with the exception of..."); 4) source (e.g. URL)
 
 - website style; subjective by grader; CRUD operations organized, design elements consistent and aid navigation; good color, font, text, graphics; text easy to read, no errors
+
+# Old
+ddl
+
+  -- INDEX `discipline_id_idx` (`discipline_id` ASC) VISIBLE,
+  -- INDEX `institution_id_idx` (`institution_id` ASC) VISIBLE,
+
+    INDEX `fk_Research_Papers_has_Authors_Authors1_idx` (`author_id` ASC) VISIBLE,
+  INDEX `fk_Research_Papers_has_Authors_Research_Papers1_idx` (`research_paper_id` ASC) VISIBLE,

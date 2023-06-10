@@ -4,6 +4,7 @@
 // // Dr. Michael Curry. 2022.
 // // "Step 5 - Adding New Data".
 // // "Step 6 - Dynamically Filling Dropdowns and Adding a Search Box."
+// // "Step 7 - Dynamically Deleting Data".
 // // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
 
 // Lines 11-139 (Curry)

@@ -1,61 +1,168 @@
-// `app.js` ...
+// `app.js` handles the setup, routes, and listener sections:
+// // Setup has all the variables to run the server and handle data.
+// // Routes has all the server paths for navigation and output.
+// // Listener responds to the input port and initializes.
 //
 // Code citation:
 // // Dr. Michael Curry. 2022.
+// // "Step 0 - Getting a Server Running".
+// // "Step 1 - Connecting to a MySQL Database".
+// // "Step 3 - Integrating a Templating Engine (Handlebars)".
+// // "Step 4 - Dynamically Displaying Data".
+// // "Step 5 - Adding New Data".
+// // "Step 6 - Dynamically Filling Dropdowns and Adding a Search Box".
+// // "Step 7 - Dynamically Deleting Data".
+// // "Step 8 - Dynamically Updating Data".
 // // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
 
-// express
-var express = require("express");
-var app = express();
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(express.static("public"));
+// Setup
+var express = require("express");					// Use the `express` library for the web server.
+var app = express();								// Set an `express` object for server interaction.
+PORT = 1991;										// Set the active port.
 
-PORT = 1991;
+// These middleware functions permit data extraction and key-value pairs.
+app.use(express.json());							// Parse incoming JSON.
+app.use(express.urlencoded({extended: true}));		// Parse URL-encoded payloads.
 
-// handlebars
+app.use(express.static("public"));					// Allow the site to use Cascading Style Sheets (CSS).
+
 var db = require("./database/db-connector");
-const {engine} = require("express-handlebars");
-
+const {engine} = require("express-handlebars");		// Import `express-handlebars`.
 var exphbs = require("express-handlebars");
-app.engine(".hbs", engine({extname: ".hbs"}));
-app.set("view engine", ".hbs");
 
-// css
-app.use(express.static("public"));
+app.engine(".hbs", engine({extname: ".hbs"}));		// Create a handlebars engine to process templates.
+app.set("view engine", ".hbs");						// Use `handlebars` with `.hbs` files.
 
-// get functions
+// Routes
+// // Read data with `get()` functions:
+// // // Read the homepage.
 app.get("/", function (req, res) {
-	res.render("index");
-});
+	res.render("index");});
 
+// // // Read the `Research_Papers` data. 
 app.get("/research_papers", function (req, res) {
-	let query1 =
-		"SELECT *, DATE_FORMAT(date_published, '%b. %e, %Y') AS date_published, (SELECT name FROM Institutions WHERE institution_id = Research_Papers.institution_id) AS institution_id, (SELECT field FROM Disciplines WHERE discipline_id = Research_Papers.discipline_id) AS discipline_id FROM Research_Papers;";
-	let query2 = "SELECT * FROM Institutions;";
-	let query3 = "SELECT * FROM Disciplines;";
-	db.pool.query(query1, function (error, rows, fields) {
+	let researchPapersQuery = `SELECT *,
+		DATE_FORMAT(date_published, '%b. %e, %Y') AS date_published,
+		(SELECT name FROM Institutions 
+			WHERE institution_id = Research_Papers.institution_id) AS institution_id, 
+		(SELECT field FROM Disciplines 
+			WHERE discipline_id = Research_Papers.discipline_id) AS discipline_id 
+		FROM Research_Papers;`;
+
+	let institutionsQuery = `SELECT * FROM Institutions;`;
+	let disciplinesQuery = `SELECT * FROM Disciplines;`;
+
+	db.pool.query(researchPapersQuery, function (error, rows, fields) {
 		let research_papers = rows;
-		db.pool.query(query2, (error, rows, fields) => {
+
+		db.pool.query(institutionsQuery, (error, rows, fields) => {
 			let institutions = rows;
-			db.pool.query(query3, (error, rows, fields) => {
+			
+			db.pool.query(disciplinesQuery, (error, rows, fields) => {
 				let disciplines = rows;
+				
 				res.render("research_papers", {
 					data: research_papers,
 					institutions: institutions,
-					disciplines: disciplines,
-				});
-			});
-		});
-	});
-});
+					disciplines: disciplines,});});});});});
+
+// // Create data with `post()` functions:
+// // // Add `Research_Papers` data.
+app.post("/add-research_paper-ajax", function (req, res) {
+	let data = req.body;
+
+	let researchPapersQuery = `
+		INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) 
+		VALUES ('${data.title}', '${data.date_published}', '${data.doi}', 
+		'${data.institution_id}', '${data.discipline_id}');`;
+
+	db.pool.query(researchPapersQuery, function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		else {
+			let readResearchPapersQuery = `SELECT * FROM Research_Papers;`;
+
+			db.pool.query(readResearchPapersQuery, function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);} 
+				else {
+					res.send(rows);}});}});});
+
+// // Update data with `put()` functions:
+// // // Update `Research_Papers` data.
+app.put("/put-research_paper-ajax", function (req, res, next) {
+	let data = req.body;
+
+	let research_paper_id = parseInt(data.research_paper_id);
+	let title = data.title;
+	let date_published = data.date_published;
+	let doi = data.doi;
+	let institution_id = data.institution_id;
+	let discipline_id = data.discipline_id;
+
+	let updateResearchPaperQuery = `
+		UPDATE Research_Papers 
+		SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
+		WHERE Research_Papers.research_paper_id = ?;`;
+
+	db.pool.query(updateResearchPaperQuery, [
+		title,
+		date_published,
+		doi,
+		institution_id,
+		discipline_id,
+		research_paper_id,],
+
+		function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);} 
+			else {
+				let updatedResearchPapers = `SELECT * FROM Research_Papers;`;
+
+				db.pool.query(updatedResearchPapers, function (error, rows, fields) {
+					if (error) {
+						console.log(error);
+						res.sendStatus(400);} 
+					else {res.send(rows);}});}});});
+
+// // Delete data with `delete()` functions:
+// // // Delete `Research_Papers` data.
+app.delete("/delete-research-paper-ajax/", function (req, res, next) {
+	let data = req.body;
+	let researchPaperId = parseInt(data.id);
+	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE research_paper_id = ?`;
+	let deleteResearchPapersQuery = `DELETE FROM Research_Papers WHERE research_paper_id = ?`;
+	
+	db.pool.query(deleteResearchPapersHasAuthorsQuery, [researchPaperId], function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		
+		else {db.pool.query(deleteResearchPapersQuery, [researchPaperId], function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);} 
+			
+			else {res.sendStatus(204);}});}});});
+
+
+
+
+
+
+
+
+
+
+
 
 app.get("/authors", function (req, res) {
-	let query1 = "SELECT * FROM Authors;";
-	db.pool.query(query1, function (error, rows, fields) {
-		res.render("authors", {data: rows});
-	});
-});
+	let authorsQuery = `SELECT * FROM Authors;`;
+	db.pool.query(authorsQuery, function (error, rows, fields) {
+		res.render("authors", {data: rows});});});
 
 app.get("/institutions", function (req, res) {
 	let query = "SELECT * FROM Institutions;";
@@ -114,30 +221,8 @@ app.get("/research_papers_authors", function (req, res) {
 	});
 });
 
-// post functions
-app.post("/add-research_paper-ajax", function (req, res) {
-	let data = req.body;
 
-	query1 = `INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) 
-	VALUES ('${data.title}', '${data.date_published}', '${data.doi}', '${data.institution_id}', '${data.discipline_id}');`;
 
-	db.pool.query(query1, function (error, rows, fields) {
-		if (error) {
-			console.log(error);
-			res.sendStatus(400);
-		} else {
-			query2 = `SELECT * FROM Research_Papers;`;
-			db.pool.query(query2, function (error, rows, fields) {
-				if (error) {
-					console.log(error);
-					res.sendStatus(400);
-				} else {
-					res.send(rows);
-				}
-			});
-		}
-	});
-});
 
 app.post("/add-author-ajax", function (req, res) {
 	let data = req.body;
@@ -226,52 +311,9 @@ app.post("/add-citation-ajax", function (req, res) {
 	});
 });
 
-// put functions
-app.put("/put-research_paper-ajax", function (req, res, next) {
-	let data = req.body;
 
-	let research_paper_id = parseInt(data.research_paper_id);
-	let title = data.title;
-	let date_published = data.date_published;
-	let doi = data.doi;
-	let institution_id = data.institution_id;
-	let discipline_id = data.discipline_id;
 
-	let queryUpdateResearch_Paper = `UPDATE Research_Papers 
-	SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
-	WHERE Research_Papers.research_paper_id = ?;`;
 
-	db.pool.query(
-		queryUpdateResearch_Paper,
-		[
-			title,
-			date_published,
-			doi,
-			institution_id,
-			discipline_id,
-			research_paper_id,
-		],
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				let updatedListResearch_Papers = `SELECT * FROM Research_Papers;`;
-				db.pool.query(
-					updatedListResearch_Papers,
-					function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						} else {
-							res.send(rows);
-						}
-					}
-				);
-			}
-		}
-	);
-});
 
 app.put("/put-author-ajax", function (req, res, next) {
 	let data = req.body;
@@ -591,37 +633,6 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 									}
 								}
 							);
-						}
-					}
-				);
-			}
-		}
-	);
-});
-
-app.delete("/delete-research-paper-ajax/", function (req, res, next) {
-	let data = req.body;
-	console.log("this is data", data);
-	let researchPaperID = parseInt(data.id);
-	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE research_paper_id = ?`;
-	let deleteResearchPaperQuery = `DELETE FROM Research_Papers WHERE research_paper_id = ?`;
-	db.pool.query(
-		deleteResearch_Papers_has_AuthorsQuery,
-		[researchPaperID],
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				db.pool.query(
-					deleteResearchPaperQuery,
-					[researchPaperID],
-					function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						} else {
-							res.sendStatus(204);
 						}
 					}
 				);

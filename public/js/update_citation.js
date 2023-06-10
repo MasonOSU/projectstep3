@@ -46,7 +46,6 @@ updateCitationForm.addEventListener("submit", function (e) {
             console.log("There was an input error.")}}
 
 	// Send the request and wait on the reply.
-    console.log(data.citing_paper_id);
     xhttp.send(JSON.stringify(data));});
 
 // Write an Object row as a single entity record.

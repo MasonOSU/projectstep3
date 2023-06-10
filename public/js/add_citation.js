@@ -45,6 +45,7 @@ addCitationForm.addEventListener("submit", function (e) {
 			// Clear the inputs for the next transaction.
 			inputCitingPaper.value = "";
 			inputCitedPaper.value = "";} 
+		
 		else if (xhttp.readyState == 4 && xhttp.status != 200) {
 			console.log("There was an input error.");}};
 
@@ -89,7 +90,7 @@ addRowToTable = data => {
 	// Add the new row to the table.
 	currentTable.appendChild(row);
 
-	// Let the AJAX request view an updated dropdown menu without refreshing.
+	// Add the new row to the dropdown.
 	let selectMenu = document.getElementById("input-citation-update");
 	let option = document.createElement("option");
 

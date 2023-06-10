@@ -1,51 +1,47 @@
-function deleteCitation(citationID) {
+// `delete_citation.js` handles the client side for Delete requests to the `Citations` table.
+//
+// Code citation:
+// // Dr. Michael Curry. 2022. "Step 7 - Dynamically Deleting Data".
+// // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
 
-  // Put our data we want to send in a javascript object
-  let data = {id: citationID,};
+// Lines 8-49 (Curry)
+function deleteCitation(citationId) {
+  // Convert the target data into a JavaScript object.
+  let data = {id: citationId,};
 
-  // Setup our AJAX request
+  // Prep the Asynchronous JavaScipt and XML (AJAX) request.
   var xhttp = new XMLHttpRequest();
   xhttp.open("DELETE", "/delete-citation-ajax", true);
   xhttp.setRequestHeader("Content-type", "application/json");
 
-  console.log(data);
-
-  // Tell our AJAX request how to resolve
+	// Tell the AJAX request how to resolve.
   xhttp.onreadystatechange = () => {
     if (xhttp.readyState == 4 && xhttp.status == 204) {
 
-      // Add the new data to the table
-      deleteRow(citationID);
-      location.reload();
+		  // Add the new data to the table and auto-refresh.
+      deleteRow(citationId);
+      location.reload();} 
+    
+    else if (xhttp.readyState == 4 && xhttp.status != 204) {
+      console.log("There was an input error.");}};
 
-    } else if (xhttp.readyState == 4 && xhttp.status != 204) {
-      console.log("There was an error with the input.");
-    }
-  };
+    // Send the request and wait for the response.
+    xhttp.send(JSON.stringify(data));}
 
-  // Send the request and wait for the response
-  xhttp.send(JSON.stringify(data));
-}
-
-function deleteRow(citationID) {
+function deleteRow(citationId) {
   let table = document.getElementById("citations-table");
-  for (let i = 0, row; (row = table.rows[i]); i++) {
-    //iterate through rows
-    //rows would be accessed using the "row" variable assigned in the for loop
-    if (table.rows[i].getAttribute("data-value") == citationID) {
-      table.deleteRow(i);
-      deleteDropDownMenu(citationID);
-      break;
-    }
-  }
-}
+  
+  // Loop and access assigned `row` variables.
+  for (let index = 0, row; (row = table.rows[index]); index++) {
+    if (table.rows[index].getAttribute("data-value") == citationId) {
+      table.deleteRow(index);
+      deleteDropDownMenu(citationId);
+      break;}}}
 
-function deleteDropDownMenu(citationID){
+// Dynamically delete from the dropdown menu.
+function deleteDropDownMenu(citationId){
   let selectMenu = document.getElementById("citationSelect");
   for (let i = 0; i < selectMenu.length; i++){
-    if (Number(selectMenu.options[i].value) === Number(citationID)){
+    if (Number(selectMenu.options[i].value) === Number(citationId)){
       selectMenu[i].remove();
-      break;
-    }
-  }
-}
+      break;}}}

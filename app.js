@@ -18,7 +18,7 @@
 // Setup
 var express = require("express");					// Use the `express` library for the web server.
 var app = express();								// Set an `express` object for server interaction.
-PORT = 1991;										// Set the active port.
+PORT = 1995;										// Set the active port.
 
 // These middleware functions permit data extraction and key-value pairs.
 app.use(express.json());							// Parse incoming JSON.
@@ -605,9 +605,9 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 	let institutionID = parseInt(data.id);
 
 	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
-	research_paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE institution_id = ?)`;
-	let deleteResearch_PapersQuery = `DELETE FROM Research_Papers WHERE institution_id = ?`;
-	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
+	paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE institution_id = ?);`;
+	let deleteResearch_PapersQuery = `DELETE FROM Research_Papers WHERE institution_id = ?;`;
+	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?;`;
 
 	db.pool.query(
 		deleteResearch_Papers_has_AuthorsQuery,

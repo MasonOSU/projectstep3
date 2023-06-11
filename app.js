@@ -143,7 +143,7 @@ app.get("/disciplines", function (req, res) {
 	else {
 		readDisciplinesQuery = `SELECT * FROM Disciplines WHERE field LIKE "${req.query.field_name}%"`;}
 
-	db.pool.query(query1, function (error, rows, fields) {
+	db.pool.query(readDisciplinesQuery, function (error, rows, fields) {
 		res.render("disciplines", {data: rows});});});
 
 // // Create data with `post()` functions:

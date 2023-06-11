@@ -441,7 +441,7 @@ app.put("/put-discipline-ajax", function (req, res, next) {
 app.delete("/delete-research-paper-ajax/", function (req, res, next) {
 	let data = req.body;
 	let researchPaperId = parseInt(data.id);
-	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE research_paper_id = ?`;
+	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE paper_id = ?`;
 	let deleteResearchPapersQuery = `DELETE FROM Research_Papers WHERE research_paper_id = ?`;
 	
 	db.pool.query(deleteResearchPapersHasAuthorsQuery, [researchPaperId], function (error, rows, fields) {
@@ -472,9 +472,9 @@ app.delete("/delete-citation-ajax/", function (req, res, next) {
 // // // Delete `Authors` data.
 app.delete("/delete-author-ajax/", function (req, res, next) {
 	let data = req.body;
-
+	console.log(data);
 	let authorId = parseInt(data.id);
-	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE author_id = ?`;
+	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE name = ?`;
 	let deleteAuthorsQuery = `DELETE FROM Authors WHERE author_id = ?`;
 
 	db.pool.query(deleteResearchPapersHasAuthorsQuery, [authorId], function (error, rows, fields) {
@@ -537,10 +537,11 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 // // // Delete `Disciplines` data.
 app.delete("/delete-discipline-ajax/", function (req, res, next) {
 	let data = req.body;
+	console.log("data in route: ", data);
 	let disciplineId = parseInt(data.id);
 
 	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
-	research_paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE discipline_id = ?)`;
+	paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE discipline_id = ?)`;
 	let deleteResearchPapersQuery = `DELETE FROM Research_Papers WHERE discipline_id = ?`;
 	let deleteDisciplineQuery = `DELETE FROM Disciplines WHERE discipline_id = ?`;
 

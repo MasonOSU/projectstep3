@@ -1,9 +1,8 @@
 function deleteDiscipline(disciplineID) {
 	// put data to send in JS object
 	let data = {
-		id: disciplineID,
+		id: disciplineID
 	};
-
 	// prep AJAX request
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("DELETE", "/delete-discipline-ajax", true);
@@ -14,7 +13,7 @@ function deleteDiscipline(disciplineID) {
 		if (xhttp.readyState == 4 && xhttp.status == 204) {
 			// add new data
 			deleteRow(disciplineID);
-			location.reload()
+			location.reload();
 		} else if (xhttp.readyState == 4 && xhttp.status != 204) {
 			console.log("There was an error with the input.");
 		}
@@ -24,6 +23,7 @@ function deleteDiscipline(disciplineID) {
 }
 
 function deleteRow(disciplineID) {
+	console.log("discipline id passed into delete row: ", disciplineID);
 	let table = document.getElementById("disciplines-table");
 	for (let i = 0, row; (row = table.rows[i]); i++) {
 		// loop rows with assigned variable

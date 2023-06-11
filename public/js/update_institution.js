@@ -41,7 +41,7 @@ updateInstitutionForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, institutionID);
-            location.reload()
+            location.reload();
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -62,7 +62,7 @@ function updateRow(data, institutionID){
 
     let parsedDataIndex = 0;
     for (let dataIndex = 0; dataIndex < parsedData.length; dataIndex++) {
-      if (parsedData[dataIndex].author_id == institutionID) {
+      if (parsedData[dataIndex].institution_id == institutionID) {
         parsedDataIndex = dataIndex;
       }
     }
@@ -78,8 +78,8 @@ function updateRow(data, institutionID){
             // Get td of values
             let tdName = updateRowIndex.getElementsByTagName("td")[1];
             let tdAddress = updateRowIndex.getElementsByTagName("td")[2];
-            let tdCountry = updateRowIndex.getElementsByTagName("td")[4];
-            let tdWebsite = updateRowIndex.getElementsByTagName("td")[5];
+            let tdCountry = updateRowIndex.getElementsByTagName("td")[3];
+            let tdWebsite = updateRowIndex.getElementsByTagName("td")[4];
 
             // Reassign homeworld to our value we updated to
             tdName.innerHTML = parsedData[parsedDataIndex].name; 

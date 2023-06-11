@@ -1,3 +1,7 @@
+Research_Papers - Delete, 
+Citations - Read, Create, Update, Delete
+
+
 # Rubric
 ## PDF
 - ~~Site URL in PDF and submission comment~~
@@ -11,7 +15,7 @@
 
 ## SQL
 - ~~DDL has a comment at top explaining CS 340 project; is updated, commented, hand-authored; has sample data; cleanly importable; polite values used~~
-- DML describes all functionalities; updated; consistent with code; commented well
+- ~~DML describes all functionalities; updated; consistent with code; commented well~~
 
 ## Code
 - ~~All tables have `SELECT`~~

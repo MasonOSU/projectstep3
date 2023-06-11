@@ -6,195 +6,104 @@
 -- -- https://canvas.oregonstate.edu/courses/1914747/assignments/9181001?module_item_id=23040589. URL
 
 -- `Research_Papers` CRUD
--- -- Read all research papers and associated data:
+-- -- Read all research papers in UI:
 SELECT *, 
     DATE_FORMAT(date_published, '%b. %e, %Y') AS date_published,
-    (SELECT name FROM Institutions WHERE institution_id = Research_Papers.institution_id) AS institution_id, 
-	(SELECT field FROM Disciplines WHERE discipline_id = Research_Papers.discipline_id) AS discipline_id 
-	FROM Research_Papers;`;
+    (SELECT name FROM Institutions WHERE institution_id = Research_Papers.institution_id), 
+	(SELECT field FROM Disciplines WHERE discipline_id = Research_Papers.discipline_id)
+	FROM Research_Papers;
 
+-- -- Add a research paper, with foreign keys from dropdowns.
+INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) 
+    VALUES (inputTitle, inputDatePublished, inputDoi, institutionSelect, disciplineSelect);
 
-SELECT
-    *
-FROM
-    `Authors`
-ORDER BY
-    `author_id` ASC;
+-- -- Select a research paper from a dropdown and update, 
+-- -- also selecting institution and discipline foreign keys from dropdowns.
+UPDATE Research_Papers SET title = inputTitle, date_published = inputDatePublished, doi = inputDoi, 
+    institution_id = institutionSelect, discipline_id = disciplineSelect 
+    WHERE Research_Papers.research_paper_id = researchPaperSelect;
 
-INSERT into
-    `Authors` (first_name, last_name)
-VALUES
-    (inputFirstName, inputLastName);
+-- -- Delete research paper with button click.
+DELETE FROM Research_Papers WHERE research_paper_id = researchPaperId;
 
-UPDATE
-    `Authors`
-SET
-    inputFirstName,
-    inputLastName
-WHERE
-    `author_id` = authorId;
+-- `Citations` CRUD
+-- -- Read all citations and associated data:
+SELECT citation_id, 
+    (SELECT title FROM Research_Papers WHERE citing_paper_id = Research_Papers.research_paper_id),
+    (SELECT title FROM Research_Papers WHERE cited_paper_id = Research_Papers.research_paper_id) 
+    FROM Citations;
 
-DELETE FROM
-    `Authors`
-WHERE
-    `author_id` = authorId;
+-- -- Add citation by selecting existing publications from dropdowns.
+INSERT INTO Citations (citing_paper_id, cited_paper_id) 
+    VALUES (SELECT title FROM Research_Papers WHERE Research_Papers.research_paper_id = citingPaperSelect);
+    VALUES (SELECT title FROM Research_Papers WHERE Research_Papers.research_paper_id = citedPaperSelect);
 
-SELECT
-    *
-FROM
-    `Institutions`
-ORDER BY
-    `institution_id` ASC;
+-- -- Update citation by selecting an existing pair from a dropdown.
+UPDATE Citations SET citing_paper_id = citingPaperSelect, cited_paper_id = citedPaperSelect 
+    WHERE Citations.citation_id = citationSelect;
 
-INSERT into
-    `Institutions` (name, address, country, phone, website)
-VALUES
-    (
-        inputName,
-        inputAddress,
-        inputCountry,
-        inputPhone,
-        inputWebsite
-    );
+-- -- Delete a citation by clicking a button.
+DELETE FROM Citations WHERE citation_id = citationId;
 
-UPDATE
-    `Institutions`
-SET
-    (
-        inputName,
-        inputAddress,
-        inputCountry,
-        inputPhone,
-        inputWebsite
-    );
+-- `Authors` CRUD
+-- -- Read all authors and associated data:
+SELECT author_id, first_name, last_name FROM Authors;
 
-WHERE
-    `institution_id` = institutionId;
+-- -- Add author.
+INSERT INTO Authors (first_name, last_name) VALUES (inputFirstName, inputLastName);
 
-DELETE FROM
-    `Institutions`
-WHERE
-    `institution_id` = institutionId;
+-- -- Update author.
+UPDATE Authors SET first_name = inputFirstName, last_name = inputLastName 
+    WHERE Authors.author_id = authorSelect;
 
-SELECT
-    *
-FROM
-    `Disciplines`
-ORDER BY
-    `discipline_id` ASC;
+-- -- Delete author by clicking a button:
+DELETE FROM Authors WHERE author_id = authorId;
 
-INSERT into
-    `Disciplines` (field)
-VALUES
-    (inputField);
+-- `Research_Papers_has_Authors` CRUD
+-- -- Read all publication associations:
+SELECT *, 
+    (SELECT title FROM Research_Papers WHERE paper_id = Research_Papers.research_paper_id),
+    (SELECT CONCAT(Authors.first_name, ' ', Authors.last_name) WHERE researcher_id = Authors.author_id) 
+    FROM Research_Papers_has_Authors;
 
-UPDATE
-    `Disciplines`
-SET
-    inputField
-WHERE
-    `discipline_id` = disciplineId;
+-- -- Add new publication association.
+INSERT INTO Research_Papers_has_Authors (research_paper_author_id, paper_id, researcher_id) 
+    VALUES (researchPaperAuthorId, researchPaperSelect, authorSelect);
 
-DELETE FROM
-    `Disciplines`
-WHERE
-    `discipline_id` = disciplineId;
+-- -- Update association by dropdown.
+UPDATE Research_Papers_has_Authors 
+    SET paper_id = researchPaperSelect, researcher_id = authorSelect 
+    WHERE Research_Papers_has_Authors.research_paper_author_id = researchPaperAuthorSelect;
 
-SELECT
-    *
-FROM
-    Research_Papers
-ORDER BY
-    ASC;
+-- -- Delete publication association by choosing an existing ID from the dropdown.
+DELETE FROM Research_Paper_has_Authors 
+    WHERE Research_Papers_has_Authors.research_paper_author_id = researchPaperAuthorSelect
 
-INSERT INTO
-    Research_Papers (
-        title,
-        date_published,
-        doi,
-        institution_id,
-        discipline_id
-    )
-VALUES
-    (
-        inputTitle,
-        inputDatePublished,
-        inputDoi,
-        inputInstitutionId,
-        inputDisciplineId
-    );
+-- `Institutions` CRUD
+-- -- Read all publishing organizations.
+SELECT institution_id, name, address, country, website FROM Institutions;
 
-UPDATE
-    `Research_Papers`
-SET
-    inputTitle,
-    inputDatePublished,
-    inputDoi,
-    inputInstitutionId,
-    inputDisciplineId
-WHERE
-    `research_paper_id` = researchPaperId;
+-- -- Add new institution.
+INSERT INTO Institutions (name, address, country, website) 
+    VALUES (inputName, inputAddress, inputCountry, inputWebsite);
 
-DELETE FROM
-    `Research_Papers`
-WHERE
-    `research_paper_id` = researchPaperId;
+-- -- Update institution.
+UPDATE Institutions 
+    SET name = inputName, address = inputAddress, country = inputCountry, website = inputWebsite 
+    WHERE Institutions.institution_id = institutionSelect;
 
-SELECT
-    *
-FROM
-    `Citations`
-ORDER BY
-    `citation_id` ASC;
+-- -- Delete an institution by clicking a button.
+DELETE FROM Institutions WHERE Institutions.institution_id = institutionId
 
-INSERT into
-    `Citations` (citing_paper, referenced)
-VALUES
-    (
-        inputCitingPaper,
-        inputCitedPaper
-    );
+-- `Disciplines` CRUD
+-- -- Read all research fields.
+SELECT discipline_id, field FROM Disciplines;
 
-UPDATE
-    `Citations`
-SET
-    inputCitingPaper,
-    inputCitedPaper
-WHERE
-    `citation_id` = citationId;
+-- -- Add new field.
+INSERT INTO Disciplines (field) VALUES (inputField);
 
-DELETE FROM
-    `Citations`
-WHERE
-    `citation_id` = citationId;
+-- -- Update field.
+UPDATE Disciplines SET field = inputField WHERE Disciplines.discipline_id = disciplineSelect;
 
-SELECT
-    author_id,
-    research_paper_id,
-    CONCAT(first_name, ' ', last_name) AS name,
-    title AS research_paper
-FROM
-    Authors
-    INNER JOIN Research_Papers_has_Authors ON authors.author_id = Research_Paper_has_Authors.author_id
-    INNER JOIN Research_Papers on Research_Papers.research_paper_id = Research_Paper_has_Authors.research_paper_id
-ORDER BY
-    name,
-    research_paper;
-
-INSERT into
-    `Research_Papers_has_Authors` (author_id, research_paper_id)
-VALUES
-    (inputTitle, inputAuthor);
-
-UPDATE
-    `Research_Papers_has_Authors`
-SET
-    inputResearchPaperId,
-    inputAuthorId
-WHERE
-    `research_paper_author_id` = inputResearchPaperAuthorId;
-
-DELETE FROM
-    `Research_Papers_has_Authors`
-WHERE
-    `research_paper_author_id` = inputResearchPaperAuthorId;
+-- -- Delete discipine by button.
+DELETE FROM Disciplines WHERE Disciplines.discipline_id = disciplineId

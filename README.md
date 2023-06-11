@@ -1,3 +1,6 @@
+# To do...
+- Can't DELETE pre-existing from `Research_Papers`, `Authors`, `Institutions`, `Disciplines`. Something we had fixed before that, for some reason, is unfixed. It's as simple as running a second query in the `delete()` function, though. I'm thinking that changes I made to my SQL file did this and I need to re-implement something.
+
 # Rubric
 - one-page executive summary; effectively communicates material
 

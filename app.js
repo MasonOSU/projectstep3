@@ -381,6 +381,20 @@ app.delete("/delete-author-ajax/", function (req, res, next) {
 					res.sendStatus(400);} 
 				else {res.sendStatus(204);}});}});});
 
+// // // Delete `Research_Papers_has_Authors` data.
+app.delete("/delete-research_paper_author-ajax/", function (req, res, next) {
+	let data = req.body;
+
+	console.log(data);
+
+	let researchPaperAuthorId = parseInt(data.id);
+	let deleteResearchPapersHasAuthorsQuery = 
+		`DELETE FROM Research_Papers_has_Authors WHERE research_paper_author_id = ?`;
+
+	db.pool.query(deleteResearchPapersHasAuthorsQuery, [researchPaperAuthorId], 
+		function (error, rows, fields) {
+			if (error) {console.log(error); res.sendStatus(400);} 
+			else {res.sendStatus(204);}});});
 
 
 

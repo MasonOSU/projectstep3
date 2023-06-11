@@ -90,7 +90,7 @@ addRowToTable = data => {
 	currentTable.appendChild(row);
 
 	// Populate the dropdown with `Research_Papers` data.
-	let selectMenu = document.getElementById("authorSelect");
+	let selectMenu = document.getElementById("authorIdSelect");
 	let option = document.createElement("option");
 
 	option.text = newRow.first_name + " " + newRow.last_name;

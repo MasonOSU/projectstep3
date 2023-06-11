@@ -41,7 +41,7 @@ function deleteRow(authorId) {
 
 // Dynamically delete from the dropdown menu.
 function deleteDropDownMenu(authorId) {
-	let selectMenu = document.getElementById("authorSelect");
+	let selectMenu = document.getElementById("authorIdSelect");
 
 	for (let index = 0; index < selectMenu.length; index++) {
 		if (Number(selectMenu.options[index].value) === Number(authorId)) {

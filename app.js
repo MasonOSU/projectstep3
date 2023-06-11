@@ -572,9 +572,9 @@ app.delete("/delete-citation-ajax/", function (req, res, next) {
 // // // Delete `Authors` data.
 app.delete("/delete-author-ajax/", function (req, res, next) {
 	let data = req.body;
-	console.log(data);
+	console.log("this is data", data);
 	let authorId = parseInt(data.id);
-	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE name = ?`;
+	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE researcher_id = ?`;
 	let deleteAuthorsQuery = `DELETE FROM Authors WHERE author_id = ?`;
 
 	db.pool.query(deleteResearchPapersHasAuthorsQuery, [authorId], function (error, rows, fields) {

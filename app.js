@@ -106,13 +106,13 @@ app.get("/authors", function (req, res) {
 
 // // // Read `Research_Papers_has_Authors` data.
 app.get("/research_papers_has_authors", function (req, res) {
-	let readResearchPapersHasAuthorsQuery = `SELECT *, 
+	let readResearchPapersHasAuthorsQuery = `SELECT research_paper_author_id AS PublisherId,
 		(SELECT title FROM Research_Papers 
 			WHERE paper_id = Research_Papers.research_paper_id) 
-			AS paper_id,
+			AS ResearchPaper,
 		(SELECT CONCAT(Authors.first_name, ' ', Authors.last_name) FROM Authors 
-			WHERE name = Authors.author_id) 
-			AS name
+			WHERE researcher_id = Authors.author_id) 
+			AS AuthorName
 		FROM Research_Papers_has_Authors;`;
 
 	let readResearchPapersQuery = `SELECT * FROM Research_Papers;`;
@@ -139,7 +139,7 @@ app.get("/research_papers_has_authors", function (req, res) {
 
 // // // Read `Institutions` data.
 app.get("/institutions", function (req, res) {
-	let query = "SELECT institution_id AS InstitutionId, name AS Name, address AS Address, country AS Country, website AS website FROM Institutions;";
+	let query = "SELECT institution_id AS InstitutionId, name AS Name, address AS Address, country AS Country, website AS Website FROM Institutions;";
 
 	db.pool.query(query, function (error, rows, fields) {
 		res.render("institutions", { data: rows });
@@ -276,8 +276,8 @@ app.post("/add-research_paper_author-ajax", function (req, res) {
 	let data = req.body;
 
 	let addResearchPapersHasAuthorsQuery = `
-		INSERT INTO Research_Papers_has_Authors (research_paper_author_id, paper_id, name) 
-		VALUES ('${data.research_paper_author_id}', '${data.paper_id}', '${data.name}');`;
+		INSERT INTO Research_Papers_has_Authors (research_paper_author_id, paper_id, researcher_id) 
+		VALUES ('${data.research_paper_author_id}', '${data.paper_id}', '${data.researcher_id}');`;
 
 	db.pool.query(addResearchPapersHasAuthorsQuery, function (error, rows, fields) {
 		if (error) {
@@ -433,18 +433,17 @@ app.put("/put-author-ajax", function (req, res, next) {
 // // // Update `Research_Papers_has_Authors` data.
 app.put('/put-research_paper_author-ajax', function (req, res, next) {
 	let data = req.body;
-
 	let researchPaperAuthorId = parseInt(data.research_paper_author_id);
 	let paperId = data.paper_id;
-	let name = data.name;
+	let researcherId = data.researcher_id;
 
 	let updateResearchPapersHasAuthorsQuery = `
 		UPDATE Research_Papers_has_Authors 
-		SET paper_id = ?, name = ? WHERE Research_Papers_has_Authors.research_paper_author_id = ?;`;
+		SET paper_id = ?, researcher_id = ? WHERE Research_Papers_has_Authors.research_paper_author_id = ?;`;
 
 	let readResearchPapersHasAuthorsQuery = `SELECT * FROM Research_Papers_has_Authors;`;
 
-	db.pool.query(updateResearchPapersHasAuthorsQuery, [paperId, name, researchPaperAuthorId],
+	db.pool.query(updateResearchPapersHasAuthorsQuery, [paperId, researcherId, researchPaperAuthorId],
 		function (error, rows, fields) {
 			if (error) {
 				console.log(error);
@@ -618,35 +617,14 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 
 	let institutionId = parseInt(data.id);
 
-	let deleteResearchPapersHasAuthorsQuery = `
-		DELETE FROM Research_Papers_has_Authors WHERE 
-		paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE institution_id = ?)`;
-
-	let deleteResearchPapersQuery = `DELETE FROM Research_Papers WHERE institution_id = ?`;
 	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
 
-	db.pool.query(deleteResearchPapersHasAuthorsQuery, [institutionId], function (error, rows, fields) {
+	db.pool.query(deleteInstitutionQuery, [institutionId], function (error, rows, fields) {
 		if (error) {
 			console.log(error);
 			res.sendStatus(400);
-		}
-		else {
-			db.pool.query(deleteResearchPapersQuery, [institutionId], function (error, rows, fields) {
-				if (error) {
-					console.log(error);
-					res.sendStatus(400);
-				}
-				else {
-					db.pool.query(deleteInstitutionQuery, [institutionId], function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						}
-
-						else { res.sendStatus(204); }
-					});
-				}
-			});
+		} else {
+			res.sendStatus(204);
 		}
 	});
 });
@@ -654,7 +632,6 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 // // // Delete `Disciplines` data.
 app.delete("/delete-discipline-ajax/", function (req, res, next) {
 	let data = req.body;
-	console.log("data in route: ", data);
 	let disciplineId = parseInt(data.id);
 
 	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 

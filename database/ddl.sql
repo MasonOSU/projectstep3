@@ -80,14 +80,14 @@ CREATE TABLE `Citations` (
 -- -- -- Deleting from this junction table has no effect on other tables.
 CREATE TABLE IF NOT EXISTS `Research_Papers_has_Authors` (
   `research_paper_author_id` INT NOT NULL AUTO_INCREMENT,
-  `research_paper_id` INT NOT NULL,
-  `author_id` INT NOT NULL,
+  `paper_id` INT NOT NULL,
+  `name` INT NOT NULL,
   PRIMARY KEY (`research_paper_author_id`),
-  CONSTRAINT `research_paper_id` 
-    FOREIGN KEY (`research_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) 
+  CONSTRAINT `paper_id` 
+    FOREIGN KEY (`paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) 
     ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `author` 
-    FOREIGN KEY (`author_id`) REFERENCES `Authors` (`author_id`) 
+  CONSTRAINT `name` 
+    FOREIGN KEY (`name`) REFERENCES `Authors` (`author_id`) 
     ON DELETE NO ACTION ON UPDATE NO ACTION);
 
 -- Begin table insertions.
@@ -149,7 +149,7 @@ INSERT INTO `Citations` (`citing_paper_id`, `cited_paper_id`)
 -- -- Insert `Research_Papers_has_Authors` data.
 -- -- -- Sub-queries find `research_paper_id` values by `title`
 -- -- -- and `author_id` values by `first_name` and `last_name` concatenated search.
-INSERT INTO `Research_Papers_has_Authors` (`research_paper_id`, `author_id`)
+INSERT INTO `Research_Papers_has_Authors` (`paper_id`, `name`)
   VALUES 
     ((SELECT `research_paper_id` FROM `Research_Papers`
       WHERE `title` = 'Grapefruit Juice Interactions with Antipsychotic Medicine'),

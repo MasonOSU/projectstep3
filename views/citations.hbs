@@ -18,7 +18,7 @@
 	<a href="/research_papers">Research Papers</a>
 	<a href="/citations">Citations</a>
 	<a href="/authors">Authors</a>
-	<a href="/research_papers_authors">Research Papers to Authors</a>
+	<a href="/research_papers_has_authors">Publications (All)</a>
 	<a href="/institutions">Institutions</a>
 	<a href="/disciplines">Disciplines</a>
 </nav>
@@ -60,7 +60,7 @@
 
 	<!-- Create a dropdown menu linking `citing_paper_id` to its `title` constraint. -->
 	<select name="input-citing_paper" id="citingPaperSelect">
-		<option value="input-citing_paper">Select citing paper</option>
+		<option value="input-citing_paper">Select </option>
 		{{#each citing_papers}}
 			<option value="{{this.research_paper_id}}">{{this.title}}</option>
 		{{/each}}
@@ -71,7 +71,7 @@
 
 	<!-- Create a dropdown menu linking `cited_paper_id` to its `title` constraint. -->
 	<select name="input-cited_paper" id="citedPaperSelect">
-		<option value="input-cited_paper">Select cited paper</option>
+		<option value="input-cited_paper">Select </option>
 		{{#each citing_papers}}
 			<option value="{{this.research_paper_id}}">{{this.title}}</option>
 		{{/each}}

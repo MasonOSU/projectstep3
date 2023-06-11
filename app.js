@@ -81,14 +81,14 @@ app.get("/citations", function (req, res) {
 	let readResearchPapersQuery = `SELECT * FROM Research_Papers;`;
 
 	db.pool.query(readCitationsQuery, function (error, rows, fields) {
-		let papers = rows;
+		let research_papers = rows;
 
 		db.pool.query(readResearchPapersQuery, (error, rows, fields) => {
 			let citing_papers = rows;
 			let cited_papers = rows;
 
 			res.render("citations", {
-				data: papers,
+				data: research_papers,
 				citing_papers: citing_papers,
 				cited_papers: cited_papers,});});});});
 
@@ -98,6 +98,35 @@ app.get("/authors", function (req, res) {
 
 	db.pool.query(readAuthorsQuery, function (error, rows, fields) {
 		res.render("authors", {data: rows});});});
+
+// // // Read `Research_Papers_has_Authors` data.
+app.get("/research_papers_has_authors", function (req, res) {
+	let readResearchPapersHasAuthorsQuery = `SELECT *, 
+		(SELECT title FROM Research_Papers 
+			WHERE paper_id = Research_Papers.research_paper_id) 
+			AS paper_id,
+		(SELECT CONCAT(Authors.first_name, ' ', Authors.last_name) FROM Authors 
+			WHERE name = Authors.author_id) 
+			AS name
+		FROM Research_Papers_has_Authors;`;
+	
+	let readResearchPapersQuery = `SELECT * FROM Research_Papers;`;
+	let readAuthorsQuery = `SELECT * FROM Authors;`;
+
+	db.pool.query(readResearchPapersHasAuthorsQuery, function (error, rows, fields) {
+		let research_papers_authors = rows;
+
+		db.pool.query(readResearchPapersQuery, function(error, rows, fields) {
+			let research_papers = rows;
+
+			db.pool.query(readAuthorsQuery, function(error, rows, fields) {
+				let authors = rows;
+
+				res.render("research_papers_has_authors", {
+					data: research_papers_authors,
+					research_papers: research_papers,
+					authors: authors,});})})})});
+		// res.render("research_papers_has_authors", {data: rows});});});
 
 // // Create data with `post()` functions:
 // // // Add `Research_Papers` data.
@@ -333,27 +362,6 @@ app.get("/disciplines", function (req, res) {
 	}
 	db.pool.query(query1, function (error, rows, fields) {
 		res.render("disciplines", {data: rows});
-	});
-});
-
-app.get("/research_papers_authors", function (req, res) {
-	let query1 = "SELECT * FROM Research_Papers_has_Authors;";
-	let query2 = "SELECT * FROM Research_Papers;";
-	let query3 = "SELECT * FROM Authors;";
-	db.pool.query(query1, function (error, rows, fields) {
-		let research_papers_authors = rows;
-		db.pool.query(query2, (error, rows, fields) => {
-			let research_papers = rows;
-			db.pool.query(query3, (error, rows, fields) => {
-				let authors = rows;
-				res.render("research_papers_authors", {
-					data: rows,
-					research_papers_authors: research_papers_authors,
-					research_papers: research_papers,
-					authors: authors,
-				});
-			});
-		});
 	});
 });
 

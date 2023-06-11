@@ -36,14 +36,14 @@
 
 				{{!-- For each row, print the `institution_id`, `name`, `address`,
 				`country`, and `website`. --}}
-				<td>{{this.institution_id}}</td>
-				<td>{{this.name}}</td>
-				<td>{{this.address}}</td>
-				<td>{{this.country}}</td>
-				<td>{{this.website}}</td>
+				<td>{{this.InstitutionId}}</td>
+				<td>{{this.Name}}</td>
+				<td>{{this.Address}}</td>
+				<td>{{this.Country}}</td>
+				<td>{{this.Website}}</td>
 
 				<!-- Create a DELETE operation button for each attribute displayed. -->
-				<td><button onclick="deleteInstitution({{this.institution_id}})">Delete</button></td>
+				<td><button onclick="deleteInstitution({{this.InstitutionId}})">Delete</button></td>
 				
 			</tr>
 		{{/each}}
@@ -88,7 +88,7 @@
 	<select name="input-institution" id="institutionSelect">
 		<option value="test">Select an Institution</option>
 		{{#each data}}
-			<option value="{{this.institution_id}}">{{this.name}}</option>
+			<option value="{{this.InstitutionId}}">{{this.Name}}</option>
 		{{/each}}
 	</select>
 

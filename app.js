@@ -139,7 +139,7 @@ app.get("/research_papers_has_authors", function (req, res) {
 
 // // // Read `Institutions` data.
 app.get("/institutions", function (req, res) {
-	let query = "SELECT * FROM Institutions;";
+	let query = "SELECT institution_id AS InstitutionId, name AS Name, address AS Address, country AS Country, website AS website FROM Institutions;";
 
 	db.pool.query(query, function (error, rows, fields) {
 		res.render("institutions", { data: rows });
@@ -151,7 +151,7 @@ app.get("/disciplines", function (req, res) {
 	let readDisciplinesQuery;
 
 	if (req.query.field_name === undefined) {
-		readDisciplinesQuery = "SELECT * FROM Disciplines;";
+		readDisciplinesQuery = "SELECT discipline_id AS DisciplineId, field AS Field FROM Disciplines;";
 	}
 	else {
 		readDisciplinesQuery = `SELECT * FROM Disciplines WHERE field LIKE "${req.query.field_name}%"`;

@@ -42,12 +42,13 @@ app.get("/", function (req, res) {
 
 // // // Read `Research_Papers` data. 
 app.get("/research_papers", function (req, res) {
-	let researchPapersQuery = `SELECT *,
-		DATE_FORMAT(date_published, '%b. %e, %Y') AS date_published,
+	let researchPapersQuery = `SELECT research_paper_id AS ResearchPaperId, title AS Title,
+		DATE_FORMAT(date_published, '%b. %e, %Y') AS DatePublished,
+		doi as DOI,
 		(SELECT name FROM Institutions 
-			WHERE institution_id = Research_Papers.institution_id) AS institution_id, 
+			WHERE institution_id = Research_Papers.institution_id) AS Institution, 
 		(SELECT field FROM Disciplines 
-			WHERE discipline_id = Research_Papers.discipline_id) AS discipline_id 
+			WHERE discipline_id = Research_Papers.discipline_id) AS Discipline 
 		FROM Research_Papers;`;
 
 	let institutionsQuery = `SELECT * FROM Institutions;`;

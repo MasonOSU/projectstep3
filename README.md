@@ -1,3 +1,7 @@
+Research_Papers - Delete, 
+Citations - Read, Create, Update, Delete
+
+
 # Rubric
 ## PDF
 - ~~Site URL in PDF and submission comment~~

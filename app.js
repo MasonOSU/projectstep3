@@ -18,7 +18,7 @@
 // Setup
 var express = require("express");					// Use the `express` library for the web server.
 var app = express();								// Set an `express` object for server interaction.
-PORT = 1994;										// Set the active port.
+PORT = 1991;										// Set the active port.
 
 // These middleware functions permit data extraction and key-value pairs.
 app.use(express.json());							// Parse incoming JSON.

@@ -64,7 +64,7 @@ addRowToTable = data => {
 	let parsedData = JSON.parse(data);
 	let newRow = parsedData[parsedData.length - 1];
 
-	// make row, four cells
+	// make row, five cells
 	let row = document.createElement("TR");
 	let idCell = document.createElement("TD");
 	let nameCell = document.createElement("TD");
@@ -93,6 +93,7 @@ addRowToTable = data => {
 	row.appendChild(addressCell);
 	row.appendChild(countryCell);
 	row.appendChild(websiteCell);
+	row.appendChild(deleteCell);
 
 	// add attribute so deleteRow function can find new row
 	row.setAttribute("data-value", newRow.institution_id);

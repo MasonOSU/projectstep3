@@ -73,7 +73,7 @@ function updateRow(data, institutionID){
        if (table.rows[i].getAttribute("data-value") == institutionID) {
 
             // Get the location of the row where we found the matching person ID
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
+            let updateRowIndex = table.getElementsByTagName("tr")[parsedIndex];
 
             // Get td of values
             let tdName = updateRowIndex.getElementsByTagName("td")[1];

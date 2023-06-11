@@ -65,7 +65,7 @@ function updateRow(data, disciplineID) {
         if (table.rows[i].getAttribute("data-value") == disciplineID) {
 
             // Get the location of the row where we found the matching disciplineID
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
+            let updateRowIndex = table.getElementsByTagName("tr")[parsedIndex];
 
             let tdField = updateRowIndex.getElementsByTagName("td")[1];
             //console.log("inner html", parsedData[parsedDataIndex].field);

@@ -36,12 +36,12 @@
 		{{#each data}}
 
 		<tr>
-			<td>{{this.author_id}}</td>
-			<td>{{this.first_name}}</td>
-			<td>{{this.last_name}}</td>
+			<td>{{this.AuthorId}}</td>
+			<td>{{this.FirstName}}</td>
+			<td>{{this.LastName}}</td>
 
 			<!-- Create a DELETE operation button for each attribute displayed. -->
-			<td><button onclick="deleteAuthor({{this.author_id}})">Delete</button></td>
+			<td><button onclick="deleteAuthor({{this.AuthorId}})">Delete</button></td>
 		</tr>
 		{{/each}}
 	</tbody>
@@ -79,8 +79,8 @@
 	to their `title` constraints; merge the two for each entry. -->
 	<select name="input-fullname-update" id="authorSelect">
 		<option value="test">Select one</option>
-		{{#each data}}<option value="{{this.author_id}}">
-			{{this.first_name}} {{this.last_name}}
+		{{#each data}}<option value="{{this.AuthorId}}">
+			{{this.FirstName}} {{this.LastName}}
 		</option>{{/each}}
 	</select>
 

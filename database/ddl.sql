@@ -1,5 +1,6 @@
 -- `ddl.sql` is the Research Paper Archives' cleanly importable, hand-authored SQL code.
--- It uses queries guided by the below Oregon State CS 340 Canvas module.
+-- It's the driver SQL for Group 53's final CS 340 project at Oregon State University (OSU).
+-- It is heavily influenced by the OSU helper code `bsg_db.sql`.
 -- 	Code citation:
 -- -- Dr. Michael Curry. 2023. "Activity 1 - Access and Use the CS340 Database ".
 -- -- [Source code]. https://canvas.oregonstate.edu/courses/1914747/assignments/9180987?module_item_id=23040526. URL
@@ -42,8 +43,9 @@ CREATE TABLE IF NOT EXISTS `Disciplines` (
 -- -- Create `Research_Papers` table to log academic publications.
 -- -- -- `doi` means "Digital Object Modifier", a unique code in academia to search for the papers' content.
 -- -- -- The table has two foreign keys from `Institutions` (optional) and `Disciplines` (needed).
--- -- -- CASCADE commands push DELETE from `Disciplines` to `Research_Papers`.
--- -- -- Deleting from this table affects `Citations`.
+-- -- -- -- If a discipline is deleted or updated, so are all linked research papers.
+-- -- -- -- If an institution is deleted, research papers are set to NULL.
+-- -- -- Deleting from this table affects the junction tables `Citations` and `Research_Papers_has_Authors`.
 CREATE TABLE `Research_Papers` (
   `research_paper_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
@@ -54,7 +56,7 @@ CREATE TABLE `Research_Papers` (
   PRIMARY KEY (`research_paper_id`),
   CONSTRAINT `institution_id` FOREIGN KEY (`institution_id`) 
     REFERENCES `Institutions` (`institution_id`) 
-    ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `discipline_id` FOREIGN KEY (`discipline_id`) 
     REFERENCES `Disciplines` (`discipline_id`) 
     ON DELETE CASCADE ON UPDATE NO ACTION);
@@ -76,19 +78,19 @@ CREATE TABLE `Citations` (
     ON DELETE CASCADE ON UPDATE NO ACTION);
 
 -- Create table `Research_Papers_has_Authors` to log publishing researchers to papers and vice-versa.
--- -- -- Each `author` is a JOIN query for `first_name` and `last_name`.
+-- -- -- Each `researcher_id` is a concatenation sub-query of `first_name` and `last_name` in `Authors`.
 -- -- -- Deleting from this junction table has no effect on other tables.
 CREATE TABLE IF NOT EXISTS `Research_Papers_has_Authors` (
   `research_paper_author_id` INT NOT NULL AUTO_INCREMENT,
   `paper_id` INT NOT NULL,
-  `name` INT NOT NULL,
+  `researcher_id` INT NOT NULL,
   PRIMARY KEY (`research_paper_author_id`),
   CONSTRAINT `paper_id` 
     FOREIGN KEY (`paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) 
-    ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `name` 
-    FOREIGN KEY (`name`) REFERENCES `Authors` (`author_id`) 
-    ON DELETE NO ACTION ON UPDATE NO ACTION);
+    ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `researcher_id` 
+    FOREIGN KEY (`researcher_id`) REFERENCES `Authors` (`author_id`) 
+    ON DELETE CASCADE ON UPDATE NO ACTION);
 
 -- Begin table insertions.
 -- -- Insert `Authors` data.
@@ -149,7 +151,7 @@ INSERT INTO `Citations` (`citing_paper_id`, `cited_paper_id`)
 -- -- Insert `Research_Papers_has_Authors` data.
 -- -- -- Sub-queries find `research_paper_id` values by `title`
 -- -- -- and `author_id` values by `first_name` and `last_name` concatenated search.
-INSERT INTO `Research_Papers_has_Authors` (`paper_id`, `name`)
+INSERT INTO `Research_Papers_has_Authors` (`paper_id`, `researcher_id`)
   VALUES 
     ((SELECT `research_paper_id` FROM `Research_Papers`
       WHERE `title` = 'Grapefruit Juice Interactions with Antipsychotic Medicine'),

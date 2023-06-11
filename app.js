@@ -193,6 +193,28 @@ app.post("/add-author-ajax", function (req, res) {
 				
 				else {res.send(rows);}});}});});
 
+// // // Create `Research_Papers_has_Authors` data.
+app.post("/add-research_paper_author-ajax", function (req, res) {
+	let data = req.body;
+
+	let addResearchPapersHasAuthorsQuery = `
+		INSERT INTO Research_Papers_has_Authors (research_paper_author_id, paper_id, name) 
+		VALUES ('${data.research_paper_author_id}', '${data.paper_id}', '${data.name}');`;
+
+	db.pool.query(addResearchPapersHasAuthorsQuery, function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		else {
+			let readResearchPapersHasAuthorsQuery = `SELECT * FROM Research_Papers_has_Authors;`;
+
+			db.pool.query(readResearchPapersHasAuthorsQuery, function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);} 
+				
+				else {res.send(rows);}});}});});
+
 // // Update data with `put()` functions:
 // // // Update `Research_Papers` data.
 app.put("/put-research_paper-ajax", function (req, res, next) {

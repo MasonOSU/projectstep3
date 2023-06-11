@@ -89,11 +89,11 @@
 <form id="update-research_papers_has_authors-form-ajax">
 
 	<!-- Create the input for the `research_paper_author_id` constraint. -->
-	<label for="input-research_paper_has_authors_id-update">Existing Title: </label>
+	<label for="input-research_paper_author_id-update">Existing Title: </label>
 
 	<!-- Create a dropdown menu linking `research_papers_has_authors_id` to its `title` constraint. -->
-	<select name="input-research_paper_has_authors_id-update" id="researchPaperSelect">
-		<option value="input-research_paper_has_authors_id">Select </option>
+	<select name="input-research_paper_author_id-update" id="researchPaperSelect">
+		<option value="input-research_paper_author_id">Select </option>
 		{{#each data}}
 		<option value="{{this.research_paper_author_id}}">{{this.paper_id}} published by {{this.name}}</option>
 		{{/each}}
@@ -121,5 +121,5 @@
 {{!-- Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
 Lines 157-159 (Curry) --}}
 <script src="./js/add_research_paper_author.js"></script>
-<script src="./js/update_research_paper_author.js"></script>
-<script src="./js/delete_research_paper_author.js"></script>
+{{!-- <script src="./js/update_research_paper_author.js"></script>
+<script src="./js/delete_research_paper_author.js"></script> --}}

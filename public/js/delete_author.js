@@ -9,7 +9,7 @@ function deleteAuthor(authorId) {
 	
 	// Convert the target data into a JavaScript object.
 	let data = {id: authorId};
-
+	
     // Prep the Asynchronous JavaScipt and XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("DELETE", "/delete-author-ajax", true);

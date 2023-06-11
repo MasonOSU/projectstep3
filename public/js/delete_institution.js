@@ -3,7 +3,7 @@ function deleteInstitution(institutionID) {
     let data = {
         id: institutionID
     };
-
+    console.log("data: ", data);
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("DELETE", "/delete-institution-ajax", true);

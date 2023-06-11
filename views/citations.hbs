@@ -36,12 +36,12 @@
 		{{#each data}}
 
 		<tr>
-			<td>{{this.citation_id}}</td>
-			<td>{{this.citing_paper_id}}</td>
-			<td>{{this.cited_paper_id}}</td>
+			<td>{{this.CitationId}}</td>
+			<td>{{this.CitingPaper}}</td>
+			<td>{{this.CitedPaper}}</td>
 
 			<!-- Create a DELETE operation button for each attribute displayed. -->
-			<td><button onclick="deleteCitation({{this.citation_id}})">Delete</button></td>
+			<td><button onclick="deleteCitation({{this.CitationId}})">Delete</button></td>
 		</tr>
 		{{/each}}
 	</tbody>
@@ -94,9 +94,13 @@
 	to their `title` constraints; merge the two for each entry. -->
 	<select name="input-citation-update" id="input-citation-update">
 		<option value="input-citation-update">Select</option>
+		{{!-- {{#each data}}
+		<option value="{{this.CitationId}}">
+			{{this.CitingPaper}} cites {{this.CitedPaper}}</option>
+		{{/each}} --}}
 		{{#each data}}
-		<option value="{{this.citation_id}}">
-			{{this.citing_paper_id}} cites {{this.cited_paper_id}}</option>
+		<option value="{{this.CitationId}}">
+			{{this.CitationId}}</option>
 		{{/each}}
 	</select>
 

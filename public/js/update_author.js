@@ -28,7 +28,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
 	let data = {author_id: authorId,
 				first_name: firstNameValue,
 				last_name: lastNameValue,};
-
+	console.log("this is data when updating a row: ", data);
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("PUT", "/put-author-ajax", true);
@@ -67,7 +67,7 @@ function updateRow(data, authorId) {
 		if (table.rows[parsedIndex].getAttribute("data-value") == authorId) {
 
 			// Get the row matching `research_paper_id`.
-			let updateRowIndex = table.getElementsByTagName("tr")[i];
+			let updateRowIndex = table.getElementsByTagName("tr")[parsedIndex];
 
 			// Get the cell values.
 			let tdFirstName = updateRowIndex.getElementsByTagName("td")[1];

@@ -618,35 +618,14 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 
 	let institutionId = parseInt(data.id);
 
-	let deleteResearchPapersHasAuthorsQuery = `
-		DELETE FROM Research_Papers_has_Authors WHERE 
-		paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE institution_id = ?)`;
-
-	let deleteResearchPapersQuery = `DELETE FROM Research_Papers WHERE institution_id = ?`;
 	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
 
-	db.pool.query(deleteResearchPapersHasAuthorsQuery, [institutionId], function (error, rows, fields) {
+	db.pool.query(deleteInstitutionQuery, [institutionId], function (error, rows, fields) {
 		if (error) {
 			console.log(error);
 			res.sendStatus(400);
-		}
-		else {
-			db.pool.query(deleteResearchPapersQuery, [institutionId], function (error, rows, fields) {
-				if (error) {
-					console.log(error);
-					res.sendStatus(400);
-				}
-				else {
-					db.pool.query(deleteInstitutionQuery, [institutionId], function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						}
-
-						else { res.sendStatus(204); }
-					});
-				}
-			});
+		} else {
+			res.sendStatus(204);
 		}
 	});
 });

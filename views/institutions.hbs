@@ -1,4 +1,18 @@
+<!--
+	This page creates the UI for the `Institutions` entity that stores data on all publications in the database.
+
+	Code citation:
+		Dr. Michael Curry. 2022. 
+		"Step 4 - Dynamically Displaying Data". 
+		"Step 5 - Adding New Data".
+		"Step 6 - Dynamically Filling Dropdowns and Adding a Search Box".
+		"Step 8 - Dynamically Updating Data".
+		[Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
+-->
+
 <h1>Institutions</h1>
+
+<!-- Display the navigation bar to visit other pages. -->
 <nav>
 	<a href="/">Index</a>
 	<a href="/research_papers">Research Papers</a>
@@ -9,48 +23,68 @@
 	<a href="/disciplines">Disciplines</a>
 </nav>
 
+<!-- Lines 27-50 (Curry) -->
 <table id="institutions-table">
-	<thead>
-		<tr>
-			{{#each data.[0]}}
-				<th>{{@key}}</th>
-			{{/each}}
-		</tr>
-	</thead>
+
+	{{!-- For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. --}}
+	<thead><tr>{{#each data.[0]}}<th>{{@key}}</th>{{/each}}</tr></thead>
+	
 	<tbody>
 		{{#each data}}
 			<tr>
+
+				{{!-- For each row, print the `institution_id`, `name`, `address`,
+				`country`, and `website`. --}}
 				<td>{{this.institution_id}}</td>
 				<td>{{this.name}}</td>
 				<td>{{this.address}}</td>
 				<td>{{this.country}}</td>
 				<td>{{this.website}}</td>
-				<td><button
-						onclick="deleteInstitution({{this.institution_id}})"
-					>Delete</button></td>
+
+				<!-- Create a DELETE operation button for each attribute displayed. -->
+				<td><button onclick="deleteInstitution({{this.institution_id}})"
+				>Delete</button></td>
+				
 			</tr>
 		{{/each}}
 	</tbody>
 </table>
 
-{{!-- CRUD operations --}}
-<h2>Add</h2>
+<!-- Create a form to add new institutions with asynchronous JavaScript and XML (AJAX). -->
+<h2>Add Institution</h2>
+<p>To add a new institution, complete the forms below and click "Submit".</p>
+
+<!-- Lines 59-96 (Curry) -->
 <form id="add-institution-form-ajax">
+
+	<!-- Create the input for the `name` constraint. -->
 	<label for="input-name">Name </label>
-	<input type="text" name="input-name" id="input-name" />
+	<input type="text" name="input-name" id="input-name"/>
+
+	<!-- Create the input for the `address` constraint. -->
 	<label for="input-address">Address </label>
-	<input type="text" name="input-address" id="input-address" />
-	<label for="input-city">City </label>
-	<input type="text" name="input-city" id="input-city" />
+	<input type="text" name="input-address" id="input-address"/>
+
+	<!-- Create the input for the `country` constraint. -->
 	<label for="input-country">Country </label>
-	<input type="text" name="input-country" id="input-country" />
+	<input type="text" name="input-country" id="input-country"/>
+
+	<!-- Create the input for the `website` constraint. -->
 	<label for="input-website">Website </label>
-	<input type="text" name="input-website" id="input-website" />
+	<input type="text" name="input-website" id="input-website"/>
+
 	<input type="submit" />
 </form>
 
+<!-- Create a form to update existing research papers with AJAX. -->
 <h2>Update</h2>
+<p>Choose an existing institution from the dropdown menu to update it.</p>
+
+<!-- Lines 103-151 (Curry) -->
 <form id="update-institution-form-ajax">
+
+	<!-- Create a dropdown menu linking `institution_id` to its `name` constraint. -->
 	<label for="input-institution">Institution: </label>
 	<select name="input-institution" id="institutionSelect">
 		<option value="test">Select an Institution</option>
@@ -58,15 +92,23 @@
 			<option value="{{this.institution_id}}">{{this.name}}</option>
 		{{/each}}
 	</select>
+
+	<!-- Create the input for the new `title` constraint. -->
 	<label for="input-name">Name </label>
-	<input type="text" name="input-name" id="input-name_update" />
+	<input type="text" name="input-name" id="input-name_update"/>
+
+	<!-- Create the input for the new `addressed` constraint. -->
 	<label for="input-address">Address </label>
-	<input type="text" name="input-address" id="input-address_update" />
+	<input type="text" name="input-address" id="input-address_update"/>
+
+	<!-- Create the input for the new `country` constraint. -->
 	<label for="input-country">Country </label>
-	<input type="text" name="input-country" id="input-country_update" />
+	<input type="text" name="input-country" id="input-country_update"/>
+
+	<!-- Create the input for the new `website` constraint. -->
 	<label for="input-website">Website </label>
-	<input type="text" name="input-website" id="input-website_update" />
-	<input type="submit" />
+	<input type="text" name="input-website" id="input-website_update"/>
+	<input type="submit"/>
 </form>
 
 <script src="./js/add_institution.js"></script>

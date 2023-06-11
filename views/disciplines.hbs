@@ -43,11 +43,11 @@
 			<tr>
 
 				{{!-- For each row, print the `discipline_id` and `field`. --}}
-				<td>{{this.discipline_id}}</td>
-				<td>{{this.field}}</td>
+				<td>{{this.DisciplineId}}</td>
+				<td>{{this.Field}}</td>
 
 				<!-- Create a DELETE operation button for each attribute displayed. -->
-				<td><button onclick="deleteDiscipline({{this.discipline_id}})">Delete</button></td>
+				<td><button onclick="deleteDiscipline({{this.DisciplineId}})">Delete</button></td>
 			</tr>
 		{{/each}}
 	</tbody>
@@ -78,7 +78,7 @@
 	<select name="fieldName" id="disciplineSelect">
 		<option value="fieldName">Select field</option>
 		{{#each data}}
-			<option value="{{this.discipline_id}}">{{this.field}}</option>
+			<option value="{{this.DisciplineId}}">{{this.Field}}</option>
 		{{/each}}
 	</select>
 

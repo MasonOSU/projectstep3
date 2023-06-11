@@ -151,7 +151,7 @@ app.get("/disciplines", function (req, res) {
 	let readDisciplinesQuery;
 
 	if (req.query.field_name === undefined) {
-		readDisciplinesQuery = "SELECT * FROM Disciplines;";
+		readDisciplinesQuery = "SELECT discipline_id AS DisciplineId, field AS Field FROM Disciplines;";
 	}
 	else {
 		readDisciplinesQuery = `SELECT * FROM Disciplines WHERE field LIKE "${req.query.field_name}%"`;

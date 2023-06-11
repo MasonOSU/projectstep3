@@ -300,6 +300,34 @@ app.put("/put-author-ajax", function (req, res, next) {
 
 					else {res.send(rows);}});}});});
 
+// // // Update `Research_Papers_has_Authors` data.
+app.put('/put-research_paper_author-ajax', function(req,res,next){
+	let data = req.body;
+
+	let researchPaperAuthorId = parseInt(data.research_paper_author_id);
+	let paperId = data.paper_id;
+	let name = data.name;
+	
+	let updateResearchPapersHasAuthorsQuery = `
+		UPDATE Research_Papers_has_Authors 
+		SET paper_id = ?, name = ? WHERE Research_Papers_has_Authors.research_paper_author_id = ?;`;
+	
+	let readResearchPapersHasAuthorsQuery = `SELECT * FROM Research_Papers_has_Authors;`;
+	
+	db.pool.query(updateResearchPapersHasAuthorsQuery, [paperId, name, researchPaperAuthorId], 
+		function(error, rows, fields){
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);}
+			else {
+				db.pool.query(readResearchPapersHasAuthorsQuery, [researchPaperAuthorId], 
+					function(error, rows, fields) {
+						if (error) {
+						console.log(error);
+						res.sendStatus(400);} 
+				
+						else {res.send(rows);}})}})});
+
 // // Delete data with `delete()` functions:
 // // // Delete `Research_Papers` data.
 app.delete("/delete-research-paper-ajax/", function (req, res, next) {
@@ -510,24 +538,6 @@ app.put("/put-institution-ajax", function (req, res, next) {
 		}
 	);
 });
-
-app.put("/put-citation-ajax", function (req, res, next) {
-	let data = req.body;
-
-	console.log(data);
-
-	let citationId = parseInt(data.citation_id);
-	let citing_paper_id = data.citing_paper_id;
-	let cited_paper_id = data.cited_paper_id;
-
-	let updateCitationQuery = `UPDATE Citations SET citing_paper_id = ?, cited_paper_id = ? WHERE Citations.citation_id = ?;`;
-	let selectUpdatedListCitations = `SELECT * FROM Citations;`;
-
-	db.pool.query(updateCitationQuery, [citing_paper_id, cited_paper_id, citationID], function (error, rows, fields) {
-		if (error) {console.log(error); res.sendStatus(400);} 
-		else {db.pool.query(selectUpdatedListCitations, [citationId], function (error, rows, fields) {
-			if (error) {console.log(error);res.sendStatus(400);} 
-			else {res.send(rows);}});}});});
 
 
 

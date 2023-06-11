@@ -37,16 +37,16 @@
 		{{#each data}}
 	
 		<tr>
-			<td class="research_paper_id-cell">{{this.research_paper_id}}</td>
-			<td class="title-cell">{{this.title}}</td>
-			<td class="date_published-cell">{{this.date_published}}</td>
-			<td class="doi-cell">{{this.doi}}</td>
-			<td class="institution_id-cell">{{this.institution_id}}</td>
-			<td class="discipline_id-cell">{{this.discipline_id}}</td>
+			<td class="research_paper_id-cell">{{this.ResearchPaperId}}</td>
+			<td class="title-cell">{{this.Title}}</td>
+			<td class="date_published-cell">{{this.DatePublished}}</td>
+			<td class="doi-cell">{{this.DOI}}</td>
+			<td class="institution_id-cell">{{this.Institution}}</td>
+			<td class="discipline_id-cell">{{this.Discipline}}</td>
 			
 			<!-- Create a DELETE operation button for each attribute displayed. -->
 			<td class="delete-button-cell">
-			<button onclick="deleteResearchPaper({{this.research_paper_id}})">Delete</button></td>
+			<button onclick="deleteResearchPaper({{this.ResearchPaperId}})">Delete</button></td>
 		</tr>{{/each}}</tbody></table>
 
 <!-- Create a form to add new research papers with asynchronous JavaScript and XML (AJAX). -->
@@ -107,7 +107,7 @@
 	<select name="input-title" id="researchPaperSelect">
 		<option value="input-title">Select</option>
 		{{#each data}}
-		<option value="{{this.research_paper_id}}">{{this.title}}</option>
+		<option value="{{this.ResearchPaperId}}">{{this.Title}}</option>
 		{{/each}}
 	</select>
 

@@ -38,13 +38,13 @@
 		{{#each data}}
 
 		<tr>
-			<td>{{this.research_paper_author_id}}</td>
-			<td>{{this.paper_id}}</td>
-			<td>{{this.name}}</td>
+			<td>{{this.PublisherId}}</td>
+			<td>{{this.ResearchPaper}}</td>
+			<td>{{this.AuthorName}}</td>
 
 			<!-- Create a DELETE operation button for each attribute displayed. -->
 			<td class="delete-button-cell">
-			<button onclick="deleteResearchPaperAuthor({{this.research_paper_author_id}})">
+			<button onclick="deleteResearchPaperAuthor({{this.PublisherId}})">
 				Delete</button></td>
 		</tr>
 		{{/each}}
@@ -95,7 +95,7 @@
 	<select name="input-research_paper_author_id-update" id="input-research_paper_author_id-update">
 		<option value="input-research_paper_author_id">Select </option>
 		{{#each data}}
-		<option value="{{this.research_paper_author_id}}">{{this.paper_id}} published by {{this.name}}</option>
+		<option value="{{this.PublisherId}}">{{this.ResearchPaper}} published by {{this.AuthorName}}</option>
 		{{/each}}
 	</select>
 

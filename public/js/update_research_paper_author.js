@@ -30,7 +30,7 @@ updateResearchPapersHasAuthorsForm.addEventListener("submit", function (e) {
 	// Convert the data into a JavaScript object.
 	let data = {research_paper_author_id: researchPaperAuthorId,
 				paper_id: inputPaperIdValue,
-				name: inputNameValue,};
+				researcher_id: inputNameValue,};
 
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
@@ -78,4 +78,4 @@ function updateRow(data, researchPaperAuthorId) {
 
 					// Assign the new `parsedData` values to the row.
 					tdPaperId.innerHTML = parsedData[parsedDataIndex].paper_id;
-					tdName.innerHTML = parsedData[parsedDataIndex].name;}}}
+					tdName.innerHTML = parsedData[parsedDataIndex].researcher_id;}}}

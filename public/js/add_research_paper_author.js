@@ -14,7 +14,7 @@ let addResearchPaperHasAuthorsForm = document.getElementById("add-research_paper
 
 // Alter needed objects.
 addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
-    
+
 	// Don't submit the form yet.
 	e.preventDefault();
 
@@ -27,10 +27,12 @@ addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
 	let inputNameValue = inputName.value;
 
 	// Convert the data into a JavaScript object.
-	let data = {paper_id: inputPaperIdValue,
-				name: inputNameValue,};
+	let data = {
+		paper_id: inputPaperIdValue,
+		researcher_id: inputNameValue,
+	};
 
-    console.log(data);
+	console.log(data);
 
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
@@ -47,13 +49,17 @@ addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
 
 			// Clear the inputs for the next transaction.
 			inputPaperIdValue.value = "";
-			inputNameValue.value = "";} 
-		
+			inputNameValue.value = "";
+		}
+
 		else if (xhttp.readyState == 4 && xhttp.status != 200) {
-			console.log("There was an input error.");}};
+			console.log("There was an input error.");
+		}
+	};
 
 	// Send the request and wait on the reply.
-	xhttp.send(JSON.stringify(data));});
+	xhttp.send(JSON.stringify(data));
+});
 
 // Write an Object row as a single entity record.
 addRowToTable = data => {
@@ -74,13 +80,13 @@ addRowToTable = data => {
 	// Write the data.
 	idCell.innerText = newRow.research_paper_author_id;
 	paperIdCell.innerText = newRow.paper_id;
-	nameCell.innerText = newRow.name;
+	nameCell.innerText = newRow.researcher_id;
 
 	// Create a delete button.
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
-	deleteCell.onclick = 
-        function () {deleteResearchPapersHasAuthors(newRow.research_paper_author_id);};
+	deleteCell.onclick =
+		function () { deleteResearchPapersHasAuthors(newRow.research_paper_author_id); };
 
 	// Populate the row.
 	row.appendChild(idCell);
@@ -101,4 +107,5 @@ addRowToTable = data => {
 	// Populate the dropdown with `Research_Papers` data.
 	option.text = newRow.research_paper_author_id;
 	option.value = newRow.research_paper_author_id;
-	selectMenu.add(option);};
+	selectMenu.add(option);
+};

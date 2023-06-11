@@ -15,7 +15,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
 	e.preventDefault();
 
 	// Retrieve the form's data.
-	let inputAuthor = document.getElementById("authorSelect");
+	let inputAuthor = document.getElementById("authorIdSelect");
 	let inputFirstName = document.getElementById("input-first_name-update");
 	let inputLastName = document.getElementById("input-last_name-update");
 

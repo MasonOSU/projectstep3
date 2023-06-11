@@ -1,3 +1,10 @@
+-- `dml.sql` has the SQL queries for Group 53's final CS 340 project.
+-- Each one contributes to full front-end CRUD functionality for a database.
+-- It is heavily influenced by the OSU helper code `bsg_sample_data_manipulation_queries.sql`.
+-- 	Code citation:
+-- -- Dr. Michael Curry. 2023. "Project Step 3 Draft Version: Design HTML Interface + DML SQL". [Source code]. 
+-- -- https://canvas.oregonstate.edu/courses/1914747/assignments/9181001?module_item_id=23040589. URL
+
 SELECT
     *
 FROM

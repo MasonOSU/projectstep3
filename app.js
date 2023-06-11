@@ -126,7 +126,25 @@ app.get("/research_papers_has_authors", function (req, res) {
 					data: research_papers_authors,
 					research_papers: research_papers,
 					authors: authors,});})})})});
-		// res.render("research_papers_has_authors", {data: rows});});});
+
+// // // Read `Institutions` data.
+app.get("/institutions", function (req, res) {
+	let query = "SELECT * FROM Institutions;";
+
+	db.pool.query(query, function (error, rows, fields) {
+		res.render("institutions", {data: rows});});});
+
+// // // Read `Disciplines` data.
+app.get("/disciplines", function (req, res) {
+	let readDisciplinesQuery;
+
+	if (req.query.field_name === undefined) {
+		readDisciplinesQuery = "SELECT * FROM Disciplines;";} 
+	else {
+		readDisciplinesQuery = `SELECT * FROM Disciplines WHERE field LIKE "${req.query.field_name}%"`;}
+
+	db.pool.query(query1, function (error, rows, fields) {
+		res.render("disciplines", {data: rows});});});
 
 // // Create data with `post()` functions:
 // // // Add `Research_Papers` data.
@@ -193,6 +211,25 @@ app.post("/add-author-ajax", function (req, res) {
 				
 				else {res.send(rows);}});}});});
 
+// // // Add `Disciplines` data.
+app.post("/add-discipline-ajax", function (req, res) {
+	let data = req.body;
+	let addDisciplinesQuery = `INSERT INTO Disciplines (field) VALUES ('${data.field}')`;
+
+	db.pool.query(addDisciplinesQuery, function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		
+		else {
+			let readDisciplinesQuery = `SELECT * FROM Disciplines;`;
+			db.pool.query(readDisciplinesQuery, function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);} 
+				
+				else {res.send(rows);}});}});});
+
 // // // Create `Research_Papers_has_Authors` data.
 app.post("/add-research_paper_author-ajax", function (req, res) {
 	let data = req.body;
@@ -213,6 +250,28 @@ app.post("/add-research_paper_author-ajax", function (req, res) {
 					console.log(error);
 					res.sendStatus(400);} 
 				
+				else {res.send(rows);}});}});});
+	
+// // // Add `Institutions` data.
+app.post("/add-institution-ajax", function (req, res) {
+	let data = req.body;
+
+	let addInstitutionsQuery = `
+		INSERT INTO Institutions (name, address, country, website) 
+		VALUES ('${data.name}', '${data.address}', '${data.country}', '${data.website}')`;
+
+	db.pool.query(addInstitutionsQuery, function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		
+		else {
+			let readInstitutionsQuery = `SELECT * FROM Institutions;`;
+
+			db.pool.query(readInstitutionsQuery, function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);} 
 				else {res.send(rows);}});}});});
 
 // // Update data with `put()` functions:
@@ -328,6 +387,55 @@ app.put('/put-research_paper_author-ajax', function(req,res,next){
 				
 						else {res.send(rows);}})}})});
 
+// // // Update `Institutions` data.
+app.put("/put-institution-ajax", function (req, res, next) {
+	let data = req.body;
+
+	let institutionId = parseInt(data.institution_id);
+	let name = data.name;
+	let address = data.address;
+	let country = data.country;
+	let website = data.website;
+
+	let updateInstitutionsQuery = `
+		UPDATE Institutions SET name = ?, address = ?, country = ?, website = ? 
+		WHERE Institutions.institution_id = ?;`;
+	
+	let readInstitutionsQuery = `SELECT * FROM Institutions;`;
+
+	db.pool.query(updateInstitutionsQuery, [name, address, country, website, institutionId],
+		function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);} 
+			else {
+				db.pool.query(readInstitutionsQuery, [institutionId], function (error, rows, fields) {
+					if (error) {
+						console.log(error);
+						res.sendStatus(400);} 
+					
+					else {res.send(rows);}});}});});
+
+// // // Update `Disciplines` data.
+app.put("/put-discipline-ajax", function (req, res, next) {
+	let data = req.body;
+
+	let disciplineId = parseInt(data.discipline_id);
+	let field = data.field;
+	let updateDisciplinesQuery = `UPDATE Disciplines SET field = ? WHERE Disciplines.discipline_id = ?;`;
+	let readDisciplinesQuery = `SELECT * FROM Disciplines;`;
+
+	db.pool.query(updateDisciplinesQuery, [field, disciplineId], function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		else {db.pool.query(readDisciplinesQuery, function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);} 
+			
+			else {res.send(rows);}});}});});
+
 // // Delete data with `delete()` functions:
 // // // Delete `Research_Papers` data.
 app.delete("/delete-research-paper-ajax/", function (req, res, next) {
@@ -396,258 +504,61 @@ app.delete("/delete-research_paper_author-ajax/", function (req, res, next) {
 			if (error) {console.log(error); res.sendStatus(400);} 
 			else {res.sendStatus(204);}});});
 
-
-
-
-
-
-
-
-
-
-
-
-		
-
-
-app.get("/institutions", function (req, res) {
-	let query = "SELECT * FROM Institutions;";
-	db.pool.query(query, function (error, rows, fields) {
-		res.render("institutions", {data: rows});
-	});
-});
-
-app.get("/disciplines", function (req, res) {
-	let query1;
-	if (req.query.field_name === undefined) {
-		query1 = "SELECT * FROM Disciplines;";
-	} else {
-		query1 = `SELECT * FROM Disciplines WHERE field LIKE "${req.query.field_name}%"`;
-	}
-	db.pool.query(query1, function (error, rows, fields) {
-		res.render("disciplines", {data: rows});
-	});
-});
-
-
-
-
-
-app.post("/add-institution-ajax", function (req, res) {
-	let data = req.body;
-	console.log("this is data", data);
-	query1 = `INSERT INTO Institutions (name, address, country, website) VALUES ('${data.name}', '${data.address}', '${data.country}', '${data.website}')`;
-	db.pool.query(query1, function (error, rows, fields) {
-		if (error) {
-			console.log(error);
-			res.sendStatus(400);
-		} else {
-			query2 = `SELECT * FROM Institutions;`;
-			db.pool.query(query2, function (error, rows, fields) {
-				if (error) {
-					console.log(error);
-					res.sendStatus(400);
-				} else {
-					res.send(rows);
-				}
-			});
-		}
-	});
-});
-
-app.post("/add-discipline-ajax", function (req, res) {
-	let data = req.body;
-	query1 = `INSERT INTO Disciplines (field) VALUES ('${data.field}')`;
-	db.pool.query(query1, function (error, rows, fields) {
-		if (error) {
-			console.log(error);
-			res.sendStatus(400);
-		} else {
-			query2 = `SELECT * FROM Disciplines;`;
-			db.pool.query(query2, function (error, rows, fields) {
-				if (error) {
-					console.log(error);
-					res.sendStatus(400);
-				} else {
-					res.send(rows);
-				}
-			});
-		}
-	});
-});
-
-
-
-
-
-
-
-
-
-
-app.put("/put-discipline-ajax", function (req, res, next) {
-	let data = req.body;
-	console.log("this is data", data);
-	let disciplineId = parseInt(data.discipline_id);
-	let field = data.field;
-	let queryUpdateDiscipline = `UPDATE Disciplines SET field = ? WHERE Disciplines.discipline_id = ?;`;
-	let selectUpdatedListDisciplines = `SELECT * FROM Disciplines;`;
-	db.pool.query(
-		queryUpdateDiscipline,
-		[field, disciplineId],
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				db.pool.query(
-					selectUpdatedListDisciplines,
-					function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						} else {
-							res.send(rows);
-						}
-					}
-				);
-			}
-		}
-	);
-});
-
-app.put("/put-institution-ajax", function (req, res, next) {
-	let data = req.body;
-
-	let institutionID = parseInt(data.institution_id);
-	let name = data.name;
-	let address = data.address;
-	let country = data.country;
-	let website = data.website;
-
-	let queryUpdateInstitution = `UPDATE Institutions SET name = ?, address = ?, country = ?, website = ? WHERE Institutions.institution_id = ?;`;
-	let selectAllInstitutions = `SELECT * FROM Institutions;`;
-
-	db.pool.query(
-		queryUpdateInstitution,
-		[name, address, country, website, institutionID],
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				db.pool.query(
-					selectAllInstitutions,
-					[institutionID],
-					function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						} else {
-							res.send(rows);
-						}
-					}
-				);
-			}
-		}
-	);
-});
-
-
-
-app.delete("/delete-discipline-ajax/", function (req, res, next) {
-	let data = req.body;
-	let disciplineID = parseInt(data.id);
-
-	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
-	research_paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE discipline_id = ?)`;
-	let deleteResearch_PapersQuery = `DELETE FROM Research_Papers WHERE discipline_id = ?`;
-	let deleteDisciplineQuery = `DELETE FROM Disciplines WHERE discipline_id = ?`;
-
-	db.pool.query(
-		deleteResearch_Papers_has_AuthorsQuery,
-		[disciplineID],
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				db.pool.query(
-					deleteResearch_PapersQuery,
-					[disciplineID],
-					function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						} else {
-							db.pool.query(
-								deleteDisciplineQuery,
-								[disciplineID],
-								function (error, rows, fields) {
-									if (error) {
-										console.log(error);
-										res.sendStatus(400);
-									} else {
-										res.sendStatus(204);
-									}
-								}
-							);
-						}
-					}
-				);
-			}
-		}
-	);
-});
-
+// // // Delete `Institutions` data.
 app.delete("/delete-institution-ajax/", function (req, res, next) {
 	let data = req.body;
-	let institutionID = parseInt(data.id);
 
-	let deleteResearch_Papers_has_AuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
-	paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE institution_id = ?);`;
-	let deleteResearch_PapersQuery = `DELETE FROM Research_Papers WHERE institution_id = ?;`;
-	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?;`;
+	let institutionId = parseInt(data.id);
 
-	db.pool.query(
-		deleteResearch_Papers_has_AuthorsQuery,
-		[institutionID],
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				db.pool.query(
-					deleteResearch_PapersQuery,
-					[institutionID],
-					function (error, rows, fields) {
+	let deleteResearchPapersHasAuthorsQuery = `
+		DELETE FROM Research_Papers_has_Authors WHERE 
+		paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE institution_id = ?)`;
+
+	let deleteResearchPapersQuery = `DELETE FROM Research_Papers WHERE institution_id = ?`;
+	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
+
+	db.pool.query(deleteResearchPapersHasAuthorsQuery, [institutionId], function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		else {
+			db.pool.query(deleteResearchPapersQuery, [institutionID], function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);} 
+				else {
+					db.pool.query(deleteInstitutionQuery, [institutionID], function (error, rows, fields) {
 						if (error) {
 							console.log(error);
-							res.sendStatus(400);
-						} else {
-							db.pool.query(
-								deleteInstitutionQuery,
-								[institutionID],
-								function (error, rows, fields) {
-									if (error) {
-										console.log(error);
-										res.sendStatus(400);
-									} else {
-										res.sendStatus(204);
-									}
-								}
-							);
-						}
-					}
-				);
-			}
-		}
-	);
-});
+							res.sendStatus(400);} 
+						
+						else {res.sendStatus(204);}});}});}});});
 
-// listen event
+// // // Delete `Disciplines` data.
+app.delete("/delete-discipline-ajax/", function (req, res, next) {
+	let data = req.body;
+	let disciplineId = parseInt(data.id);
+
+	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE 
+	research_paper_id IN (SELECT research_paper_id FROM Research_Papers WHERE discipline_id = ?)`;
+	let deleteResearchPapersQuery = `DELETE FROM Research_Papers WHERE discipline_id = ?`;
+	let deleteDisciplineQuery = `DELETE FROM Disciplines WHERE discipline_id = ?`;
+
+	db.pool.query(deleteResearchPapersHasAuthorsQuery, [disciplineId], function (error, rows, fields) {
+		if (error) {
+			console.log(error);
+			res.sendStatus(400);} 
+		else {db.pool.query(deleteResearchPapersQuery, [disciplineId], function (error, rows, fields) {
+			if (error) {
+				console.log(error);
+				res.sendStatus(400);} 
+			else {db.pool.query(deleteDisciplineQuery,[disciplineId], function (error, rows, fields) {
+				if (error) {
+					console.log(error);
+					res.sendStatus(400);} 
+				
+				else {res.sendStatus(204);}});}});}});});
+
+// Listener
 app.listen(PORT, function () {
-	console.log(
-		"express active on http://localhost:" + PORT + "; Ctrl-C to stop"
-	);
-});
+	console.log("express active on http://localhost:" + PORT + "; Ctrl-C to stop");});

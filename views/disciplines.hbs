@@ -1,4 +1,18 @@
+<!--
+	This page creates the UI for the `Disciplines` entity that stores data on all publications in the database.
+
+	Code citation:
+		Dr. Michael Curry. 2022. 
+		"Step 4 - Dynamically Displaying Data". 
+		"Step 5 - Adding New Data".
+		"Step 6 - Dynamically Filling Dropdowns and Adding a Search Box".
+		"Step 8 - Dynamically Updating Data".
+		[Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
+-->
+
 <h1>Disciplines</h1>
+
+<!-- Display the navigation bar to visit other pages. -->
 <nav>
 	<a href="/">Index</a>
 	<a href="/research_papers">Research Papers</a>
@@ -17,37 +31,49 @@
 	<a href="/disciplines"><button>Reset</button></a>
 </form>
 
+<!-- Lines 27-50 (Curry) -->
 <table id="disciplines-table">
-	<thead>
-		<tr>
-			{{#each data.[0]}}
-				<th>{{@key}}</th>
-			{{/each}}
-		</tr>
-	</thead>
+
+	{{!-- For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. --}}
+	<thead><tr>{{#each data.[0]}}<th>{{@key}}</th>{{/each}}</tr></thead>
+	
 	<tbody>
 		{{#each data}}
 			<tr>
+
+				{{!-- For each row, print the `discipline_id` and `field`. --}}
 				<td>{{this.discipline_id}}</td>
 				<td>{{this.field}}</td>
-				<td><button
-						onclick="deleteDiscipline({{this.discipline_id}})"
-					>Delete</button></td>
+
+				<!-- Create a DELETE operation button for each attribute displayed. -->
+				<td><button onclick="deleteDiscipline({{this.discipline_id}})">Delete</button></td>
 			</tr>
 		{{/each}}
 	</tbody>
 </table>
 
-{{!-- CRUD operations --}}
-<h2>Add</h2>
+<!-- Create a form to add new institutions with asynchronous JavaScript and XML (AJAX). -->
+<h2>Add Discipline</h2>
+<p>Input a new academic field for publications.</p>
+
+<!-- Lines 59-96 (Curry) -->
 <form id="add-discipline-form-ajax">
-	<label for="field-name">Field </label>
+
+	<!-- Create the input for the `field` constraint. -->
+	<label for="field-name">Field: </label>
 	<input type="text" name="field-name" id="field-name" />
 	<input type="submit" />
 </form>
 
+<!-- Create a form to update existing research papers with AJAX. -->
 <h2>Update</h2>
+<p>Modify an existing research field.</p>
+
+<!-- Lines 103-151 (Curry) -->
 <form id="update-discipline-form-ajax">
+
+	<!-- Create a dropdown menu linking `discipline_id` to its `field` constraint. -->
 	<label for="fieldName">Discipline:</label>
 	<select name="fieldName" id="disciplineSelect">
 		<option value="fieldName">Select field</option>
@@ -55,9 +81,12 @@
 			<option value="{{this.discipline_id}}">{{this.field}}</option>
 		{{/each}}
 	</select>
+
+	<!-- Create the input for the new `field` constraint. -->
 	<label for="input-field_name">Updated Field: </label>
-	<input type="text" name="input-field_name" id="input-field_name" />
-	<input type="submit" />
+	<input type="text" name="input-field_name" id="input-field_name"/>
+
+	<input type="submit"/>
 </form>
 
 <script src="./js/add_discipline.js"></script>

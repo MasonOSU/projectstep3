@@ -55,9 +55,10 @@
 	</tbody>
 </table>
 
+<div class = "container"><div>
 <!-- Create a form to add new authors with asynchronous JavaScript and XML (AJAX). -->
 <h2>Add</h2>
-<p>To add a new author, input their first and last name.</p>
+<p>Submit the author's name below.</p>
 
 <!-- Lines 55-80 (Curry) -->
 <form id="add-author-form-ajax">
@@ -70,12 +71,12 @@
 	<label for="input-last_name">Last Name: </label>
 	<input type="text" name="input-last_name" id="input-last_name" required/>
 	<input type="submit"/>
-</form>
+</form></div>
 
+<div>
 <!-- Create a form to update existing citations with AJAX. -->
 <h2>Update Author</h2>
-<p>To update an author, select their full name from the dropdown menu, then
-	input a new first or last name.</p>
+<p>Select an existing full name.</p>
 
 <!-- Lines 73-96, (Curry) -->
 <form id="update-author-form-ajax">
@@ -102,7 +103,7 @@
 	<input type="text" name="input-last_name-update" id="input-last_name-update" required/>
 
 	<input type="submit" />
-</form>
+</form></div></div>
 
 {{! Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
 Lines 100-102 (Curry) }}

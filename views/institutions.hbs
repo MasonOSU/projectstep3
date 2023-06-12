@@ -58,35 +58,38 @@
 	</tbody>
 </table>
 
+<div class = "container">
 <!-- Create a form to add new institutions with asynchronous JavaScript and XML (AJAX). -->
+<div>
 <h2>Add Institution</h2>
-<p>To add a new institution, complete the forms below and click "Submit".</p>
+<p>Complete the forms below.</p>
 
 <!-- Lines 59-96 (Curry) -->
 <form id="add-institution-form-ajax">
 
 	<!-- Create the input for the `name` constraint. -->
-	<label for="input-name">Name </label>
+	<label for="input-name">Name: </label>
 	<input type="text" name="input-name" id="input-name" required/>
 
 	<!-- Create the input for the `address` constraint. -->
-	<label for="input-address">Address </label>
+	<label for="input-address">Address: </label>
 	<input type="text" name="input-address" id="input-address" required/>
 
 	<!-- Create the input for the `country` constraint. -->
-	<label for="input-country">Country </label>
+	<label for="input-country">Country: </label>
 	<input type="text" name="input-country" id="input-country" required/>
 
 	<!-- Create the input for the `website` constraint. -->
-	<label for="input-website">Website </label>
+	<label for="input-website">Website: </label>
 	<input type="text" name="input-website" id="input-website" required/>
 
 	<input type="submit" />
-</form>
+</form></div>
 
 <!-- Create a form to update existing research papers with AJAX. -->
+<div>
 <h2>Update Institution</h2>
-<p>Choose an existing institution from the dropdown menu to update it.</p>
+<p>Choose an existing institution.</p>
 
 <!-- Lines 103-151 (Curry) -->
 <form id="update-institution-form-ajax">
@@ -101,22 +104,22 @@
 	</select>
 
 	<!-- Create the input for the new `title` constraint. -->
-	<label for="input-name">Name </label>
+	<label for="input-name">Name: </label>
 	<input type="text" name="input-name" id="input-name_update" required/>
 
 	<!-- Create the input for the new `addressed` constraint. -->
-	<label for="input-address">Address </label>
+	<label for="input-address">Address: </label>
 	<input type="text" name="input-address" id="input-address_update" required/>
 
 	<!-- Create the input for the new `country` constraint. -->
-	<label for="input-country">Country </label>
+	<label for="input-country">Country: </label>
 	<input type="text" name="input-country" id="input-country_update" required/>
 
 	<!-- Create the input for the new `website` constraint. -->
-	<label for="input-website">Website </label>
+	<label for="input-website">Website: </label>
 	<input type="text" name="input-website" id="input-website_update" required/>
 	<input type="submit"/>
-</form>
+</form></div></div>
 
 <script src="./js/add_institution.js"></script>
 <script src="./js/update_institution.js"></script>

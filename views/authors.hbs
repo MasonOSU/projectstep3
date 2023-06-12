@@ -64,12 +64,12 @@
 
 	<!-- Create the input for the `first_name` constraint. -->
 	<label for="input-first_name">First Name: </label>
-	<input type="text" name="input-first_name" id="input-first_name" />
+	<input type="text" name="input-first_name" id="input-first_name" required/>
 
 	<!-- Create the input for the `last_name` constraint. -->
 	<label for="input-last_name">Last Name: </label>
-	<input type="text" name="input-last_name" id="input-last_name" />
-	<input type="submit" />
+	<input type="text" name="input-last_name" id="input-last_name" required/>
+	<input type="submit"/>
 </form>
 
 <!-- Create a form to update existing citations with AJAX. -->
@@ -85,8 +85,8 @@
 
 	<!-- Create a dropdown menu linking `citing_paper_id` and `cited_paper_id` 
 	to their `title` constraints; merge the two for each entry. -->
-	<select name="input-fullname-update" id="authorIdSelect">
-		<option value="test">Select one</option>
+	<select name="input-fullname-update" id="authorIdSelect" required>
+		<option value="">Select one</option>
 		{{#each data}}<option value="{{this.AuthorId}}">
 			{{this.FirstName}}
 			{{this.LastName}}
@@ -95,11 +95,11 @@
 
 	<!-- Create the input for the new `first_name` constraint. -->
 	<label for="input-first_name-update">First Name: </label>
-	<input type="text" name="input-first_name-update" id="input-first_name-update" />
+	<input type="text" name="input-first_name-update" id="input-first_name-update" required/>
 
 	<!-- Create the input for the new `last_name` constraint. -->
 	<label for="input-last_name-update">Last Name: </label>
-	<input type="text" name="input-last_name-update" id="input-last_name-update" />
+	<input type="text" name="input-last_name-update" id="input-last_name-update" required/>
 
 	<input type="submit" />
 </form>

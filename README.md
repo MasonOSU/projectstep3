@@ -20,15 +20,15 @@ Citations - Read, Create, Update, Delete
 ## Code
 - ~~All tables have `SELECT`~~
 - ~~All tables have `INSERT`~~
-- At least one table has `DELETE`
-- - One `DELETE` must remove from `M:M` without `CASCADE` and is highlighted in PDF
-- At least one table has `UPDATE`
+- ~~At least one table has `DELETE`~~
+- - ~~One `DELETE` must remove from `M:M` without `CASCADE` and is highlighted in PDF~~
+- ~~At least one table has `UPDATE`~~
 - - At least one `UPDATE` can be `NULL`
 - ~~Foreign keys are all accessed from dropdown or search~~
 - ~~Organized folders~~
 - ~~Good file and variable names~~
 - ~~All files commented~~
-- `package.json` documents required libraries
+- ~~`package.json` documents required libraries~~
 - `db-connector.js` credentials sanitized
 - ~~Files have code citations with:~~
 - - ~~Line numbers~~

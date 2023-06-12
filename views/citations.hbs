@@ -23,26 +23,36 @@
 	<a href="/disciplines">Disciplines</a>
 </nav>
 
-<!-- Lines 27-48 (Curry) -->
+<!-- Lines 27-58 (Curry) -->
 <table id="citations-table">
 
-	{{!-- For the first row, print each key of the row object as a header cell to
-	know what each column means when the page renders. --}}
-	<thead><tr>{{#each data.[0]}}<th>{{@key}}</th>{{/each}}</tr></thead>
-	
+	{{! For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. }}
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>
+					{{@key}}
+				</th>
+			{{/each}}
+		</tr>
+	</thead>
+
 	<tbody>
 
-		{{!-- For each row, print the `citation_id`, `citing_paper_id`, and `cited_paper_id` --}}
+		{{! For each row, print the `citation_id`, `citing_paper_id`, and `cited_paper_id` }}
 		{{#each data}}
 
-		<tr>
-			<td>{{this.CitationId}}</td>
-			<td>{{this.CitingPaper}}</td>
-			<td>{{this.CitedPaper}}</td>
+			<tr>
+				<td>{{this.CitationId}}</td>
+				<td>{{this.CitingPaper}}</td>
+				<td>{{this.CitedPaper}}</td>
 
-			<!-- Create a DELETE operation button for each attribute displayed. -->
-			<td><button onclick="deleteCitation({{this.CitationId}})">Delete</button></td>
-		</tr>
+				<!-- Create a DELETE operation button for each attribute displayed. -->
+				<td><button
+						onclick="deleteCitation({{this.CitationId}})"
+					>Delete</button></td>
+			</tr>
 		{{/each}}
 	</tbody>
 </table>
@@ -62,7 +72,9 @@
 	<select name="input-citing_paper" id="citingPaperSelect">
 		<option value="input-citing_paper">Select </option>
 		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
+			<option
+				value="{{this.research_paper_id}}"
+			>{{this.title}}</option>
 		{{/each}}
 	</select>
 
@@ -73,7 +85,9 @@
 	<select name="input-cited_paper" id="citedPaperSelect">
 		<option value="input-cited_paper">Select </option>
 		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
+			<option
+				value="{{this.research_paper_id}}"
+			>{{this.title}}</option>
 		{{/each}}
 	</select>
 	<input type="submit" />
@@ -94,13 +108,11 @@
 	to their `title` constraints; merge the two for each entry. -->
 	<select name="input-citation-update" id="input-citation-update">
 		<option value="input-citation-update">Select</option>
-		{{!-- {{#each data}}
-		<option value="{{this.CitationId}}">
-			{{this.CitingPaper}} cites {{this.CitedPaper}}</option>
-		{{/each}} --}}
 		{{#each data}}
-		<option value="{{this.CitationId}}">
-			{{this.CitingPaper}} cites {{this.CitedPaper}}</option>
+			<option value="{{this.CitationId}}">
+				{{this.CitingPaper}}
+				cites
+				{{this.CitedPaper}}</option>
 		{{/each}}
 	</select>
 
@@ -111,7 +123,9 @@
 	<select name="input-citing_paper-update" id="input-citing_paper-update">
 		<option value="input-citing_paper">Select citing paper</option>
 		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
+			<option
+				value="{{this.research_paper_id}}"
+			>{{this.title}}</option>
 		{{/each}}
 	</select>
 
@@ -122,14 +136,16 @@
 	<select name="input-cited_paper-update" id="input-cited_paper-update">
 		<option value="input-cited_paper">Select cited paper</option>
 		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
+			<option
+				value="{{this.research_paper_id}}"
+			>{{this.title}}</option>
 		{{/each}}
 	</select>
 	<input type="submit" />
 </form>
 
-{{!-- Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
-Lines 129-131 (Curry) --}}
+{{! Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
+Lines 129-131 (Curry) }}
 <script src="./js/add_citation.js"></script>
 <script src="./js/update_citation.js"></script>
 <script src="./js/delete_citation.js"></script>

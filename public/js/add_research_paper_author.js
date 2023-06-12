@@ -1,4 +1,4 @@
-// `add_research_paper_author.js` handles the client side for Create requests to 
+// `add_research_paper_author.js` handles the client side for Create requests to
 // the `Research_paper_has_Authors` junction table.
 //
 // Code citation:
@@ -8,13 +8,14 @@
 // // "Step 7 - Dynamically Deleting Data".
 // // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
 
-// Lines 12-99 (Curry)
+// Lines 13-111 (Curry)
 // Get the objects to modify.
-let addResearchPaperHasAuthorsForm = document.getElementById("add-research_papers_has_authors-form-ajax");
+let addResearchPaperHasAuthorsForm = document.getElementById(
+	"add-research_papers_has_authors-form-ajax"
+);
 
 // Alter needed objects.
 addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
-
 	// Don't submit the form yet.
 	e.preventDefault();
 
@@ -42,7 +43,6 @@ addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
 	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
 			// Add the new data to the table and auto-refresh.
 			addRowToTable(xhttp.response);
 			location.reload();
@@ -50,9 +50,7 @@ addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
 			// Clear the inputs for the next transaction.
 			inputPaperIdValue.value = "";
 			inputNameValue.value = "";
-		}
-
-		else if (xhttp.readyState == 4 && xhttp.status != 200) {
+		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
 			console.log("There was an input error.");
 		}
 	};
@@ -63,9 +61,10 @@ addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
 
 // Write an Object row as a single entity record.
 addRowToTable = data => {
-
 	// Find the current table, last row, and last object.
-	let currentTable = document.getElementById("research_papers_has_authors-table");
+	let currentTable = document.getElementById(
+		"research_papers_has_authors-table"
+	);
 	let newRowIndex = currentTable.rows.length;
 	let parsedData = JSON.parse(data);
 	let newRow = parsedData[parsedData.length - 1];
@@ -85,8 +84,9 @@ addRowToTable = data => {
 	// Create a delete button.
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
-	deleteCell.onclick =
-		function () { deleteResearchPapersHasAuthors(newRow.research_paper_author_id); };
+	deleteCell.onclick = function () {
+		deleteResearchPapersHasAuthors(newRow.research_paper_author_id);
+	};
 
 	// Populate the row.
 	row.appendChild(idCell);

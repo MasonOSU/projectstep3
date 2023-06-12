@@ -13,7 +13,6 @@ let addAuthorForm = document.getElementById("add-author-form-ajax");
 
 // Alter needed objects.
 addAuthorForm.addEventListener("submit", function (e) {
-
 	// Don't submit the form yet.
 	e.preventDefault();
 
@@ -26,8 +25,7 @@ addAuthorForm.addEventListener("submit", function (e) {
 	let lastNameValue = inputLastName.value;
 
 	// Convert the data to a JavaScript object.
-	let data = {first_name: firstNameValue,
-				last_name: lastNameValue,};
+	let data = {first_name: firstNameValue, last_name: lastNameValue};
 
 	// Prep the Asynchronous JavaScript and XML (Ajax) request.
 	var xhttp = new XMLHttpRequest();
@@ -37,23 +35,23 @@ addAuthorForm.addEventListener("submit", function (e) {
 	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
 			// Add the new data to the table.
 			addRowToTable(xhttp.response);
 
 			// Clear the inputs for a new transaction.
 			inputFirstName.value = "";
-			inputLastName.value = "";} 
-		
-		else if (xhttp.readyState == 4 && xhttp.status != 200) {
-			console.log("There was an input error.");}};
+			inputLastName.value = "";
+		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
+			console.log("There was an input error.");
+		}
+	};
 
 	// Send the request and wait on the reply.
-	xhttp.send(JSON.stringify(data));});
+	xhttp.send(JSON.stringify(data));
+});
 
 // Write an Object row as a single entity record.
 addRowToTable = data => {
-
 	// Find the current table, last row, and last object.
 	let currentTable = document.getElementById("authors-table");
 	let newRowIndex = currentTable.rows.length;
@@ -75,7 +73,9 @@ addRowToTable = data => {
 	// Create a delete button.
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
-	deleteCell.onclick = function () {deleteAuthor(newRow.author_id);};
+	deleteCell.onclick = function () {
+		deleteAuthor(newRow.author_id);
+	};
 
 	// Populate the row.
 	row.appendChild(authorIdCell);
@@ -95,4 +95,5 @@ addRowToTable = data => {
 
 	option.text = newRow.first_name + " " + newRow.last_name;
 	option.value = newRow.author_id;
-	selectMenu.add(option);};
+	selectMenu.add(option);
+};

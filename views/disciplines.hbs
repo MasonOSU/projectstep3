@@ -34,21 +34,29 @@
 <!-- Lines 27-50 (Curry) -->
 <table id="disciplines-table">
 
-	{{!-- For the first row, print each key of the row object as a header cell to
-	know what each column means when the page renders. --}}
-	<thead><tr>{{#each data.[0]}}<th>{{@key}}</th>{{/each}}</tr></thead>
-	
+	{{! For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. }}
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+			<th>
+				{{@key}}
+			</th>
+			{{/each}}
+		</tr>
+	</thead>
+
 	<tbody>
 		{{#each data}}
-			<tr>
+		<tr>
 
-				{{!-- For each row, print the `discipline_id` and `field`. --}}
-				<td>{{this.DisciplineId}}</td>
-				<td>{{this.Field}}</td>
+			{{! For each row, print the `discipline_id` and `field`. }}
+			<td>{{this.DisciplineId}}</td>
+			<td>{{this.Field}}</td>
 
-				<!-- Create a DELETE operation button for each attribute displayed. -->
-				<td><button onclick="deleteDiscipline({{this.DisciplineId}})">Delete</button></td>
-			</tr>
+			<!-- Create a DELETE operation button for each attribute displayed. -->
+			<td><button onclick="deleteDiscipline({{this.DisciplineId}})">Delete</button></td>
+		</tr>
 		{{/each}}
 	</tbody>
 </table>
@@ -78,15 +86,15 @@
 	<select name="fieldName" id="disciplineSelect">
 		<option value="fieldName">Select field</option>
 		{{#each data}}
-			<option value="{{this.DisciplineId}}">{{this.Field}}</option>
+		<option value="{{this.DisciplineId}}">{{this.Field}}</option>
 		{{/each}}
 	</select>
 
 	<!-- Create the input for the new `field` constraint. -->
 	<label for="input-field_name">Updated Field: </label>
-	<input type="text" name="input-field_name" id="input-field_name"/>
+	<input type="text" name="input-field_name" id="input-field_name" />
 
-	<input type="submit"/>
+	<input type="submit" />
 </form>
 
 <script src="./js/add_discipline.js"></script>

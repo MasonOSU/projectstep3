@@ -25,40 +25,56 @@
 
 <!-- Lines 27-50 (Curry) -->
 <table id="research_papers-table">
-	
-	{{!-- For the first row, print each key of the row object as a header cell to
-	know what each column means when the page renders. --}}
-	<thead><tr>{{#each data.[0]}}<th>{{@key}}</th>{{/each}}</tr></thead>
-	
-	<tbody>
-	
-		{{!-- For each row, print the `research_paper_id`, `title`, `date_published`,
-		`doi`, `institution_id` foreign key, and `discipline_id` foreign key. --}}
-		{{#each data}}
-	
+
+	{{! For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. }}
+	<thead>
 		<tr>
-			<td class="research_paper_id-cell">{{this.ResearchPaperId}}</td>
-			<td class="title-cell">{{this.Title}}</td>
-			<td class="date_published-cell">{{this.DatePublished}}</td>
-			<td class="doi-cell">{{this.DOI}}</td>
-			<td class="institution_id-cell">{{this.Institution}}</td>
-			<td class="discipline_id-cell">{{this.Discipline}}</td>
-			
-			<!-- Create a DELETE operation button for each attribute displayed. -->
-			<td class="delete-button-cell">
-			<button onclick="deleteResearchPaper({{this.ResearchPaperId}})">Delete</button></td>
-		</tr>{{/each}}</tbody></table>
+			{{#each data.[0]}}
+				<th>
+					{{@key}}
+				</th>
+			{{/each}}
+		</tr>
+	</thead>
+
+	<tbody>
+
+		{{! For each row, print the `research_paper_id`, `title`, `date_published`,
+		`doi`, `institution_id` foreign key, and `discipline_id` foreign key. }}
+		{{#each data}}
+
+			<tr>
+				<td
+					class="research_paper_id-cell"
+				>{{this.ResearchPaperId}}</td>
+				<td class="title-cell">{{this.Title}}</td>
+				<td class="date_published-cell">{{this.DatePublished}}</td>
+				<td class="doi-cell">{{this.DOI}}</td>
+				<td class="institution_id-cell">{{this.Institution}}</td>
+				<td class="discipline_id-cell">{{this.Discipline}}</td>
+
+				<!-- Create a DELETE operation button for each attribute displayed. -->
+				<td class="delete-button-cell">
+					<button
+						onclick="deleteResearchPaper({{this.ResearchPaperId}})"
+					>Delete</button>
+				</td>
+			</tr>{{/each}}
+	</tbody>
+</table>
 
 <!-- Create a form to add new research papers with asynchronous JavaScript and XML (AJAX). -->
 <h2>Add Research Paper</h2>
-<p>To add a new research paper, enter the information in the form below and click "Submit".</p>
+<p>To add a new research paper, enter the information in the form below and
+	click "Submit".</p>
 
 <!-- Lines 59-96 (Curry) -->
 <form id="add-research_paper-form-ajax">
 
 	<!-- Create the input for the `title` constraint. -->
 	<label for="input-title">Title: </label>
-	<input type="text" name="input-title" id="input-title"/>
+	<input type="text" name="input-title" id="input-title" />
 
 	<!-- Create the input for the `date_published` constraint. -->
 	<label for="input-date_published">Date Published: </label>
@@ -67,15 +83,15 @@
 	<!-- Create the input for the `doi` constraint. -->
 	<label for="input-doi">DOI: </label>
 	<input type="text" name="input-doi" id="input-doi" />
-	
+
 	<!-- Create the input for the `institution_id` foreign key. -->
 	<label for="input-institution">Institution: </label>
-	
+
 	<!-- Create a dropdown menu linking `institution_id` to its `name` constraint. -->
 	<select name="input-institution" id="institutionSelect">
 		<option value="input-institution">Select</option>
 		{{#each institutions}}
-		<option value="{{this.institution_id}}">{{this.name}}</option>
+			<option value="{{this.institution_id}}">{{this.name}}</option>
 		{{/each}}
 	</select>
 
@@ -90,7 +106,7 @@
 		{{/each}}
 	</select>
 
-	<input type="submit"/>
+	<input type="submit" />
 </form>
 
 <!-- Create a form to update existing research papers with AJAX. -->
@@ -107,21 +123,25 @@
 	<select name="input-title" id="researchPaperSelect">
 		<option value="input-title">Select</option>
 		{{#each data}}
-		<option value="{{this.ResearchPaperId}}">{{this.Title}}</option>
+			<option value="{{this.ResearchPaperId}}">{{this.Title}}</option>
 		{{/each}}
 	</select>
 
 	<!-- Create the input for the new `title` constraint. -->
 	<label for="input-title-update">New Title: </label>
-	<input type="text" name="input-title-update" id="input-title-update"/>
+	<input type="text" name="input-title-update" id="input-title-update" />
 
 	<!-- Create the input for the new `date_published` constraint. -->
 	<label for="input-date_published-update">Date Published: </label>
-	<input type="date" name="input-date_published-update" id="input-date_published-update"/>
+	<input
+		type="date"
+		name="input-date_published-update"
+		id="input-date_published-update"
+	/>
 
 	<!-- Create the input for the new `doi` constraint. -->
 	<label for="input-doi-update">DOI: </label>
-	<input type="text" name="input-doi-update" id="input-doi-update"/>
+	<input type="text" name="input-doi-update" id="input-doi-update" />
 
 	<!-- Create the input for the new `institution_id` constraint. -->
 	<label for="input-institution-update">Institution: </label>
@@ -148,8 +168,8 @@
 	<input type="submit" />
 </form>
 
-{{!-- Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
-Lines 157-159 (Curry) --}}
+{{! Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
+Lines 157-159 (Curry) }}
 <script src="./js/add_research_paper.js"></script>
 <script src="./js/update_research_paper.js"></script>
 <script src="./js/delete_research_paper.js"></script>

@@ -23,16 +23,24 @@
 	<a href="/disciplines">Disciplines</a>
 </nav>
 
-<!-- Lines 27-48 (Curry) -->
+<!-- Lines 27-56 (Curry) -->
 <table id="authors-table">
 
-	{{!-- For the first row, print each key of the row object as a header cell to
-	know what each column means when the page renders. --}}
-	<thead><tr>{{#each data.[0]}}<th>{{@key}}</th>{{/each}}</tr></thead>
+	{{! For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. }}
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+			<th>
+				{{@key}}
+			</th>
+			{{/each}}
+		</tr>
+	</thead>
 
 	<tbody>
 
-		{{!-- For each row, print `author_id`, `first_name`, and `last_name` --}}
+		{{! For each row, print `author_id`, `first_name`, and `last_name` }}
 		{{#each data}}
 
 		<tr>
@@ -56,18 +64,18 @@
 
 	<!-- Create the input for the `first_name` constraint. -->
 	<label for="input-first_name">First Name: </label>
-	<input type="text" name="input-first_name" id="input-first_name"/>
+	<input type="text" name="input-first_name" id="input-first_name" />
 
 	<!-- Create the input for the `last_name` constraint. -->
 	<label for="input-last_name">Last Name: </label>
-	<input type="text" name="input-last_name" id="input-last_name"/>
-	<input type="submit"/>
+	<input type="text" name="input-last_name" id="input-last_name" />
+	<input type="submit" />
 </form>
 
 <!-- Create a form to update existing citations with AJAX. -->
 <h2>Update</h2>
-<p>To update an author, select their full name from the dropdown menu,
-	then input a new first or last name.</p>
+<p>To update an author, select their full name from the dropdown menu, then
+	input a new first or last name.</p>
 
 <!-- Lines 73-96, (Curry) -->
 <form id="update-author-form-ajax">
@@ -80,23 +88,24 @@
 	<select name="input-fullname-update" id="authorIdSelect">
 		<option value="test">Select one</option>
 		{{#each data}}<option value="{{this.AuthorId}}">
-			{{this.FirstName}} {{this.LastName}}
+			{{this.FirstName}}
+			{{this.LastName}}
 		</option>{{/each}}
 	</select>
 
 	<!-- Create the input for the new `first_name` constraint. -->
 	<label for="input-first_name-update">First Name: </label>
-	<input type="text" name="input-first_name-update" id="input-first_name-update"/>
+	<input type="text" name="input-first_name-update" id="input-first_name-update" />
 
 	<!-- Create the input for the new `last_name` constraint. -->
 	<label for="input-last_name-update">Last Name: </label>
-	<input type="text" name="input-last_name-update" id="input-last_name-update"/>
+	<input type="text" name="input-last_name-update" id="input-last_name-update" />
 
 	<input type="submit" />
 </form>
 
-{{!-- Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
-Lines 100-102 (Curry) --}}
+{{! Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
+Lines 100-102 (Curry) }}
 <script src="./js/add_author.js"></script>
 <script src="./js/update_author.js"></script>
 <script src="./js/delete_author.js"></script>

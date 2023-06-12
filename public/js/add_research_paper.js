@@ -7,14 +7,15 @@
 // // "Step 7 - Dynamically Deleting Data".
 // // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
 
-// Lines 11-139 (Curry)
+// Lines 12-147 (Curry)
 // Get the objects to modify.
-let addResearchPaperForm = document.getElementById("add-research_paper-form-ajax");
+let addResearchPaperForm = document.getElementById(
+	"add-research_paper-form-ajax"
+);
 
 // Alter needed objects.
 addResearchPaperForm.addEventListener("submit", function (e) {
-	
-    // Don't submit the form yet.
+	// Don't submit the form yet.
 	e.preventDefault();
 
 	// Retrieve the form's data.
@@ -32,11 +33,13 @@ addResearchPaperForm.addEventListener("submit", function (e) {
 	let disciplineIdValue = inputDisciplineId.value;
 
 	// Convert the data into a JavaScript object.
-	let data = {title: titleValue,
-				date_published: datePublishedValue,
-				doi: doiValue,
-				institution_id: institutionIdValue,
-				discipline_id: disciplineIdValue,};
+	let data = {
+		title: titleValue,
+		date_published: datePublishedValue,
+		doi: doiValue,
+		institution_id: institutionIdValue,
+		discipline_id: disciplineIdValue,
+	};
 
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
@@ -46,27 +49,27 @@ addResearchPaperForm.addEventListener("submit", function (e) {
 	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
 			// Add the new data to the table and auto-refresh.
-				addRowToTable(xhttp.response);
-				location.reload()
+			addRowToTable(xhttp.response);
+			location.reload();
 
 			// Clear the inputs for the next transaction.
 			inputTitle.value = "";
 			inputDatePublished.value = "";
 			inputDoi.value = "";
 			inputInstitutionId.value = "";
-			inputDisciplineId.value = "";} 
-		
-		else if (xhttp.readyState == 4 && xhttp.status != 200) {
-			console.log("There was an input error.");}};
+			inputDisciplineId.value = "";
+		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
+			console.log("There was an input error.");
+		}
+	};
 
 	// Send the request and wait on the reply.
-	xhttp.send(JSON.stringify(data));});
+	xhttp.send(JSON.stringify(data));
+});
 
 // Write an Object row as a single entity record.
 addRowToTable = data => {
-	
 	// Find the current table, last row, and last object.
 	let currentTable = document.getElementById("research_papers-table");
 	let newRowIndex = currentTable.rows.length;
@@ -90,13 +93,15 @@ addRowToTable = data => {
 	// Format the date values for readability — e.g., "Jan. 1, 2023".
 	datePublishedCell.innerText = newRow.date_published;
 
-    const formattedDatePublishedCell = 
-		new Date(newRow.date_published).toLocaleDateString("en-US", {
+	const formattedDatePublishedCell = new Date(
+		newRow.date_published
+	).toLocaleDateString("en-US", {
 		year: "numeric",
 		month: "long",
-        day: "numeric",});
+		day: "numeric",
+	});
 
-    datePublishedCell.innerText = formattedDatePublishedCell;
+	datePublishedCell.innerText = formattedDatePublishedCell;
 	datePublishedCell.classList.add("date_published-cell");
 
 	doiCell.innerText = newRow.doi;
@@ -108,11 +113,13 @@ addRowToTable = data => {
 	disciplineIdCell.innerText = newRow.discipline_id;
 	disciplineIdCell.classList.add("discipline_id-cell");
 
-    // Create a delete button.
+	// Create a delete button.
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
-    deleteCell.classList.add("delete-button");
-	deleteCell.onclick = function () {deleteResearchPaper(newRow.research_paper_id);};
+	deleteCell.classList.add("delete-button");
+	deleteCell.onclick = function () {
+		deleteResearchPaper(newRow.research_paper_id);
+	};
 
 	// Populate the row.
 	row.appendChild(researchPaperIdCell);
@@ -121,7 +128,7 @@ addRowToTable = data => {
 	row.appendChild(doiCell);
 	row.appendChild(institutionIdCell);
 	row.appendChild(disciplineIdCell);
-    row.appendChild(deleteCell);
+	row.appendChild(deleteCell);
 
 	// Let `deleteRow()` find the new row.
 	row.setAttribute("data-value", newRow.research_paper_id);
@@ -133,7 +140,8 @@ addRowToTable = data => {
 	let selectMenu = document.getElementById("researchPaperSelect");
 	let option = document.createElement("option");
 
-    // Populate the dropdown with `Research_Papers` data.
-    option.text = newRow.title;
+	// Populate the dropdown with `Research_Papers` data.
+	option.text = newRow.title;
 	option.value = newRow.research_paper_id;
-	selectMenu.add(option);};
+	selectMenu.add(option);
+};

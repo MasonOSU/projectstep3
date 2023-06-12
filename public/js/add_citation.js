@@ -13,7 +13,6 @@ let addCitationForm = document.getElementById("add-citation-form-ajax");
 
 // Alter needed objects.
 addCitationForm.addEventListener("submit", function (e) {
-    
 	// Don't submit the form yet.
 	e.preventDefault();
 
@@ -26,8 +25,10 @@ addCitationForm.addEventListener("submit", function (e) {
 	let citedPaperValue = inputCitedPaper.value;
 
 	// Convert the data into a JavaScript object.
-	let data = {citing_paper_id: citingPaperValue,
-				cited_paper_id: citedPaperValue,};
+	let data = {
+		citing_paper_id: citingPaperValue,
+		cited_paper_id: citedPaperValue,
+	};
 
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
@@ -37,24 +38,24 @@ addCitationForm.addEventListener("submit", function (e) {
 	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
 			// Add the new data to the table and auto-refresh.
 			addRowToTable(xhttp.response);
 			location.reload();
 
 			// Clear the inputs for the next transaction.
 			inputCitingPaper.value = "";
-			inputCitedPaper.value = "";} 
-		
-		else if (xhttp.readyState == 4 && xhttp.status != 200) {
-			console.log("There was an input error.");}};
+			inputCitedPaper.value = "";
+		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
+			console.log("There was an input error.");
+		}
+	};
 
 	// Send the request and wait on the reply.
-	xhttp.send(JSON.stringify(data));});
+	xhttp.send(JSON.stringify(data));
+});
 
 // Write an Object row as a single entity record.
 addRowToTable = data => {
-
 	// Find the current table, last row, and last object.
 	let currentTable = document.getElementById("citations-table");
 	let newRowIndex = currentTable.rows.length;
@@ -76,7 +77,9 @@ addRowToTable = data => {
 	// Create a delete button.
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
-	deleteCell.onclick = function () {deleteCitation(newRow.citation_id);};
+	deleteCell.onclick = function () {
+		deleteCitation(newRow.citation_id);
+	};
 
 	// Populate the row.
 	row.appendChild(idCell);
@@ -97,4 +100,5 @@ addRowToTable = data => {
 	// Populate the dropdown with `Research_Papers` data.
 	option.text = newRow.citation_id;
 	option.value = newRow.citation_id;
-	selectMenu.add(option);};
+	selectMenu.add(option);
+};

@@ -10,7 +10,6 @@ let updateAuthorForm = document.getElementById("update-author-form-ajax");
 
 // Alter needed objects.
 updateAuthorForm.addEventListener("submit", function (e) {
-	
 	// Don't submit the form yet.
 	e.preventDefault();
 
@@ -25,9 +24,11 @@ updateAuthorForm.addEventListener("submit", function (e) {
 	let lastNameValue = inputLastName.value;
 
 	// Convert the data into a JavaScript object.
-	let data = {author_id: authorId,
-				first_name: firstNameValue,
-				last_name: lastNameValue,};
+	let data = {
+		author_id: authorId,
+		first_name: firstNameValue,
+		last_name: lastNameValue,
+	};
 	console.log("this is data when updating a row: ", data);
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
@@ -37,37 +38,43 @@ updateAuthorForm.addEventListener("submit", function (e) {
 	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
 			// Add the new data to the table and auto-refresh.
 			updateRow(xhttp.response, authorId);
-			location.reload();} 
-		
-		else if (xhttp.readyState == 4 && xhttp.status != 200) {
-			console.log("There was an input error.");}};
+			location.reload();
+		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
+			console.log("There was an input error.");
+		}
+	};
 
 	// Send the request and wait on the reply.
-	xhttp.send(JSON.stringify(data));});
+	xhttp.send(JSON.stringify(data));
+});
 
 // Write an Object row as a single entity record.
 function updateRow(data, authorId) {
-
 	// Find the current table, last row, and last object.
 	let parsedData = JSON.parse(data);
 	let table = document.getElementById("authors-table");
 	let parsedDataIndex = 0;
 
-    // Access rows with "row" variable assigned in the for loop.
+	// Access rows with "row" variable assigned in the for loop.
 	for (let dataIndex = 0; dataIndex < parsedData.length; dataIndex++) {
 		if (parsedData[dataIndex].author_id == authorId) {
-			parsedDataIndex = dataIndex;}}
+			parsedDataIndex = dataIndex;
+		}
+	}
 
-	// Lines 66-80 were heavily aided by Curry,
-	// but Zilton added the second loop and other code while debugging.
-	for (let parsedIndex = 0, row; (row = table.rows[parsedIndex]); parsedIndex++) {
+	// Lines 69-88 were heavily aided by Curry,
+	// but Zilton added this second loop and other code while debugging to finish parsing data.
+	for (
+		let parsedIndex = 0, row;
+		(row = table.rows[parsedIndex]);
+		parsedIndex++
+	) {
 		if (table.rows[parsedIndex].getAttribute("data-value") == authorId) {
-
 			// Get the row matching `research_paper_id`.
-			let updateRowIndex = table.getElementsByTagName("tr")[parsedIndex];
+			let updateRowIndex =
+				table.getElementsByTagName("tr")[parsedIndex];
 
 			// Get the cell values.
 			let tdFirstName = updateRowIndex.getElementsByTagName("td")[1];
@@ -75,4 +82,7 @@ function updateRow(data, authorId) {
 
 			// Assign the new `parsedData` values to the row.
 			tdFirstName.innerHTML = parsedData[parsedDataIndex].first_name;
-			tdLastName.innerHTML = parsedData[parsedDataIndex].last_name;}}}
+			tdLastName.innerHTML = parsedData[parsedDataIndex].last_name;
+		}
+	}
+}

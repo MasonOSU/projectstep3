@@ -74,22 +74,22 @@
 
 	<!-- Create the input for the `title` constraint. -->
 	<label for="input-title">Title: </label>
-	<input type="text" name="input-title" id="input-title" required />
+	<input type="text" name="input-title" id="input-title" required/>
 
 	<!-- Create the input for the `date_published` constraint. -->
 	<label for="input-date_published">Date Published: </label>
-	<input type="date" name="input-date_published" id="input-date_published" required />
+	<input type="date" name="input-date_published" id="input-date_published" required/>
 
 	<!-- Create the input for the `doi` constraint. -->
 	<label for="input-doi">DOI: </label>
-	<input type="text" name="input-doi" id="input-doi" required />
+	<input type="text" name="input-doi" id="input-doi" required/>
 
 	<!-- Create the input for the `institution_id` foreign key. -->
 	<label for="input-institution">Institution: </label>
 
 	<!-- Create a dropdown menu linking `institution_id` to its `name` constraint. -->
 	<select name="input-institution" id="institutionSelect">
-		<option value="input-institution">Select</option>
+		<option value="">Select</option>
 		{{#each institutions}}
 			<option value="{{this.institution_id}}">{{this.name}}</option>
 		{{/each}}
@@ -100,7 +100,7 @@
 
 	<!-- Create a dropdown menu linking `discipline_id` to its `field` constraint. -->
 	<select name="input-discipline" id="disciplineSelect" required>
-		<option value="input-discipline">Select</option>
+		<option value="">Select</option>
 		{{#each disciplines}}
 			<option value="{{this.discipline_id}}">{{this.field}}</option>
 		{{/each}}
@@ -121,7 +121,7 @@
 
 	<!-- Create a dropdown menu linking `research_paper_id` to its `title` constraint. -->
 	<select name="input-title" id="researchPaperSelect" required>
-		<option value="input-title">Select</option>
+		<option value="">Select</option>
 		{{#each data}}
 			<option value="{{this.ResearchPaperId}}">{{this.Title}}</option>
 		{{/each}}
@@ -142,14 +142,14 @@
 
 	<!-- Create the input for the new `doi` constraint. -->
 	<label for="input-doi-update">DOI: </label>
-	<input type="text" name="input-doi-update" id="input-doi-update" required />
+	<input type="text" name="input-doi-update" id="input-doi-update" required/>
 
 	<!-- Create the input for the new `institution_id` constraint. -->
 	<label for="input-institution-update">Institution: </label>
 
 	<!-- Create a dropdown menu linking `institution_id` to its `name` constraint. -->
 	<select name="input-institution-update" id="input-institution-update">
-		<option value="input-institution">Select institution</option>
+		<option value="">Select institution</option>
 		{{#each institutions}}
 			<option value="{{this.institution_id}}">{{this.name}}</option>
 		{{/each}}
@@ -159,8 +159,8 @@
 	<label for="input-discipline-update">Discipline </label>
 
 	<!-- Create a dropdown menu linking `discipline_id` to its `field` constraint. -->
-	<select name="input-discipline-update" id="input-discipline-update" required >
-		<option value="input-discipline">Select discipline</option>
+	<select name="input-discipline-update" id="input-discipline-update" required>
+		<option value="">Select discipline</option>
 		{{#each disciplines}}
 			<option value="{{this.discipline_id}}">{{this.field}}</option>
 		{{/each}}

@@ -77,8 +77,8 @@
 
 	<!-- Create a dropdown menu linking `citing_paper_id` and `cited_paper_id` 
 	to their `title` constraints; merge the two for each entry. -->
-	<select name="input-fullname-update" id="authorIdSelect">
-		<option value="test">Select one</option>
+	<select name="input-fullname-update" id="authorIdSelect" required>
+		<option value="">Select one</option>
 		{{#each data}}<option value="{{this.AuthorId}}">
 			{{this.FirstName}} {{this.LastName}}
 		</option>{{/each}}

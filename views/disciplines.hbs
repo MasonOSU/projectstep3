@@ -62,7 +62,7 @@
 
 	<!-- Create the input for the `field` constraint. -->
 	<label for="field-name">Field: </label>
-	<input type="text" name="field-name" id="field-name" />
+	<input type="text" name="field-name" id="field-name" required/>
 	<input type="submit" />
 </form>
 
@@ -75,8 +75,8 @@
 
 	<!-- Create a dropdown menu linking `discipline_id` to its `field` constraint. -->
 	<label for="fieldName">Discipline:</label>
-	<select name="fieldName" id="disciplineSelect">
-		<option value="fieldName">Select field</option>
+	<select name="fieldName" id="disciplineSelect" required>
+		<option value="">Select field</option>
 		{{#each data}}
 			<option value="{{this.DisciplineId}}">{{this.Field}}</option>
 		{{/each}}
@@ -84,7 +84,7 @@
 
 	<!-- Create the input for the new `field` constraint. -->
 	<label for="input-field_name">Updated Field: </label>
-	<input type="text" name="input-field_name" id="input-field_name"/>
+	<input type="text" name="input-field_name" id="input-field_name" required/>
 
 	<input type="submit"/>
 </form>

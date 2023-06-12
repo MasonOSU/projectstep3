@@ -85,8 +85,8 @@
 
 	<!-- Create a dropdown menu linking `institution_id` to its `name` constraint. -->
 	<label for="input-institution">Institution: </label>
-	<select name="input-institution" id="institutionSelect">
-		<option value="test">Select an Institution</option>
+	<select name="input-institution" id="institutionSelect" required>
+		<option value="">Select an Institution</option>
 		{{#each data}}
 			<option value="{{this.InstitutionId}}">{{this.Name}}</option>
 		{{/each}}

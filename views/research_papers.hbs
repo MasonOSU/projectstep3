@@ -74,15 +74,15 @@
 
 	<!-- Create the input for the `title` constraint. -->
 	<label for="input-title">Title: </label>
-	<input type="text" name="input-title" id="input-title" />
+	<input type="text" name="input-title" id="input-title" required />
 
 	<!-- Create the input for the `date_published` constraint. -->
 	<label for="input-date_published">Date Published: </label>
-	<input type="date" name="input-date_published" id="input-date_published" />
+	<input type="date" name="input-date_published" id="input-date_published" required />
 
 	<!-- Create the input for the `doi` constraint. -->
 	<label for="input-doi">DOI: </label>
-	<input type="text" name="input-doi" id="input-doi" />
+	<input type="text" name="input-doi" id="input-doi" required />
 
 	<!-- Create the input for the `institution_id` foreign key. -->
 	<label for="input-institution">Institution: </label>
@@ -99,7 +99,7 @@
 	<label for="input-discipline">Discipline: </label>
 
 	<!-- Create a dropdown menu linking `discipline_id` to its `field` constraint. -->
-	<select name="input-discipline" id="disciplineSelect">
+	<select name="input-discipline" id="disciplineSelect" required>
 		<option value="input-discipline">Select</option>
 		{{#each disciplines}}
 			<option value="{{this.discipline_id}}">{{this.field}}</option>
@@ -120,7 +120,7 @@
 	<label for="input-title">Existing Title: </label>
 
 	<!-- Create a dropdown menu linking `research_paper_id` to its `title` constraint. -->
-	<select name="input-title" id="researchPaperSelect">
+	<select name="input-title" id="researchPaperSelect" required>
 		<option value="input-title">Select</option>
 		{{#each data}}
 			<option value="{{this.ResearchPaperId}}">{{this.Title}}</option>
@@ -129,7 +129,7 @@
 
 	<!-- Create the input for the new `title` constraint. -->
 	<label for="input-title-update">New Title: </label>
-	<input type="text" name="input-title-update" id="input-title-update" />
+	<input type="text" name="input-title-update" id="input-title-update" required />
 
 	<!-- Create the input for the new `date_published` constraint. -->
 	<label for="input-date_published-update">Date Published: </label>
@@ -137,11 +137,12 @@
 		type="date"
 		name="input-date_published-update"
 		id="input-date_published-update"
+		required
 	/>
 
 	<!-- Create the input for the new `doi` constraint. -->
 	<label for="input-doi-update">DOI: </label>
-	<input type="text" name="input-doi-update" id="input-doi-update" />
+	<input type="text" name="input-doi-update" id="input-doi-update" required />
 
 	<!-- Create the input for the new `institution_id` constraint. -->
 	<label for="input-institution-update">Institution: </label>
@@ -158,7 +159,7 @@
 	<label for="input-discipline-update">Discipline </label>
 
 	<!-- Create a dropdown menu linking `discipline_id` to its `field` constraint. -->
-	<select name="input-discipline-update" id="input-discipline-update">
+	<select name="input-discipline-update" id="input-discipline-update" required >
 		<option value="input-discipline">Select discipline</option>
 		{{#each disciplines}}
 			<option value="{{this.discipline_id}}">{{this.field}}</option>

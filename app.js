@@ -353,18 +353,7 @@ app.post("/add-institution-ajax", function (req, res) {
 // // Update data with `put()` functions:
 // // // Update `Research_Papers` data.
 app.put("/put-research_paper-ajax", (req, res) => {
-	// use object destructuring to reclaim values from req
-	// const data = req.body;
-	// const values = {
-	//   research_paper_id = parseInt(data.research_paper_id),
-	//   title = data.title,
-	//   date_published = data.date_published,
-	//   doi = data.doi,
-	//   institution_id = data.institution_id || null,
-	//   discipline_id = data.discipline_id,
-	// } = req.body;
 	let data = req.body;
-	console.log("data: ", data);
 
 	let research_paper_id = parseInt(data.research_paper_id);
 	let title = data.title;
@@ -372,7 +361,6 @@ app.put("/put-research_paper-ajax", (req, res) => {
 	let doi = data.doi;
 	let institution_id = data.institution_id || null;
 	let discipline_id = data.discipline_id;
-	console.log("institution_id is now: ", institution_id);
 
 	const values = [title,date_published, doi, institution_id, discipline_id, research_paper_id];
 	// Create update query
@@ -398,73 +386,6 @@ app.put("/put-research_paper-ajax", (req, res) => {
 	  }
 	});
   });
-
-
-// app.put("/put-research_paper-ajax", function (req, res, next) {
-// 	let data = req.body;
-// 	console.log("data: ", data);
-// 	let research_paper_id = parseInt(data.research_paper_id);
-// 	let title = data.title;
-// 	let date_published = data.date_published;
-// 	let doi = data.doi;
-// 	let institution_id = data.institution_id;
-// 	let discipline_id = data.discipline_id;
-
-// 	let updateResearchPaperQuery = `
-// 		UPDATE Research_Papers 
-// 		SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
-// 		WHERE Research_Papers.research_paper_id = ?;`;
-// 	if (institution_id == '') {
-// 		institution_id = NULL;
-// 	}
-// 	// let updateResearchPaperQuery = "UPDATE Research_Papers SET (title, date_published, doi, institution_id, discipline_id) WHERE Research_Papers.research_paper_id VALUES (?, ?, ?, ?, ?, ?);";
-	
-// 	// const query =
-// 	// 	"INSERT INTO Sales (quantity_of_donuts_sold, purchase_date, sale_amount, customer_id, employee_id) VALUES (?, ?, ?, ?, ?)";
-// 	// const values = [
-// 	// 	quantity_of_donuts_sold,
-// 	// 	purchase_date,
-// 	// 	sale_amount,
-// 	// 	customer_id || null,
-// 	// 	employee_id,
-// 	// ];
-
-// 	const values = 
-
-// 	db.pool.query(
-// 		updateResearchPaperQuery,
-// 		[
-// 			title,
-// 			date_published,
-// 			doi,
-// 			institution_id,
-// 			discipline_id,
-// 			research_paper_id,
-// 		],
-
-// 		function (error, rows, fields) {
-// 			if (error) {
-// 				console.log(error);
-// 				res.sendStatus(400);
-// 			} else {
-// 				let updatedResearchPapers = `SELECT * FROM Research_Papers;`;
-
-// 				db.pool.query(
-// 					updatedResearchPapers,
-// 					function (error, rows, fields) {
-// 						if (error) {
-// 							console.log(error);
-// 							res.sendStatus(400);
-
-// 						} else {
-// 							res.send(rows);
-// 						}
-// 					}
-// 				);
-// 			}
-// 		}
-// 	);
-// });
 
 // // // Update `Citations` data.
 app.put("/put-citation-ajax", function (req, res, next) {
@@ -740,8 +661,6 @@ app.delete("/delete-author-ajax/", function (req, res, next) {
 // // // Delete `Research_Papers_has_Authors` data.
 app.delete("/delete-research_paper_author-ajax/", function (req, res, next) {
 	let data = req.body;
-
-	console.log(data);
 
 	let researchPaperAuthorId = parseInt(data.id);
 	let deleteResearchPapersHasAuthorsQuery = `DELETE FROM Research_Papers_has_Authors WHERE research_paper_author_id = ?`;

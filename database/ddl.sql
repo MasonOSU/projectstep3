@@ -1,3 +1,17 @@
+-- `ddl.sql` is the Research Paper Archives' cleanly importable, hand-authored SQL code.
+-- It's the driver SQL for Group 53's final CS 340 project at Oregon State University (OSU).
+-- It is heavily influenced by the OSU helper code `bsg_db.sql`.
+-- 	Code citation:
+-- -- Dr. Michael Curry. 2023. "Activity 1 - Access and Use the CS340 Database ".
+-- -- [Source code]. https://canvas.oregonstate.edu/courses/1914747/assignments/9180987?module_item_id=23040526. URL
+-- Disable checks to import.
+SET
+  UNIQUE_CHECKS = 0;
+
+SET
+  FOREIGN_KEY_CHECKS = 0;
+
+-- Drop tables for clean import.
 DROP TABLE IF EXISTS `Research_Papers`;
 
 DROP TABLE IF EXISTS `Citations`;
@@ -10,6 +24,8 @@ DROP TABLE IF EXISTS `Institutions`;
 
 DROP TABLE IF EXISTS `Disciplines`;
 
+-- Begin table creation.
+-- -- Create `Authors` table to log necessary publishing researchers.
 CREATE TABLE IF NOT EXISTS `Authors` (
   `author_id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(20) NOT NULL,
@@ -17,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `Authors` (
   PRIMARY KEY (`author_id`)
 );
 
+-- -- Create `Institutions` table to log optional publishing organizations.
 CREATE TABLE IF NOT EXISTS `Institutions` (
   `institution_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
@@ -26,12 +43,19 @@ CREATE TABLE IF NOT EXISTS `Institutions` (
   PRIMARY KEY (`institution_id`)
 );
 
+-- -- Create `Disciplines` table to log publications' research fields.
 CREATE TABLE IF NOT EXISTS `Disciplines` (
   `discipline_id` INT NOT NULL AUTO_INCREMENT,
   `field` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`discipline_id`)
 );
 
+-- -- Create `Research_Papers` table to log academic publications.
+-- -- -- `doi` means "Digital Object Modifier", a unique code in academia to search for the papers' content.
+-- -- -- The table has two foreign keys from `Institutions` (optional) and `Disciplines` (needed).
+-- -- -- -- If a discipline is deleted or updated, so are all linked research papers.
+-- -- -- -- If an institution is deleted, research papers are set to NULL.
+-- -- -- Deleting from this table affects the junction tables `Citations` and `Research_Papers_has_Authors`.
 CREATE TABLE `Research_Papers` (
   `research_paper_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
@@ -40,32 +64,37 @@ CREATE TABLE `Research_Papers` (
   `institution_id` INT,
   `discipline_id` INT NOT NULL,
   PRIMARY KEY (`research_paper_id`),
-  INDEX `discipline_id_idx` (`discipline_id` ASC) VISIBLE,
-  INDEX `institution_id_idx` (`institution_id` ASC) VISIBLE,
-  CONSTRAINT `discipline_id` FOREIGN KEY (`discipline_id`) REFERENCES `Disciplines` (`discipline_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `institution_id` FOREIGN KEY (`institution_id`) REFERENCES `Institutions` (`institution_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `institution_id` FOREIGN KEY (`institution_id`) REFERENCES `Institutions` (`institution_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `discipline_id` FOREIGN KEY (`discipline_id`) REFERENCES `Disciplines` (`discipline_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
+-- Create table `Citations` to log papers that refererence each other.
+-- -- -- More than one paper can have the same citation and vice-versa.
+-- -- -- CASCADE commands push DELETE from `Research_Papers` to `Citations`.
+-- -- -- Deleting from this table has no effect on other tables.
 CREATE TABLE `Citations` (
   `citation_id` INT NOT NULL AUTO_INCREMENT,
   `citing_paper_id` INT NOT NULL,
   `cited_paper_id` INT NOT NULL,
   PRIMARY KEY (`citation_id`),
-  CONSTRAINT `fk_citing_paper_id` FOREIGN KEY (`citing_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_cited_paper_id` FOREIGN KEY (`cited_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `citing_paper_id` FOREIGN KEY (`citing_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `cited_paper_id` FOREIGN KEY (`cited_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
+-- Create table `Research_Papers_has_Authors` to log publishing researchers to papers and vice-versa.
+-- -- -- Each `researcher_id` is a concatenation sub-query of `first_name` and `last_name` in `Authors`.
+-- -- -- Deleting from this junction table has no effect on other tables.
 CREATE TABLE IF NOT EXISTS `Research_Papers_has_Authors` (
   `research_paper_author_id` INT NOT NULL AUTO_INCREMENT,
-  `research_paper_id` INT NOT NULL,
-  `author_id` INT NOT NULL,
+  `paper_id` INT NOT NULL,
+  `researcher_id` INT NOT NULL,
   PRIMARY KEY (`research_paper_author_id`),
-  INDEX `fk_Research_Papers_has_Authors_Authors1_idx` (`author_id` ASC) VISIBLE,
-  INDEX `fk_Research_Papers_has_Authors_Research_Papers1_idx` (`research_paper_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Research_Papers_has_Authors_Research_Papers1` FOREIGN KEY (`research_paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Research_Papers_has_Authors_Authors1` FOREIGN KEY (`author_id`) REFERENCES `Authors` (`author_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `paper_id` FOREIGN KEY (`paper_id`) REFERENCES `Research_Papers` (`research_paper_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `researcher_id` FOREIGN KEY (`researcher_id`) REFERENCES `Authors` (`author_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
+-- Begin table insertions.
+-- -- Insert `Authors` data.
 INSERT INTO
   `Authors` (`first_name`, `last_name`)
 VALUES
@@ -75,6 +104,7 @@ VALUES
   ('Sandra', 'Smith'),
   ('Maria', 'Thompson');
 
+-- -- Insert `Institutions` data.
 INSERT INTO
   `Institutions` (`name`, `country`, `address`, `website`)
 VALUES
@@ -97,6 +127,7 @@ VALUES
     'shcollege.edu'
   );
 
+-- -- Insert `Disciplines` data.
 INSERT INTO
   `Disciplines` (`field`)
 VALUES
@@ -105,6 +136,7 @@ VALUES
   ('History'),
   ('Psychology');
 
+-- -- Insert `Research_Papers` data.
 INSERT INTO
   `Research_Papers` (
     `title`,
@@ -213,6 +245,8 @@ VALUES
     )
   );
 
+-- -- Insert `Citations` data.
+-- -- -- Sub-queries find `research_paper_id` values by `title`.
 INSERT INTO
   `Citations` (`citing_paper_id`, `cited_paper_id`)
 VALUES
@@ -289,8 +323,11 @@ VALUES
     )
   );
 
+-- -- Insert `Research_Papers_has_Authors` data.
+-- -- -- Sub-queries find `research_paper_id` values by `title`
+-- -- -- and `author_id` values by `first_name` and `last_name` concatenated search.
 INSERT INTO
-  `Research_Papers_has_Authors` (`research_paper_id`, `author_id`)
+  `Research_Papers_has_Authors` (`paper_id`, `researcher_id`)
 VALUES
   (
     (
@@ -406,3 +443,10 @@ VALUES
         AND `last_name` = 'Faulkner'
     )
   );
+
+-- Reset unique and foreign key checks.
+SET
+  UNIQUE_CHECKS = 1;
+
+SET
+  FOREIGN_KEY_CHECKS = 1;

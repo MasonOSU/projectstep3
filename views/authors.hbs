@@ -1,73 +1,112 @@
+<!--
+	This page creates the UI for the `Authors` entity that stores data on all publications in the database.
+
+	Code citation:
+		Dr. Michael Curry. 2022. 
+		"Step 4 - Dynamically Displaying Data". 
+		"Step 5 - Adding New Data".
+		"Step 6 - Dynamically Filling Dropdowns and Adding a Search Box".
+		"Step 8 - Dynamically Updating Data".
+		[Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
+-->
+
 <h1>Authors</h1>
+
+<!-- Display the navigation bar to visit other pages. -->
 <nav>
 	<a href="/">Index</a>
 	<a href="/research_papers">Research Papers</a>
 	<a href="/citations">Citations</a>
 	<a href="/authors">Authors</a>
-	<a href="/research_papers_authors">Research Papers to Authors</a>
+	<a href="/research_papers_has_authors">Publications (All)</a>
 	<a href="/institutions">Institutions</a>
 	<a href="/disciplines">Disciplines</a>
 </nav>
 
+<!-- Lines 27-56 (Curry) -->
 <table id="authors-table">
+
+	{{! For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. }}
 	<thead>
 		<tr>
 			{{#each data.[0]}}
-				<th>{{@key}}</th>
+			<th>
+				{{@key}}
+			</th>
 			{{/each}}
 		</tr>
 	</thead>
+
 	<tbody>
+
+		{{! For each row, print `author_id`, `first_name`, and `last_name` }}
 		{{#each data}}
-			<tr data-value="{{this.author_id}}">
-				<td>{{this.author_id}}</td>
-				<td>{{this.first_name}}</td>
-				<td>{{this.last_name}}</td>
-				<td>
-					<button
-						onclick="deleteAuthor({{this.author_id}})"
-					>Delete</button>
-				</td>
-			</tr>
+
+		<tr>
+			<td>{{this.AuthorId}}</td>
+			<td>{{this.FirstName}}</td>
+			<td>{{this.LastName}}</td>
+
+			<!-- Create a DELETE operation button for each attribute displayed. -->
+			<td><button onclick="deleteAuthor({{this.AuthorId}})">Delete</button></td>
+		</tr>
 		{{/each}}
 	</tbody>
 </table>
 
-{{! CRUD operations }}
-	<h2>Add</h2>
-	<form id="add-author-form-ajax">
-		<label for="input-first_name">First Name: </label>
-		<input type="text" name="input-first_name" id="input-first_name" />
-		<label for="input-last_name">Last Name: </label>
-		<input type="text" name="input-last_name" id="input-last_name" />
-		<input type="submit" />
-	</form>
+<div class = "container"><div>
+<!-- Create a form to add new authors with asynchronous JavaScript and XML (AJAX). -->
+<h2>Add</h2>
+<p>Submit the author's name below.</p>
 
-	<h2>Update</h2>
-	<form id="update-author-form-ajax">
-		<label for="input-fullname">Author: </label>
-		<select name="input-fullname" id="authorSelect">
-			<option value="test">Select one</option>
-			{{#each data}}
-				<option value="{{this.author_id}}">{{this.first_name}}
-					{{this.last_name}}</option>
-			{{/each}}
-		</select>
-		<label for="input-first_name">First Name: </label>
-		<input
-			type="text"
-			name="input-first_name"
-			id="input-first_name-update"
-		/>
-		<label for="input-last_name">Last Name: </label>
-		<input
-			type="text"
-			name="input-last_name"
-			id="input-last_name-update"
-		/>
-		<input type="submit" />
-	</form>
+<!-- Lines 55-80 (Curry) -->
+<form id="add-author-form-ajax">
 
+	<!-- Create the input for the `first_name` constraint. -->
+	<label for="input-first_name">First Name: </label>
+	<input type="text" name="input-first_name" id="input-first_name" required/>
+
+	<!-- Create the input for the `last_name` constraint. -->
+	<label for="input-last_name">Last Name: </label>
+	<input type="text" name="input-last_name" id="input-last_name" required/>
+	<input type="submit"/>
+</form></div>
+
+<div>
+<!-- Create a form to update existing citations with AJAX. -->
+<h2>Update Author</h2>
+<p>Select an existing full name.</p>
+
+<!-- Lines 73-96, (Curry) -->
+<form id="update-author-form-ajax">
+
+	<!-- Create the input for the `author_id` constraint. -->
+	<label for="input-fullname-update">Author: </label>
+
+	<!-- Create a dropdown menu linking `citing_paper_id` and `cited_paper_id` 
+	to their `title` constraints; merge the two for each entry. -->
+	<select name="input-fullname-update" id="authorIdSelect" required>
+		<option value="">Select one</option>
+		{{#each data}}<option value="{{this.AuthorId}}">
+			{{this.FirstName}}
+			{{this.LastName}}
+		</option>{{/each}}
+	</select>
+
+	<!-- Create the input for the new `first_name` constraint. -->
+	<label for="input-first_name-update">First Name: </label>
+	<input type="text" name="input-first_name-update" id="input-first_name-update" required/>
+
+	<!-- Create the input for the new `last_name` constraint. -->
+	<label for="input-last_name-update">Last Name: </label>
+	<input type="text" name="input-last_name-update" id="input-last_name-update" required/>
+
+	<input type="submit" />
+</form></div></div>
+
+{{! Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
+Lines 100-102 (Curry) }}
 <script src="./js/add_author.js"></script>
 <script src="./js/update_author.js"></script>
 <script src="./js/delete_author.js"></script>

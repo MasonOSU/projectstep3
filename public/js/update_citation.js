@@ -1,83 +1,96 @@
-// Get the objects we need to modify
-let updateCitationForm = document.getElementById('update-citation-form-ajax');
+// `update_citation.js` handles the client side for Update requests to the `Citations` table.
+//
+// Code citation:
+// // Dr. Michael Curry. 2022. "Step 8 - Dynamically Updating Data".
+// // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
 
-// Modify the objects we need
+// Lines 9-96 (Curry)
+// Get the objects to modify.
+let updateCitationForm = document.getElementById("update-citation-form-ajax");
+
+// Alter needed objects.
 updateCitationForm.addEventListener("submit", function (e) {
-   
-    // Prevent the form from submitting
-    e.preventDefault();
+	// Don't submit the form yet.
+	e.preventDefault();
 
-    // Get form fields we need to get data from
-    let inputCitation = document.getElementById("citationIDUpdate");
-    let inputCitingPaper = document.getElementById("citingPaperUpdate");
-	let inputCitedPaper = document.getElementById("citedPaperUpdate");
+	// Retrieve the form's data.
+	let inputCitation = document.getElementById("input-citation-update");
+	let inputCitingPaper = document.getElementById(
+		"input-citing_paper-update"
+	);
+	let inputCitedPaper = document.getElementById("input-cited_paper-update");
 
-    // Get the values from the form fields
-    let citationID = inputCitation.value;
-    let citingPaperValue = inputCitingPaper.value;
-    let citedPaperValue = inputCitedPaper.value;
+	// Get the form's values.
+	let citationId = inputCitation.value;
+	let citingPaperValue = inputCitingPaper.value;
+	let citedPaperValue = inputCitedPaper.value;
 
-    // Put our data we want to send in a javascript object
-    let data = {
-        citation_id: citationID,
-        citing_paper_id: citingPaperValue,
-        cited_paper_id: citedPaperValue,
-    };
-    console.log("this is data: ", data);
-    
-    // Setup our AJAX request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/put-citation-ajax", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
+	// Convert the data into a JavaScript object.
+	let data = {
+		citation_id: citationId,
+		citing_paper_id: citingPaperValue,
+		cited_paper_id: citedPaperValue,
+	};
 
-    // Tell our AJAX request how to resolve
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
+	// Prep the Asynchronous JavaScript And XML (AJAX) request.
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("PUT", "/put-citation-ajax", true);
+	xhttp.setRequestHeader("Content-type", "application/json");
 
-            // Add the new data to the table
-            updateRow(xhttp.response, citationID);
-            location.reload();
-        }
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
-        }
-    }
+	// Tell the AJAX request how to resolve.
+	xhttp.onreadystatechange = () => {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			// Add the new data to the table and auto-refresh.
+			updateRow(xhttp.response, citationId);
+			location.reload();
+		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
+			console.log("There was an input error.");
+		}
+	};
 
-    // Send the request and wait for the response
-    xhttp.send(JSON.stringify(data));
+	// Send the request and wait on the reply.
+	xhttp.send(JSON.stringify(data));
+});
 
-})
+// Write an Object row as a single entity record.
+function updateRow(data, citationId) {
+	// Find the current table, last row, and last object.
+	let parsedData = JSON.parse(data);
+	let table = document.getElementById("citations-table");
+	let parsedDataIndex = 0;
 
+	// Access rows with "row" variable assigned in the for loop.
+	for (let dataIndex = 0; dataIndex < parsedData.length; dataIndex++) {
+		if (parsedData[dataIndex].citation_id == citationId) {
+			parsedDataIndex = dataIndex;
+		}
+	}
 
-function updateRow(data, citationID){
-    let parsedData = JSON.parse(data);
-    
-    let table = document.getElementById("citations-table");
+	// Lines 71-96 were heavily aided by Curry,
+	// but Zilton added the second loop and other code while debugging.
+	for (
+		let parsedIndex = 0, row;
+		(row = table.rows[parsedIndex]);
+		parsedIndex++
+	) {
+		if (
+			table.rows[parsedIndex].getAttribute("data-value") == citationId
+		) {
+			// Get the row matching `research_paper_id`.
+			let updateRowIndex =
+				table.getElementsByTagName("tr")[parsedIndex];
 
-    let parsedDataIndex = 0;
-    for (let dataIndex = 0; dataIndex < parsedData.length; dataIndex++) {
-      if (parsedData[dataIndex].citation_id == citationID) {
-        parsedDataIndex = dataIndex;
-      }
-    }
+			// Get the cell values.
+			let tdCitation = updateRowIndex.getElementsByTagName("td")[1];
+			let tdCitingPaper = updateRowIndex.getElementsByTagName("td")[2];
+			let tdCitedPaper = updateRowIndex.getElementsByTagName("td")[3];
 
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == citationID) {
-
-            // Get the location of the row where we found the matching person ID
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
-
-            // Get td of values
-            let tdCitation = updateRowIndex.getElementsByTagName("td")[1];
-            let tdCitingPaper = updateRowIndex.getElementsByTagName("td")[2];
-            let tdCitedPaper = updateRowIndex.getElementsByTagName("td")[3];
-
-            // Reassign homeworld to our value we updated to
-            tdCitation.innerHTML = parsedData[parsedDataIndex].citation_id; 
-            tdCitingPaper.innerHTML = parsedData[parsedDataIndex].citing_paper_id;
-            tdCitedPaper.innerHTML = parsedData[parsedDataIndex].cited_paper_id;
-       }
-    }
+			// Assign the new `parsedData` values to the row.
+			tdCitation.innerHTML = parsedData[parsedDataIndex].citation_id;
+			tdCitingPaper.innerHTML =
+				parsedData[parsedDataIndex].citing_paper_id;
+			tdCitedPaper.innerHTML =
+				parsedData[parsedDataIndex].cited_paper_id;
+		}
+	}
 }

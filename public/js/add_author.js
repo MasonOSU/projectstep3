@@ -1,98 +1,98 @@
-// get objects to alter
+// `add_citation.js` handles the client side for Create requests to the `Citations` table.
+//
+// Code citation:
+// // Dr. Michael Curry. 2022.
+// // "Step 5 - Adding New Data".
+// // "Step 6 - Dynamically Filling Dropdowns and Adding a Search Box."
+// // "Step 7 - Dynamically Deleting Data".
+// // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
+
+// Lines 12-99 (Curry)
+// Get the objects to modify.
 let addAuthorForm = document.getElementById("add-author-form-ajax");
 
-// alter needed objects
+// Alter needed objects.
 addAuthorForm.addEventListener("submit", function (e) {
-
-	// don't submit form
+	// Don't submit the form yet.
 	e.preventDefault();
 
-	// get forms for data retrieval
+	// Retrieve the form's data.
 	let inputFirstName = document.getElementById("input-first_name");
 	let inputLastName = document.getElementById("input-last_name");
 
-	// get form values
+	// Get the form's values.
 	let firstNameValue = inputFirstName.value;
 	let lastNameValue = inputLastName.value;
 
-	// convert data to JavaScript object
-	let data = {
-		first_name: firstNameValue,
-		last_name: lastNameValue,
-	};
+	// Convert the data to a JavaScript object.
+	let data = {first_name: firstNameValue, last_name: lastNameValue};
 
-	// prep AJAX request
+	// Prep the Asynchronous JavaScript and XML (Ajax) request.
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("POST", "/add-author-ajax", true);
 	xhttp.setRequestHeader("Content-type", "application/json");
 
-	// tell AJAX request how to resolve
+	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-			// add new data to table
+			// Add the new data to the table.
 			addRowToTable(xhttp.response);
 
-			// clear inputs for new transaction
+			// Clear the inputs for a new transaction.
 			inputFirstName.value = "";
 			inputLastName.value = "";
-
 		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
-			console.log("input error");
+			console.log("There was an input error.");
 		}
 	};
 
-	// send request, wait on reply
+	// Send the request and wait on the reply.
 	xhttp.send(JSON.stringify(data));
 });
 
-// write one row as Object (single entity record)
+// Write an Object row as a single entity record.
 addRowToTable = data => {
-
-	// find current table, clear it
+	// Find the current table, last row, and last object.
 	let currentTable = document.getElementById("authors-table");
-
-	// find last row for insert
 	let newRowIndex = currentTable.rows.length;
-
-	// find new row (last object)
 	let parsedData = JSON.parse(data);
 	let newRow = parsedData[parsedData.length - 1];
 
-	// create row, three cells
+	// Create a new row with three cells.
 	let row = document.createElement("TR");
 	let authorIdCell = document.createElement("TD");
 	let firstNameCell = document.createElement("TD");
 	let lastNameCell = document.createElement("TD");
 	let deleteCell = document.createElement("TD");
 
-	// write data
+	// Write the data.
 	authorIdCell.innerText = newRow.author_id;
 	firstNameCell.innerText = newRow.first_name;
 	lastNameCell.innerText = newRow.last_name;
 
-	// make delete button
+	// Create a delete button.
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
 	deleteCell.onclick = function () {
 		deleteAuthor(newRow.author_id);
 	};
 
-	// populate row
+	// Populate the row.
 	row.appendChild(authorIdCell);
 	row.appendChild(firstNameCell);
 	row.appendChild(lastNameCell);
 	row.appendChild(deleteCell);
 
-	// let deleteRow() find new row
+	// Let `deleteRow()` find the new row.
 	row.setAttribute("data-value", newRow.author_id);
 
-	// add row to table
+	// Add the new row to the table.
 	currentTable.appendChild(row);
 
-	// let AJAX find dropdown update without refreshing
-	let selectMenu = document.getElementById("authorSelect");
+	// Populate the dropdown with `Research_Papers` data.
+	let selectMenu = document.getElementById("authorIdSelect");
 	let option = document.createElement("option");
+
 	option.text = newRow.first_name + " " + newRow.last_name;
 	option.value = newRow.author_id;
 	selectMenu.add(option);

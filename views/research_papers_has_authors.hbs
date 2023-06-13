@@ -1,0 +1,161 @@
+<!--
+	This page creates the UI for the `Research_Papers_has_Authors` entity that logs
+	the relationship between researchers and publications. The table can list many authors 
+	for one publication or vice-versa.
+
+	Code citation:
+		Dr. Michael Curry. 2022. 
+		"Step 4 - Dynamically Displaying Data". 
+		"Step 5 - Adding New Data".
+		"Step 6 - Dynamically Filling Dropdowns and Adding a Search Box".
+		"Step 8 - Dynamically Updating Data".
+		[Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
+-->
+
+<h1>Publications (All)</h1>
+
+<!-- Display the navigation bar to visit other pages. -->
+<nav>
+	<a href="/">Index</a>
+	<a href="/research_papers">Research Papers</a>
+	<a href="/citations">Citations</a>
+	<a href="/authors">Authors</a>
+	<a href="/research_papers_has_authors">Publications (All)</a>
+	<a href="/institutions">Institutions</a>
+	<a href="/disciplines">Disciplines</a>
+</nav>
+
+<!-- Lines 27-50 (Curry) -->
+<table id="research_papers_has_authors-table">
+
+	{{! For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. }}
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>
+					{{@key}}
+				</th>
+			{{/each}}
+		</tr>
+	</thead>
+
+	<tbody>
+
+		{{! For each row, print the `research_paper_id` and `author_id` foreign keys. }}
+		{{#each data}}
+
+			<tr>
+				<td>{{this.PublisherId}}</td>
+				<td>{{this.ResearchPaper}}</td>
+				<td>{{this.AuthorName}}</td>
+
+				<!-- Create a DELETE operation button for each attribute displayed. -->
+				<td class="delete-button-cell">
+					<button
+						onclick="deleteResearchPaperAuthor({{this.PublisherId}})"
+					>
+						Delete</button>
+				</td>
+			</tr>
+		{{/each}}
+	</tbody>
+</table>
+
+<div class="container">
+
+	<!-- Create a form to add new research papers with asynchronous JavaScript and XML (AJAX). -->
+
+	<div>
+		<h2>Add Author Publication</h2>
+		<p>Select the author and academic title.</p>
+
+		<!-- Lines 59-96 (Curry) -->
+		<form id="add-research_papers_has_authors-form-ajax">
+
+			<!-- Create the input for the `research_paper_id` constraint. -->
+			<label for="input-research_paper">Research Paper: </label>
+
+			<!-- Create a dropdown menu linking `research_paper_id` to its `title` constraint. -->
+			<select name="input-paper_id" id="researchPaperSelect" required>
+				<option value="">Select </option>
+				{{#each research_papers}}
+					<option
+						value="{{this.research_paper_id}}"
+					>{{this.title}}</option>
+				{{/each}}
+			</select>
+
+			<!-- Create the input for the `author_id` constraint. -->
+			<label for="input-name">Author: </label>
+			<select name="input-name" id="authorSelect" required>
+				<option value="">Select </option>
+				{{#each authors}}
+					<option value="{{this.author_id}}">{{this.first_name}}
+						{{this.last_name}}</option>
+				{{/each}}
+			</select>
+
+			<input type="submit" />
+		</form></div>
+
+	<!-- Create a form to update existing research papers with AJAX. -->
+	<div>
+		<h2>Update Author Publication</h2>
+		<p>Choose an existing publication to update it.</p>
+
+		<!-- Lines 103-151 (Curry) -->
+		<form id="update-research_papers_has_authors-form-ajax">
+
+			<!-- Create the input for the `research_paper_author_id` constraint. -->
+			<label for="input-research_paper_author_id-update">Existing
+				Title:
+			</label>
+
+			<!-- Create a dropdown menu linking `research_papers_has_authors_id` to its `title` constraint. -->
+			<select
+				name="input-research_paper_author_id-update"
+				id="input-research_paper_author_id-update"
+				required
+			>
+				<option value="">Select </option>
+				{{#each data}}
+					<option
+						value="{{this.PublisherId}}"
+					>{{this.ResearchPaper}}
+						published by
+						{{this.AuthorName}}</option>
+				{{/each}}
+			</select>
+
+			<!-- Create a dropdown menu linking foreign key `paper_id` to its `title` constraint. -->
+			<select
+				name="input-paper_id-update"
+				id="input-paper_id-update"
+				required
+			>
+				<option value="">Select </option>
+				{{#each research_papers}}
+					<option
+						value="{{this.research_paper_id}}"
+					>{{this.title}}</option>
+				{{/each}}
+			</select>
+
+			<!-- Create a dropdown menu linking `author_id` to its `first_name` and `last_name` constraints. -->
+			<select name="input-name-update" id="input-name-update" required>
+				<option value="">Select </option>
+				{{#each authors}}
+					<option value="{{this.author_id}}">{{this.first_name}}
+						{{this.last_name}}</option>
+				{{/each}}
+			</select>
+
+			<input type="submit" />
+		</form></div></div>
+
+{{! Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
+Lines 157-159 (Curry) }}
+<script src="./js/add_research_paper_author.js"></script>
+<script src="./js/update_research_paper_author.js"></script>
+<script src="./js/delete_research_paper_author.js"></script>

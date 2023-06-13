@@ -1,20 +1,33 @@
-// add event listener to form submission
+// `update_research_paper.js` handles the client side for Update requests to the `Research_Papers` table.
+//
+// Code citation:
+// // Dr. Michael Curry. 2022. "Step 8 - Dynamically Updating Data".
+// // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
+
+// Lines 9-118 (Curry)
+// Get the objects to modify.
 let updateResearchPaperForm = document.getElementById(
 	"update-research_paper-form-ajax"
 );
+
+// Alter needed objects.
 updateResearchPaperForm.addEventListener("submit", function (e) {
-	// don't submit form
+	// Don't submit the form yet.
 	e.preventDefault();
 
-	// get input values
+	// Retrieve the form's data.
 	let inputResearchPaper = document.getElementById("researchPaperSelect");
 	let inputTitle = document.getElementById("input-title-update");
-	let inputDatePublished = document.getElementById("input-date_published-update");
+	let inputDatePublished = document.getElementById(
+		"input-date_published-update"
+	);
 	let inputDoi = document.getElementById("input-doi-update");
-	let inputInstitutionId = document.getElementById("input-institution-update");
+	let inputInstitutionId = document.getElementById(
+		"input-institution-update"
+	);
 	let inputDisciplineId = document.getElementById("input-discipline-update");
 
-	// get form element values
+	// Get the form's values.
 	let researchPaperId = inputResearchPaper.value;
 	let inputTitleValue = inputTitle.value;
 	let inputDatePublishedValue = inputDatePublished.value;
@@ -22,7 +35,7 @@ updateResearchPaperForm.addEventListener("submit", function (e) {
 	let inputInstitutionIdValue = inputInstitutionId.value;
 	let inputDisciplineIdValue = inputDisciplineId.value;
 
-	// make object with form data
+	// Convert the data into a JavaScript object.
 	let data = {
 		research_paper_id: researchPaperId,
 		title: inputTitleValue,
@@ -32,44 +45,56 @@ updateResearchPaperForm.addEventListener("submit", function (e) {
 		discipline_id: inputDisciplineIdValue,
 	};
 
-	// make new request object
+	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("PUT", "/put-research_paper-ajax", true);
 	xhttp.setRequestHeader("Content-type", "application/json");
 
-	// define callback to handle response
+	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			// Add the new data to the table and auto-refresh.
 			updateRow(xhttp.response, researchPaperId);
 			location.reload();
 		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
-			console.log("input error");
+			console.log("There was an input error.");
 		}
 	};
 
-	// send data as JSON
+	// Send the request and wait on the reply.
 	xhttp.send(JSON.stringify(data));
 });
 
+// Write an Object row as a single entity record.
 function updateRow(data, researchPaperId) {
+	// Find the current table, last row, and last object.
 	let parsedData = JSON.parse(data);
-
-	// get table element
 	let table = document.getElementById("research_papers-table");
-
 	let parsedDataIndex = 0;
+
+	// Access rows with "row" variable assigned in the for loop.
 	for (let dataIndex = 0; dataIndex < parsedData.length; dataIndex++) {
 		if (parsedData[dataIndex].research_paper_id == researchPaperId) {
 			parsedDataIndex = dataIndex;
 		}
 	}
 
-	for (let i = 0, row; (row = table.rows[i]); i++) {
-		if (table.rows[i].getAttribute("data-value") == researchPaperId) {
-			// get row matching research_paper_id
-			let updateRowIndex = table.getElementsByTagName("tr")[i];
+	// Lines 84-118 were heavily aided by Curry,
+	// but Zilton added the nested loop and other code while debugging.
+	for (
+		let parsedIndex = 0, row;
+		(row = table.rows[parsedIndex]);
+		parsedIndex++
+	) {
+		if (
+			table.rows[parsedIndex].getAttribute("data-value") ==
+			researchPaperId
+		) {
+			// Get the row matching `research_paper_id`.
+			let updateRowIndex =
+				table.getElementsByTagName("tr")[parsedIndex];
 
-			// get td values
+			// Get the cell values.
 			let tdTitle = updateRowIndex.getElementsByTagName("td")[1];
 			let tdDatePublished =
 				updateRowIndex.getElementsByTagName("td")[2];
@@ -79,7 +104,7 @@ function updateRow(data, researchPaperId) {
 			let tdDisciplineId =
 				updateRowIndex.getElementsByTagName("td")[5];
 
-			// reassign new values from parsedData to row
+			// Assign the new `parsedData` values to the row.
 			tdTitle.innerHTML = parsedData[parsedDataIndex].title;
 			tdDatePublished.innerHTML =
 				parsedData[parsedDataIndex].date_published;

@@ -1,4 +1,5 @@
-// `add_citation.js` handles the client side for Create requests to the `Citations` table.
+// `add_research_paper_author.js` handles the client side for Create requests to
+// the `Research_paper_has_Authors` junction table.
 //
 // Code citation:
 // // Dr. Michael Curry. 2022.
@@ -7,32 +8,36 @@
 // // "Step 7 - Dynamically Deleting Data".
 // // [Source code] https://github.com/osu-cs340-ecampus/nodejs-starter-app/. URL
 
-// Lines 12-99 (Curry)
+// Lines 13-111 (Curry)
 // Get the objects to modify.
-let addCitationForm = document.getElementById("add-citation-form-ajax");
+let addResearchPaperHasAuthorsForm = document.getElementById(
+	"add-research_papers_has_authors-form-ajax"
+);
 
 // Alter needed objects.
-addCitationForm.addEventListener("submit", function (e) {
+addResearchPaperHasAuthorsForm.addEventListener("submit", function (e) {
 	// Don't submit the form yet.
 	e.preventDefault();
 
 	// Retrieve the form's data.
-	let inputCitingPaper = document.getElementById("citingPaperSelect");
-	let inputCitedPaper = document.getElementById("citedPaperSelect");
+	let inputPaperId = document.getElementById("researchPaperSelect");
+	let inputName = document.getElementById("authorSelect");
 
 	// Get the form's values.
-	let citingPaperValue = inputCitingPaper.value;
-	let citedPaperValue = inputCitedPaper.value;
+	let inputPaperIdValue = inputPaperId.value;
+	let inputNameValue = inputName.value;
 
 	// Convert the data into a JavaScript object.
 	let data = {
-		citing_paper_id: citingPaperValue,
-		cited_paper_id: citedPaperValue,
+		paper_id: inputPaperIdValue,
+		researcher_id: inputNameValue,
 	};
+
+	console.log(data);
 
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
-	xhttp.open("POST", "/add-citation-ajax", true);
+	xhttp.open("POST", "/add-research_paper_author-ajax", true);
 	xhttp.setRequestHeader("Content-type", "application/json");
 
 	// Tell the AJAX request how to resolve.
@@ -43,8 +48,8 @@ addCitationForm.addEventListener("submit", function (e) {
 			location.reload();
 
 			// Clear the inputs for the next transaction.
-			inputCitingPaper.value = "";
-			inputCitedPaper.value = "";
+			inputPaperIdValue.value = "";
+			inputNameValue.value = "";
 		} else if (xhttp.readyState == 4 && xhttp.status != 200) {
 			console.log("There was an input error.");
 		}
@@ -57,7 +62,9 @@ addCitationForm.addEventListener("submit", function (e) {
 // Write an Object row as a single entity record.
 addRowToTable = data => {
 	// Find the current table, last row, and last object.
-	let currentTable = document.getElementById("citations-table");
+	let currentTable = document.getElementById(
+		"research_papers_has_authors-table"
+	);
 	let newRowIndex = currentTable.rows.length;
 	let parsedData = JSON.parse(data);
 	let newRow = parsedData[parsedData.length - 1];
@@ -65,40 +72,40 @@ addRowToTable = data => {
 	// Create a new row with three cells.
 	let row = document.createElement("TR");
 	let idCell = document.createElement("TD");
-	let citingPaperCell = document.createElement("TD");
-	let citedPaperCell = document.createElement("TD");
+	let paperIdCell = document.createElement("TD");
+	let nameCell = document.createElement("TD");
 	let deleteCell = document.createElement("TD");
 
 	// Write the data.
-	idCell.innerText = newRow.citation_id;
-	citingPaperCell.innerText = newRow.citing_paper_id;
-	citedPaperCell.innerText = newRow.cited_paper_id;
+	idCell.innerText = newRow.research_paper_author_id;
+	paperIdCell.innerText = newRow.paper_id;
+	nameCell.innerText = newRow.researcher_id;
 
 	// Create a delete button.
 	deleteCell = document.createElement("button");
 	deleteCell.innerHTML = "Delete";
 	deleteCell.onclick = function () {
-		deleteCitation(newRow.citation_id);
+		deleteResearchPapersHasAuthors(newRow.research_paper_author_id);
 	};
 
 	// Populate the row.
 	row.appendChild(idCell);
-	row.appendChild(citingPaperCell);
-	row.appendChild(citedPaperCell);
+	row.appendChild(paperIdCell);
+	row.appendChild(nameCell);
 	row.appendChild(deleteCell);
 
 	// Let `deleteRow()` find the new row.
-	row.setAttribute("data-value", newRow.citation_id);
+	row.setAttribute("data-value", newRow.research_paper_author_id);
 
 	// Add the new row to the table.
 	currentTable.appendChild(row);
 
 	// Add the new row to the dropdown.
-	let selectMenu = document.getElementById("input-citation-update");
+	let selectMenu = document.getElementById("researchPaperSelect");
 	let option = document.createElement("option");
 
 	// Populate the dropdown with `Research_Papers` data.
-	option.text = newRow.citation_id;
-	option.value = newRow.citation_id;
+	option.text = newRow.research_paper_author_id;
+	option.value = newRow.research_paper_author_id;
 	selectMenu.add(option);
 };

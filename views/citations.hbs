@@ -18,143 +18,152 @@
 	<a href="/research_papers">Research Papers</a>
 	<a href="/citations">Citations</a>
 	<a href="/authors">Authors</a>
-	<a href="/research_papers_authors">Research Papers to Authors</a>
+	<a href="/research_papers_has_authors">Publications (All)</a>
 	<a href="/institutions">Institutions</a>
 	<a href="/disciplines">Disciplines</a>
 </nav>
 
-<!-- Lines 27-48 (Curry) -->
+<!-- Lines 27-58 (Curry) -->
 <table id="citations-table">
 
-	{{!-- For the first row, print each key of the row object as a header cell to
-	know what each column means when the page renders. --}}
-	<thead><tr>{{#each data.[0]}}<th>{{@key}}</th>{{/each}}</tr></thead>
-	
+	{{! For the first row, print each key of the row object as a header cell to
+	know what each column means when the page renders. }}
+	<thead>
+		<tr>
+			{{#each data.[0]}}
+				<th>
+					{{@key}}
+				</th>
+			{{/each}}
+		</tr>
+	</thead>
+
 	<tbody>
 
-		{{!-- For each row, print the `citation_id`, `citing_paper_id`, and `cited_paper_id` --}}
+		{{! For each row, print the `citation_id`, `citing_paper_id`, and `cited_paper_id` }}
 		{{#each data}}
 
-		<tr>
-			<td>{{this.citation_id}}</td>
-			<td>{{this.citing_paper_id}}</td>
-			<td>{{this.cited_paper_id}}</td>
+			<tr>
+				<td>{{this.CitationId}}</td>
+				<td>{{this.CitingPaper}}</td>
+				<td>{{this.CitedPaper}}</td>
 
-			<!-- Create a DELETE operation button for each attribute displayed. -->
-			<td><button onclick="deleteCitation({{this.citation_id}})">Delete</button></td>
-		</tr>
+				<!-- Create a DELETE operation button for each attribute displayed. -->
+				<td><button
+						onclick="deleteCitation({{this.CitationId}})"
+					>Delete</button></td>
+			</tr>
 		{{/each}}
 	</tbody>
 </table>
 
-<!-- Create a form to add new citations with asynchronous JavaScript and XML (AJAX). -->
-<h2>Add Citation</h2>
-<p>To add a new citation, select research papers from each dropdown menu.
-	Multiple publications can cite, or be cited by, the same research paper.</p>
+<div class="container">
+		<!-- Create a form to add new citations with asynchronous JavaScript and XML (AJAX). -->
+			<div>
 
-<!-- Lines 56-80 (Curry) -->
-<form id="add-citation-form-ajax">
+		<h2>Add Citation</h2>
+		<p>Select existing publications below.</p>
 
-	<!-- Create the input for the `citing_paper_id` constraint. -->
-	<label for="input-citing_paper">Citing Paper:</label>
+		<!-- Lines 56-80 (Curry) -->
+		<form id="add-citation-form-ajax">
 
-	<!-- Create a dropdown menu linking `citing_paper_id` to its `title` constraint. -->
-	<select name="input-citing_paper" id="citingPaperSelect">
-		<option value="input-citing_paper">Select citing paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
+			<!-- Create the input for the `citing_paper_id` constraint. -->
+			<label for="input-citing_paper">Citing Paper:</label>
 
-	<!-- Create the input for the `cited_paper_id` constraint. -->
-	<label for="input-cited_paper">Cited Paper:</label>
+			<!-- Create a dropdown menu linking `citing_paper_id` to its `title` constraint. -->
+			<select
+				name="input-citing_paper"
+				id="citingPaperSelect"
+				required
+			>
+				<option value="">Select </option>
+				{{#each citing_papers}}
+					<option
+						value="{{this.research_paper_id}}"
+					>{{this.title}}</option>
+				{{/each}}
+			</select>
 
-	<!-- Create a dropdown menu linking `cited_paper_id` to its `title` constraint. -->
-	<select name="input-cited_paper" id="citedPaperSelect">
-		<option value="input-cited_paper">Select cited paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
-	<input type="submit" />
-</form>
+			<!-- Create the input for the `cited_paper_id` constraint. -->
+			<label for="input-cited_paper">Cited Paper:</label>
 
-<!-- Create a form to update existing citations with AJAX. -->
-<h2>Update</h2>
-<p>To update a citation, select a set of research papers from the dropdown menu,
-	then choose one or two new publications for the citation.</p>
+			<!-- Create a dropdown menu linking `cited_paper_id` to its `title` constraint. -->
+			<select name="input-cited_paper" id="citedPaperSelect" required>
+				<option value="">Select </option>
+				{{#each citing_papers}}
+					<option
+						value="{{this.research_paper_id}}"
+					>{{this.title}}</option>
+				{{/each}}
+			</select>
+			<input type="submit" />
+		</form></div>
 
-<!-- Lines 88-125, 103-127 (Curry) -->
-<form id="update-citation-form-ajax">
+		<!-- Create a form to update existing citations with AJAX. -->
+		<div>
+		<h2>Update Citation</h2>
+		<p>Choose an existing citation, then update each publication.</p>
 
-	<!-- Create the input for the `citation_id` constraint. -->
-	<label for="input-citation_id-update">Existing Citation: </label>
+		<!-- Lines 88-125, 103-127 (Curry) -->
+		<form id="update-citation-form-ajax">
 
-	<!-- Create a dropdown menu linking `citing_paper_id` and `cited_paper_id` 
+			<!-- Create the input for the `citation_id` constraint. -->
+			<label for="input-citation-update">Existing Citation: </label>
+
+			<!-- Create a dropdown menu linking `citing_paper_id` and `cited_paper_id` 
 	to their `title` constraints; merge the two for each entry. -->
-	<select name="input-citation-update" id="citationSelect">
-		<option value="input-citation-update">Select</option>
-		{{#each data}}
-		<option value="{{this.citation_id}}">
-			{{this.citing_paper_id}} cites {{this.cited_paper_id}}</option>
-		{{/each}}
-	</select>
+			<select
+				name="input-citation-update"
+				id="input-citation-update"
+				required
+			>
+				<option value="">Select</option>
+				{{#each data}}
+					<option value="{{this.CitationId}}">
+						{{this.CitingPaper}}
+						cites
+						{{this.CitedPaper}}</option>
+				{{/each}}
+			</select>
 
-	<!-- Create the input for the new `citing_paper_id` constraint. -->
-	<label for="input-citing_paper-update">New Citing Paper:</label>
+			<!-- Create the input for the new `citing_paper_id` constraint. -->
+			<label for="input-citing_paper-update">New Citing Paper:</label>
 
-	<!-- Create a dropdown menu linking `citing_paper_id` to its `title` constraint. -->
-	<select name="input-citing_paper-update" id="citingPaperSelect">
-		<option value="input-citing_paper">Select citing paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
+			<!-- Create a dropdown menu linking `citing_paper_id` to its `title` constraint. -->
+			<select
+				name="input-citing_paper-update"
+				id="input-citing_paper-update"
+				required
+			>
+				<option value="">Select citing paper</option>
+				{{#each citing_papers}}
+					<option
+						value="{{this.research_paper_id}}"
+					>{{this.title}}</option>
+				{{/each}}
+			</select>
 
-	<!-- Create the input for the new `cited_paper_id` constraint. -->
-	<label for="input-cited_paper-update">New Cited Paper:</label>
+			<!-- Create the input for the new `cited_paper_id` constraint. -->
+			<label for="input-cited_paper-update">New Cited Paper:</label>
 
-	<!-- Create a dropdown menu linking `cited_paper_id` to its `title` constraint. -->
-	<select name="input-cited_paper-update" id="citedPaperSelect">
-		<option value="input-cited_paper">Select cited paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
-	<input type="submit" />
-</form>
+			<!-- Create a dropdown menu linking `cited_paper_id` to its `title` constraint. -->
+			<select
+				name="input-cited_paper-update"
+				id="input-cited_paper-update"
+				required
+			>
+				<option value="">Select cited paper</option>
+				{{#each citing_papers}}
+					<option
+						value="{{this.research_paper_id}}"
+					>{{this.title}}</option>
+				{{/each}}
+			</select>
+			<input type="submit" />
+		</form></div></div>
 
-{{!-- Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
-Lines 131-133 (Curry) --}}
+{{! Embed JavaScript for Document Object Model (DOM) manipulation and AJAX requests.
+Lines 129-131 (Curry) }}
 <script src="./js/add_citation.js"></script>
 <script src="./js/update_citation.js"></script>
 <script src="./js/delete_citation.js"></script>
-<form id="update-citation-form-ajax">
-	<label for="input-citing_paper">Citation ID:</label>
-	<select name="input-citing_paper" id="citationIDUpdate">
-		<option value="input-citing_paper">Select a citation ID</option>
-		{{#each data}}
-			<option value="{{this.citation_id}}">{{this.citation_id}}</option>
-		{{/each}}
-	</select>
-
-	<label for="input-citing_paper">Citing Paper:</label>
-	<select name="input-citing_paper" id="citingPaperUpdate">
-		<option value="input-citing_paper">Select citing paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
-
-	<label for="input-cited_paper">Cited Paper:</label>
-	<select name="input-cited_paper" id="citedPaperUpdate">
-		<option value="input-cited_paper">Select cited paper</option>
-		{{#each citing_papers}}
-			<option value="{{this.research_paper_id}}">{{this.title}}</option>
-		{{/each}}
-	</select>
-	<input type="submit" />
-</form>
-
-<script src="./js/update_citation.js"></script>
-

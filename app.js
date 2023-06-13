@@ -18,19 +18,19 @@
 // Setup
 var express = require("express"); // Use the `express` library for the web server.
 var app = express(); // Set an `express` object for server interaction.
-PORT = 1991; // Set the active port.
+PORT = 1994; // Set the active port.
 
 // These middleware functions permit data extraction and key-value pairs.
 app.use(express.json()); // Parse incoming JSON.
-app.use(express.urlencoded({extended: true})); // Parse URL-encoded payloads.
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded payloads.
 
 app.use(express.static("public")); // Allow the site to use Cascading Style Sheets (CSS).
 
 var db = require("./database/db-connector");
-const {engine} = require("express-handlebars"); // Import `express-handlebars`.
+const { engine } = require("express-handlebars"); // Import `express-handlebars`.
 var exphbs = require("express-handlebars");
 
-app.engine(".hbs", engine({extname: ".hbs"})); // Create a handlebars engine to process templates.
+app.engine(".hbs", engine({ extname: ".hbs" })); // Create a handlebars engine to process templates.
 app.set("view engine", ".hbs"); // Use `handlebars` with `.hbs` files.
 
 // Routes
@@ -101,7 +101,7 @@ app.get("/authors", function (req, res) {
 	let readAuthorsQuery = `SELECT author_id AS AuthorId, first_name AS FirstName, last_name AS LastName FROM Authors;`;
 
 	db.pool.query(readAuthorsQuery, function (error, rows, fields) {
-		res.render("authors", {data: rows});
+		res.render("authors", { data: rows });
 	});
 });
 
@@ -153,7 +153,7 @@ app.get("/institutions", function (req, res) {
 		"SELECT institution_id AS InstitutionId, name AS Name, address AS Address, country AS Country, website AS Website FROM Institutions;";
 
 	db.pool.query(query, function (error, rows, fields) {
-		res.render("institutions", {data: rows});
+		res.render("institutions", { data: rows });
 	});
 });
 
@@ -169,7 +169,7 @@ app.get("/disciplines", function (req, res) {
 	}
 
 	db.pool.query(readDisciplinesQuery, function (error, rows, fields) {
-		res.render("disciplines", {data: rows});
+		res.render("disciplines", { data: rows });
 	});
 });
 
@@ -177,11 +177,12 @@ app.get("/disciplines", function (req, res) {
 // // // Add `Research_Papers` data.
 app.post("/add-research_paper-ajax", function (req, res) {
 	let data = req.body;
+	let institution_id = data.institution_id || null;
 
 	let researchPapersQuery = `
 		INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) 
 		VALUES ('${data.title}', '${data.date_published}', '${data.doi}', 
-		'${data.institution_id}', '${data.discipline_id}');`;
+		${institution_id}, '${data.discipline_id}');`;
 
 	db.pool.query(researchPapersQuery, function (error, rows, fields) {
 		if (error) {
@@ -351,54 +352,119 @@ app.post("/add-institution-ajax", function (req, res) {
 
 // // Update data with `put()` functions:
 // // // Update `Research_Papers` data.
-app.put("/put-research_paper-ajax", function (req, res, next) {
+app.put("/put-research_paper-ajax", (req, res) => {
+	// use object destructuring to reclaim values from req
+	// const data = req.body;
+	// const values = {
+	//   research_paper_id = parseInt(data.research_paper_id),
+	//   title = data.title,
+	//   date_published = data.date_published,
+	//   doi = data.doi,
+	//   institution_id = data.institution_id || null,
+	//   discipline_id = data.discipline_id,
+	// } = req.body;
 	let data = req.body;
+	console.log("data: ", data);
 
 	let research_paper_id = parseInt(data.research_paper_id);
 	let title = data.title;
 	let date_published = data.date_published;
 	let doi = data.doi;
-	let institution_id = data.institution_id;
+	let institution_id = data.institution_id || null;
 	let discipline_id = data.discipline_id;
+	console.log("institution_id is now: ", institution_id);
 
-	let updateResearchPaperQuery = `
-		UPDATE Research_Papers 
-		SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
-		WHERE Research_Papers.research_paper_id = ?;`;
+	const values = [title,date_published, doi, institution_id, discipline_id, research_paper_id];
+	// Create update query
+	const updateQuery = `UPDATE Research_Papers SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? WHERE Research_Papers.research_paper_id = ?;`;
+	const selectQuery = `SELECT * from Research_Papers`;
+	
+	// First execute update
+	db.pool.query(updateQuery, values, function (err, rows, fields) {
+	  if (err) {
+		console.log(err);
+		res.status(500).json({ error: err });
+	  } else {
+	   // Update was successful, so get updated list and return rows
+		db.pool.query(selectQuery, function (err, rows, fields) {
+		  if (err) {
+			console.log(err);
+			res.status(500).json({ error: err });
+		  } else {
+			// Return the updated list
+			res.send(rows);
+		  }
+		});
+	  }
+	});
+  });
 
-	db.pool.query(
-		updateResearchPaperQuery,
-		[
-			title,
-			date_published,
-			doi,
-			institution_id,
-			discipline_id,
-			research_paper_id,
-		],
 
-		function (error, rows, fields) {
-			if (error) {
-				console.log(error);
-				res.sendStatus(400);
-			} else {
-				let updatedResearchPapers = `SELECT * FROM Research_Papers;`;
+// app.put("/put-research_paper-ajax", function (req, res, next) {
+// 	let data = req.body;
+// 	console.log("data: ", data);
+// 	let research_paper_id = parseInt(data.research_paper_id);
+// 	let title = data.title;
+// 	let date_published = data.date_published;
+// 	let doi = data.doi;
+// 	let institution_id = data.institution_id;
+// 	let discipline_id = data.discipline_id;
 
-				db.pool.query(
-					updatedResearchPapers,
-					function (error, rows, fields) {
-						if (error) {
-							console.log(error);
-							res.sendStatus(400);
-						} else {
-							res.send(rows);
-						}
-					}
-				);
-			}
-		}
-	);
-});
+// 	let updateResearchPaperQuery = `
+// 		UPDATE Research_Papers 
+// 		SET title = ?, date_published = ?, doi = ?, institution_id = ?, discipline_id = ? 
+// 		WHERE Research_Papers.research_paper_id = ?;`;
+// 	if (institution_id == '') {
+// 		institution_id = NULL;
+// 	}
+// 	// let updateResearchPaperQuery = "UPDATE Research_Papers SET (title, date_published, doi, institution_id, discipline_id) WHERE Research_Papers.research_paper_id VALUES (?, ?, ?, ?, ?, ?);";
+	
+// 	// const query =
+// 	// 	"INSERT INTO Sales (quantity_of_donuts_sold, purchase_date, sale_amount, customer_id, employee_id) VALUES (?, ?, ?, ?, ?)";
+// 	// const values = [
+// 	// 	quantity_of_donuts_sold,
+// 	// 	purchase_date,
+// 	// 	sale_amount,
+// 	// 	customer_id || null,
+// 	// 	employee_id,
+// 	// ];
+
+// 	const values = 
+
+// 	db.pool.query(
+// 		updateResearchPaperQuery,
+// 		[
+// 			title,
+// 			date_published,
+// 			doi,
+// 			institution_id,
+// 			discipline_id,
+// 			research_paper_id,
+// 		],
+
+// 		function (error, rows, fields) {
+// 			if (error) {
+// 				console.log(error);
+// 				res.sendStatus(400);
+// 			} else {
+// 				let updatedResearchPapers = `SELECT * FROM Research_Papers;`;
+
+// 				db.pool.query(
+// 					updatedResearchPapers,
+// 					function (error, rows, fields) {
+// 						if (error) {
+// 							console.log(error);
+// 							res.sendStatus(400);
+
+// 						} else {
+// 							res.send(rows);
+// 						}
+// 					}
+// 				);
+// 			}
+// 		}
+// 	);
+// });
 
 // // // Update `Citations` data.
 app.put("/put-citation-ajax", function (req, res, next) {
@@ -699,7 +765,7 @@ app.delete("/delete-institution-ajax/", function (req, res, next) {
 	let data = req.body;
 
 	let institutionId = parseInt(data.id);
-
+	// TODO: add an update for Research Papers ??
 	let deleteInstitutionQuery = `DELETE FROM Institutions WHERE institution_id = ?`;
 
 	db.pool.query(

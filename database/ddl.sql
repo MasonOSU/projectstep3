@@ -64,10 +64,8 @@ CREATE TABLE `Research_Papers` (
   `institution_id` INT,
   `discipline_id` INT NOT NULL,
   PRIMARY KEY (`research_paper_id`),
-  CONSTRAINT `institution_id` FOREIGN KEY (`institution_id`) REFERENCES `Institutions` (`institution_id`) ON DELETE
-  SET
-    NULL ON UPDATE NO ACTION,
-    CONSTRAINT `discipline_id` FOREIGN KEY (`discipline_id`) REFERENCES `Disciplines` (`discipline_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `institution_id` FOREIGN KEY (`institution_id`) REFERENCES `Institutions` (`institution_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `discipline_id` FOREIGN KEY (`discipline_id`) REFERENCES `Disciplines` (`discipline_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
 -- Create table `Citations` to log papers that refererence each other.

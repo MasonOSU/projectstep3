@@ -40,7 +40,7 @@ addResearchPaperForm.addEventListener("submit", function (e) {
 		institution_id: institutionIdValue,
 		discipline_id: disciplineIdValue,
 	};
-	console.log("this is data: ", data);
+	
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("POST", "/add-research_paper-ajax", true);

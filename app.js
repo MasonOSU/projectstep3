@@ -177,11 +177,12 @@ app.get("/disciplines", function (req, res) {
 // // // Add `Research_Papers` data.
 app.post("/add-research_paper-ajax", function (req, res) {
 	let data = req.body;
+	let institution_id = data.institution_id || null;
 
 	let researchPapersQuery = `
 		INSERT INTO Research_Papers (title, date_published, doi, institution_id, discipline_id) 
 		VALUES ('${data.title}', '${data.date_published}', '${data.doi}', 
-		'${data.institution_id}', '${data.discipline_id}');`;
+		${institution_id}, '${data.discipline_id}');`;
 
 	db.pool.query(researchPapersQuery, function (error, rows, fields) {
 		if (error) {

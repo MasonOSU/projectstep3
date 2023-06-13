@@ -44,7 +44,7 @@ updateResearchPaperForm.addEventListener("submit", function (e) {
 		institution_id: inputInstitutionIdValue,
 		discipline_id: inputDisciplineIdValue,
 	};
-
+	console.log("this is data: ", data);
 	// Prep the Asynchronous JavaScript And XML (AJAX) request.
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("PUT", "/put-research_paper-ajax", true);
@@ -52,6 +52,8 @@ updateResearchPaperForm.addEventListener("submit", function (e) {
 
 	// Tell the AJAX request how to resolve.
 	xhttp.onreadystatechange = () => {
+		let resp = xhttp.response;
+		console.log("this is resp: ", resp);
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
 			// Add the new data to the table and auto-refresh.
 			updateRow(xhttp.response, researchPaperId);
@@ -69,6 +71,7 @@ updateResearchPaperForm.addEventListener("submit", function (e) {
 function updateRow(data, researchPaperId) {
 	// Find the current table, last row, and last object.
 	let parsedData = JSON.parse(data);
+	console.log(parsedData);
 	let table = document.getElementById("research_papers-table");
 	let parsedDataIndex = 0;
 
